@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @yield('meta')
-    <title>DEV Arranchamento - @yield('title')</title>
+    <title>DEV PARPS - @yield('title')</title>
     <link rel="shortcut icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
     {{-- ==================================== CSS/JS ===================================== --}}
 
@@ -63,7 +63,7 @@
 </head>
 
 <body onload="startTime()"
-    class=" @if (session('theme') == 1) dark-mode @endif dark-mode hold-transition sidebar-mini layout-fixed">
+    class=" @if (session('theme') == 1) dark-mode @endif hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="{{ asset('img/logo.png') }}" alt="" height="60" width="60">
@@ -77,20 +77,23 @@
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="" class="img-circle elevation-2" alt="User Image">
+                        <img src="http://sistao.3bsup.eb.mil.br/{{ session('user')['photo'] }}"
+                            class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="http://sistao.3bsup.eb.mil.br/profile/view" class="d-block">Cb Eduardo</a>
+                        <a href="http://sistao.3bsup.eb.mil.br/profile/view"
+                            class="d-block">{{ session('user')['rank'] }}
+                            {{ session('user')['professionalName'] }}</a>
                     </div>
                 </div>
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item ">
-                            <a href="" class="nav-link @yield('home')">
+                            <a href="{{ route('home') }}" class="nav-link @yield('home')">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>
-                                    Arranchamento
+                                    Entrada
                                 </p>
                             </a>
                         </li>
@@ -105,19 +108,46 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item ">
-                                    <a href="" class="nav-link @yield('enterprise')">
+                                    <a href="{{ route('enterprise') }}" class="nav-link @yield('enterprise')">
                                         <i class="fa fa-building nav-icon"></i>
                                         <p>Empresa</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="" class="nav-link @yield('visitors')">
+                                    <a href="{{ route('visitors') }}" class="nav-link @yield('visitors')">
                                         <i class="fa fa-users nav-icon"></i>
                                         <p>Visitantes</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                        @if (session('PARPS')['profileType'] >= 1)
+                            <li class="nav-item ">
+                                <a href="{{ route('reports') }}" class="nav-link @yield('reports')">
+                                    <i class="nav-icon fas fa-file-chart-pie"></i>
+                                    <p>
+                                        Relatórios
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item @yield('config_open')">
+                                <a href="#" class="nav-link @yield('config')">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p>
+                                        Configurações
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('destination') }}" class="nav-link @yield('destination')">
+                                            <i class="fa fa-map-marker-alt nav-icon"></i>
+                                            <p>Destinos</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
             </div>
@@ -148,12 +178,28 @@
 
                         {{-- /CONTEUDO --}}
                         <section class="col-lg-3">
-                            <div class="small-box bg-primary">
-                                <div class="inner text-center">
-                                    <span style="font-size:40px"><b>CCSv</b></span>
-                                    <p style="font-size:20px">Avança às 12:30</p>
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h3 id="here">0</h3>
+                                    <p>Visitantes na OM</p>
                                 </div>
+                                <div class="icon">
+                                    <i class="icon ion-md-people"></i>
+                                </div>
+
                             </div>
+                            <div class="small-box bg-primary">
+                                <div class="inner">
+                                    <h3 id="today">0</h3>
+                                    <p>Visitantes no dia</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="icon ion-md-people"></i>
+                                </div>
+
+                            </div>
+
+
                             <div class="card bg-default">
                                 <div class="card-header border-0 bg-success">
 
@@ -224,6 +270,15 @@
     <!-- date-range-picker -->
     <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
     @yield('plugins')
+    <script>
+        setInterval(function() {
+            var url = '/get_records_history';
+            $.get(url, function(result) {
+                document.getElementById('today').innerText = result.today;
+                document.getElementById('here').innerText = result.here;
+            })
+        }, 5000);
+    </script>
 
     {{-- ====================================/ PLUGINS ===================================== --}}
 </body>
