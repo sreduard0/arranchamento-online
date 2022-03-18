@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @yield('meta')
-    <title>DEV PARPS - @yield('title')</title>
+    <title>DEV ARRANCHAMENTO - @yield('title')</title>
     <link rel="shortcut icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
     {{-- ==================================== CSS/JS ===================================== --}}
 
@@ -62,8 +62,7 @@
 
 </head>
 
-<body onload="startTime()"
-    class=" @if (session('theme') == 1) dark-mode @endif hold-transition sidebar-mini layout-fixed">
+<body onload="startTime()" class="dark-mode hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="{{ asset('img/logo.png') }}" alt="" height="60" width="60">
@@ -72,18 +71,15 @@
             <a class="brand-link">
                 <img src="{{ asset('img/logo.png') }}" alt="PARPS" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
-                <span class="brand-text font-weight-light">PARPS</span>
+                <span class="brand-text font-weight-light">Arranchamento</span>
             </a>
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="http://sistao.3bsup.eb.mil.br/{{ session('user')['photo'] }}"
-                            class="img-circle elevation-2" alt="User Image">
+                        <img src="http://sistao.3bsup.eb.mil.br/" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="http://sistao.3bsup.eb.mil.br/profile/view"
-                            class="d-block">{{ session('user')['rank'] }}
-                            {{ session('user')['professionalName'] }}</a>
+                        <a href="http://sistao.3bsup.eb.mil.br/profile/view" class="d-block">CB Eduardo</a>
                     </div>
                 </div>
                 <nav class="mt-2">
@@ -93,35 +89,43 @@
                             <a href="{{ route('home') }}" class="nav-link @yield('home')">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>
-                                    Entrada
+                                    Início
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="{{ route('home') }}" class="nav-link @yield('home')">
+                                <i class="nav-icon fas fa-history"></i>
+                                <p>
+                                    Histórico
                                 </p>
                             </a>
                         </li>
 
-                        <li class="nav-item @yield('register_open')">
+                        {{-- <li class="nav-item @yield('register_open')">
                             <a href="#" class="nav-link @yield('register')">
                                 <i class="nav-icon fas fa-id-card"></i>
                                 <p>
-                                    Cadastros
+                                    Cardápio
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item ">
-                                    <a href="{{ route('enterprise') }}" class="nav-link @yield('enterprise')">
+                                    <a href="" class="nav-link @yield('enterprise')">
                                         <i class="fa fa-building nav-icon"></i>
                                         <p>Empresa</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('visitors') }}" class="nav-link @yield('visitors')">
+                                    <a href="" class="nav-link @yield('visitors')">
                                         <i class="fa fa-users nav-icon"></i>
                                         <p>Visitantes</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        @if (session('PARPS')['profileType'] >= 1)
+                         @if (session('PARPS')['profileType'] >= 1)
                             <li class="nav-item ">
                                 <a href="{{ route('reports') }}" class="nav-link @yield('reports')">
                                     <i class="nav-icon fas fa-file-chart-pie"></i>
@@ -147,7 +151,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endif
+                        @endif --}}
                     </ul>
                 </nav>
             </div>
@@ -178,7 +182,7 @@
 
                         {{-- /CONTEUDO --}}
                         <section class="col-lg-3">
-                            <div class="small-box bg-success">
+                            {{-- <div class="small-box bg-success">
                                 <div class="inner">
                                     <h3 id="here">0</h3>
                                     <p>Visitantes na OM</p>
@@ -187,11 +191,14 @@
                                     <i class="icon ion-md-people"></i>
                                 </div>
 
-                            </div>
+                            </div> --}}
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3 id="today">0</h3>
-                                    <p>Visitantes no dia</p>
+                                    <h3 id="today">Cardápio do dia</h3>
+                                    - teste <br>
+                                    - teste<br>
+                                    - teste<br>
+                                    - teste
                                 </div>
                                 <div class="icon">
                                     <i class="icon ion-md-people"></i>
@@ -231,10 +238,12 @@
             </section>
             <!-- /.content -->
         </div>
+
         <footer class="main-footer align-items-center ">
             <footer>
                 <div class="text-center">
-                    &copy;PARPS {{ date('Y') }} (v1.3) | integrado com &copy;SisTAO {{ date('Y') }} (v1.5)
+                    &copy;ARRANCHAMENTO {{ date('Y') }} (v1) | integrado com &copy;SisTAO {{ date('Y') }}
+                    (v1.5)
                     <br>
                     Desenvolvido por: Eduardo Martins
                 </div>
@@ -247,6 +256,7 @@
     {{-- ========================== MODAL ========================== --}}
     @yield('modal')
     {{-- ==================================== PLUGINS ===================================== --}}
+    <script src="{{ asset('js/calendar.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -270,16 +280,6 @@
     <!-- date-range-picker -->
     <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
     @yield('plugins')
-    <script>
-        setInterval(function() {
-            var url = '/get_records_history';
-            $.get(url, function(result) {
-                document.getElementById('today').innerText = result.today;
-                document.getElementById('here').innerText = result.here;
-            })
-        }, 5000);
-    </script>
-
     {{-- ====================================/ PLUGINS ===================================== --}}
 </body>
 

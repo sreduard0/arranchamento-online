@@ -1,7 +1,7 @@
 @extends('layout')
 @section('title', 'Início')
 @section('home', 'active')
-@section('title-header', 'Controle de visitantes')
+@section('title-header', 'Meus arranchamentos')
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
@@ -22,25 +22,20 @@
     <section class="col ">
         <div class="card">
             <div class="card-header">
-                @if (session('PARPS')['profileType'] == 1)
-                    <button class="float-l btn btn-success" onclick='return finish_all()'>Finalizar
-                        expediente</button>
-                @endif
-                <button class="float-r btn btn-success" data-toggle="modal" data-target="#register">Nova
-                    entrada</button>
+                <button class="float-r btn btn-success" data-toggle="modal" data-target="#register">Novo
+                    arranchamento</button>
             </div>
             <div class="card-body">
                 <table id="table" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th width="20px">#</th>
-                            <th>Visitante</th>
-                            <th>Empresa</th>
-                            <th>Destino</th>
-                            <th>Motivo</th>
-                            <th width="15px">Crachá</th>
+                            <th>Data</th>
+                            <th>Café</th>
+                            <th>Almoço</th>
+                            <th>Janta</th>
+                            <th>Ceia</th>
                             <th>Registrado por</th>
-                            <th width="130px">Entrada</th>
                             <th width="80px">Ações</th>
                         </tr>
                     </thead>
@@ -57,7 +52,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="registerLabel">Nova entrada</h5>
+                    <h5 class="modal-title" id="registerLabel">Novo arranchamento</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -66,76 +61,71 @@
                     <form id="form-register">
                         <div class="row">
                             <div class="form-group col">
-                                <label for="visitor_id">Visitante</label>
-                                <select id="visitor_id" name="visitor_id" class="select2s" style="width: 100%;">
+                                <label for="reason">Militar</label>
+                                <input class="form-control" value="Cb Eduardo" id="reason" name="reason" disabled
+                                    style="width: 100%;">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="reason">CIA</label>
+                                <input class="form-control" value="CCSv" id="reason" name="reason" disabled
+                                    style="width: 100%;">
+                            </div>
+                            <div class="form-group col-md-3">
+                                {{-- <div class="form-group">
+                                    <label>Date:</label>
+                                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input"
+                                            data-target="#reservationdate" />
+                                        <div class="input-group-append" data-target="#reservationdate"
+                                            data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div> --}}
 
-                                    @foreach ($visitors as $visitor)
-                                        <option title="{{ $visitor->cpf }}" value="{{ $visitor->id }}">
-                                            {{ $visitor->name }}</option>
-                                    @endforeach
-                                    <option value="" disabled selected>Selecione um visitante</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="drive">Motorista</label>
-                                <select id="drive" name="drive" class="form-control">
-                                    <option value="1">Sim</option>
-                                    <option selected value="0">Não</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Telefone (optional)</label>
-                                <input type="text" class="form-control" data-inputmask="'mask': ['(99) 9 9999-9999']"
-                                    inputmode="text" data-mask="" id="phone" name="phone" placeholder="Telefone" value="">
+
+                                <div class="form-group">
+                                    <label>Data</label>
+
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-default float-right" id="daterange-btn">
+                                            <i class="far fa-calendar-alt"></i>
+                                            <i class="fas fa-caret-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-3">
-                                <label>Entrada</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="{{ date('d/m/Y h:i') }}" disabled>
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
+                            <div class="custom-control custom-checkbox m-l-8 m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="pspecial1" name='coffe' value="1">
+                                <label for="pspecial1" class="custom-control-label">Café </label>
                             </div>
-
-                            <div class="form-group col-md-3">
-                                <label for="destination_id">Destino:</label>
-                                <select id="destination_id" name="destination" class="select2" style="width: 100%;">
-                                    <option value="" disabled selected>Selecione um destino</option>
-                                    @foreach ($destinations as $destination)
-                                        <option value="{{ $destination->id }}" data-icon="fa-circle"
-                                            data-color='{{ $destination->color }}'>
-                                            {{ $destination->destination }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
+                            <div class="custom-control custom-checkbox m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="pspecial3" name='armoço' value="0">
+                                <label for="pspecial3" class="custom-control-label">Almoço</label>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="reason">Motivo</label>
-                                <input class="form-control" placeholder="Digite o motivo" id="reason" name="reason"
-                                    style="width: 100%;">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="badge_id">Crachá</label>
-                                <input class="form-control" placeholder="Digite o número do crachá" id="badge"
-                                    name="badge" style="width: 100%;">
+                            <div class="custom-control custom-checkbox m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="pspecial2" name='papa' value="2">
+                                <label for="pspecial2" class="custom-control-label">Janta</label>
                             </div>
                         </div>
                 </div>
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" onclick=" return register()">Registrar</button>
+                    <button type="button" class="btn btn-success" onclick=" return register()">Arranchar-se</button>
                 </div>
             </div>
         </div>
     </div>
 
-    @include('visitor_profile')
 @endsection
 @section('plugins')
+
     <!-- Select2 -->
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- DataTables  & Plugins -->
@@ -144,35 +134,36 @@
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('js/inputmask.js') }}"></script>
     <script>
-        $(function() {
-            $("#table").DataTable({
-                "paging": true,
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "aoColumnDefs": [{
-                    'bSortable': false,
-                    'aTargets': [0, 1, 2, 3, 4, 5, 7]
-                }],
-                "dom": '<"top">rt<"bottom"ip><"clear">',
-                "language": {
-                    "url": "{{ asset('plugins/datatables/Portuguese2.json') }}"
-                },
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": "{{ route('get_records') }}",
-                    "type": "POST",
-                    "headers": {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
-                    },
+        // $(function() {
+        //     $("#table").DataTable({
+        //         "paging": true,
+        //         "responsive": true,
+        //         "lengthChange": true,
+        //         "autoWidth": false,
+        //         "aoColumnDefs": [{
+        //             'bSortable': false,
+        //             'aTargets': [0, 1, 2, 3, 4, 5, 7]
+        //         }],
+        //         "dom": '<"top">rt<"bottom"ip><"clear">',
+        //         "language": {
+        //             "url": "{{ asset('plugins/datatables/Portuguese2.json') }}"
+        //         },
+        //         "processing": true,
+        //         "serverSide": true,
+        //         "ajax": {
+        //             "url": "",
+        //             "type": "POST",
+        //             "headers": {
+        //                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
+        //             },
 
-                }
-            });
-        });
+        //         }
+        //     });
+        // });
     </script>
-    <script src="{{ asset('js/calendar.js') }}"></script>
+
     <script>
         function formatText(icon) {
             return $('<span><i style="color:' + $(icon.element).data('color') + '" class="fas ' + $(icon.element).data(
@@ -225,9 +216,9 @@
             dropdownParent: $("#register"),
             matcher: matchCustom,
         });
-        $('[data-mask]').inputmask();
     </script>
     <script src="{{ asset('js/actions.js') }}"></script>
+
     <!-- InputMask -->
     <script src="{{ asset('plugins/inputmask/jquery.inputmask.min.js') }}"></script>
 @endsection
