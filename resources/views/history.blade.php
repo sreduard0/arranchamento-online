@@ -1,9 +1,7 @@
 @extends('layout')
-@section('title', 'Empresas')
-@section('register_open', 'menu-open')
-@section('register', 'active')
-@section('enterprise', 'active')
-@section('title-header', 'Empresas')
+@section('title', 'Histórico')
+@section('history', 'active')
+@section('title-header', 'Histórico de arranchamento')
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
@@ -21,20 +19,14 @@
 @section('content')
     <section class="col ">
         <div class="card">
-            <div class="card-header">
-                <button class="float-r btn btn-success" data-toggle="modal" data-target="#register">Nova
-                    empresa</button>
-
-            </div>
             <div class="card-body">
                 <table id="table" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th width="15">#</th>
-                            <th>Nome</th>
-                            <th width="100">Contato</th>
-                            <th>Endereço</th>
-                            <th width="80">Ações</th>
+                            <th>Data</th>
+                            <th>Café</th>
+                            <th>Almoço</th>
+                            <th>Janta</th>
                         </tr>
                     </thead>
                 </table>
@@ -164,7 +156,7 @@
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script src="{{ asset('js/actions.js') }}"></script>
-    <script>
+    {{-- <script>
         $(function() {
             $("#table").DataTable({
                 "paging": true,
@@ -186,7 +178,7 @@
                 }
             });
         });
-    </script>
+    </script> --}}
     <script src="{{ asset('js/calendar.js') }}"></script>
     <script>
         $(function() {
@@ -196,21 +188,5 @@
             });
             $('[data-mask]').inputmask()
         })
-    </script>
-    <script>
-        $('#enterprise_edit').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-
-            var modal = $(this);
-            var url = '/enterprise/info/' + id;
-            $.get(url, function(result) {
-                modal.find('.modal-title').text('Editar ' + result.name)
-                modal.find('#newName').val(result.name)
-                modal.find('#newPhone').val(result.phone)
-                modal.find('#newAddress').val(result.address)
-                document.getElementById("id").value = id
-            })
-        });
     </script>
 @endsection

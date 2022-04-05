@@ -1,7 +1,7 @@
 @extends('layout')
 @section('title', 'Início')
 @section('home', 'active')
-@section('title-header', 'Meus arranchamentos')
+@section('title-header', 'Arranchamento - 3° B Sup')
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
@@ -16,9 +16,6 @@
 @endsection
 
 @section('content')
-    @php
-    $i = 1;
-    @endphp
     <section class="col ">
         <div class="card">
             <div class="card-header">
@@ -29,13 +26,10 @@
                 <table id="table" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th width="20px">#</th>
                             <th>Data</th>
                             <th>Café</th>
                             <th>Almoço</th>
                             <th>Janta</th>
-                            <th>Ceia</th>
-                            <th>Registrado por</th>
                             <th width="80px">Ações</th>
                         </tr>
                     </thead>
@@ -58,66 +52,54 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="form-register">
+                    <form id="form-arranchar">
                         <div class="row">
                             <div class="form-group col">
                                 <label for="reason">Militar</label>
-                                <input class="form-control" value="Cb Eduardo" id="reason" name="reason" disabled
+                                <input class="form-control" value="Cb Eduardo" id="military" name="military" disabled
                                     style="width: 100%;">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="reason">CIA</label>
-                                <input class="form-control" value="CCSv" id="reason" name="reason" disabled
-                                    style="width: 100%;">
+                                <input class="form-control" value="CCSv" disabled style="width: 100%;">
                             </div>
+
                             <div class="form-group col-md-3">
-                                {{-- <div class="form-group">
-                                    <label>Date:</label>
-                                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input"
-                                            data-target="#reservationdate" />
-                                        <div class="input-group-append" data-target="#reservationdate"
-                                            data-toggle="datetimepicker">
+                                <div class="form-group">
+                                    <label>Data:</label>
+                                    <div class="input-group date" id="date" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#date"
+                                            value="" name="date" />
+                                        <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
                                     </div>
-                                </div> --}}
-
-
-                                <div class="form-group">
-                                    <label>Data</label>
-
-                                    <div class="input-group">
-                                        <button type="button" class="btn btn-default float-right" id="daterange-btn">
-                                            <i class="far fa-calendar-alt"></i>
-                                            <i class="fas fa-caret-down"></i>
-                                        </button>
-                                    </div>
                                 </div>
-
-
-
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="week" name='week' value="1">
+                                    <label for="week" class="custom-control-label">Semana inteira </label>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="custom-control custom-checkbox m-l-8 m-r-30">
-                                <input class="custom-control-input" type="checkbox" id="pspecial1" name='coffe' value="1">
-                                <label for="pspecial1" class="custom-control-label">Café </label>
+                                <input class="custom-control-input" type="checkbox" id="brekker" name='brekker' value="1">
+                                <label for="brekker" class="custom-control-label">Café </label>
                             </div>
                             <div class="custom-control custom-checkbox m-r-30">
-                                <input class="custom-control-input" type="checkbox" id="pspecial3" name='armoço' value="0">
-                                <label for="pspecial3" class="custom-control-label">Almoço</label>
+                                <input class="custom-control-input" type="checkbox" id="lunch" name='lunch' value="1">
+                                <label for="lunch" class="custom-control-label">Almoço</label>
                             </div>
                             <div class="custom-control custom-checkbox m-r-30">
-                                <input class="custom-control-input" type="checkbox" id="pspecial2" name='papa' value="2">
-                                <label for="pspecial2" class="custom-control-label">Janta</label>
+                                <input class="custom-control-input" type="checkbox" id="dinner" name='dinner' value="1">
+                                <label for="dinner" class="custom-control-label">Janta</label>
                             </div>
                         </div>
                 </div>
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" onclick=" return register()">Arranchar-se</button>
+                    <button type="button" class="btn btn-success" onclick=" return arranchar()">Arranchar-se</button>
                 </div>
             </div>
         </div>
@@ -136,32 +118,28 @@
     <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/inputmask.js') }}"></script>
     <script>
-        // $(function() {
-        //     $("#table").DataTable({
-        //         "paging": true,
-        //         "responsive": true,
-        //         "lengthChange": true,
-        //         "autoWidth": false,
-        //         "aoColumnDefs": [{
-        //             'bSortable': false,
-        //             'aTargets': [0, 1, 2, 3, 4, 5, 7]
-        //         }],
-        //         "dom": '<"top">rt<"bottom"ip><"clear">',
-        //         "language": {
-        //             "url": "{{ asset('plugins/datatables/Portuguese2.json') }}"
-        //         },
-        //         "processing": true,
-        //         "serverSide": true,
-        //         "ajax": {
-        //             "url": "",
-        //             "type": "POST",
-        //             "headers": {
-        //                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
-        //             },
+        $(function() {
+            $("#table").DataTable({
+                "paging": true,
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "dom": '<"top">rt<"bottom"ip><"clear">',
+                "language": {
+                    "url": "{{ asset('plugins/datatables/Portuguese2.json') }}"
+                },
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/get_arranchamentos",
+                    "type": "POST",
+                    "headers": {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                    },
 
-        //         }
-        //     });
-        // });
+                }
+            });
+        });
     </script>
 
     <script>
@@ -175,41 +153,6 @@
             templateSelection: formatText,
             templateResult: formatText
         });
-
-        function matchCustom(params, data) {
-
-            document.querySelector(".select2-search__field").placeholder = "Buscar por NOME ou CPF";
-
-            // Se não houver termos de pesquisa, retorne todos os dados
-            if ($.trim(params.term) === '') {
-
-                return data;
-            }
-            // `params.term` deve ser o termo usado para pesquisar
-            // `data.text` é o texto que é exibido para o objeto de dados
-            //pesquisa por cpf
-            if (data.title.indexOf(params.term) > -1) {
-                var modifiedData = $.extend({}, data, true)
-
-                // Você pode retornar objetos modificados a partir daqui
-                // Isso inclui combinar os `filhos` como você quiser em conjuntos de dados aninhados
-                return modifiedData;
-            }
-
-            //Pesquisa por nome
-            if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
-
-                console.log(data.text)
-                var modifiedData = $.extend({}, data, true);
-                modifiedData.text += ' (CPF:' + data.title + ')';
-
-                // Você pode retornar objetos modificados a partir daqui
-                // Isso inclui combinar os `filhos` como você quiser em conjuntos de dados aninhados
-                return modifiedData;
-            }
-            // // Retorna `nulo` se o termo não deve ser exibido
-            return null;
-        }
 
         //Initialize Select2 Elements
         $('.select2s').select2({

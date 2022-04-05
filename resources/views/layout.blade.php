@@ -94,13 +94,23 @@
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a href="{{ route('home') }}" class="nav-link @yield('home')">
+                            <a href="{{ route('menu') }}" class="nav-link @yield('menu')">
+                                <i class="nav-icon fas fa-turkey"></i>
+                                <p>
+                                    Cardápio
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="{{ route('history') }}" class="nav-link @yield('history') ">
                                 <i class="nav-icon fas fa-history"></i>
                                 <p>
                                     Histórico
                                 </p>
                             </a>
                         </li>
+
+
 
                         {{-- <li class="nav-item @yield('register_open')">
                             <a href="#" class="nav-link @yield('register')">

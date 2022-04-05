@@ -1,6 +1,6 @@
 //================================[RESGISTRANDO ENTRADA]================================//
-function register() {
-       var Toast = Swal.mixin({
+function arranchar() {
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -9,84 +9,82 @@ function register() {
 
 
     var data = {
-        visitor_id: visitor_id.value,
-        drive: drive.value,
-        phone: phone.value,
-        destination_id: destination_id.value,
-        reason: reason.value,
-        badge: badge.value
+        military: $('input[name=military]').attr('value'),
+        date: $('input[name=date]').val(),
+        week: $('input[name=week]:checked').attr('value'),
+        brekker: $('input[name=brekker]:checked').attr('value'),
+        lunch: $('input[name=lunch]:checked').attr('value'),
+        dinner: $('input[name=dinner]:checked').attr('value')
     };
 
-    if (
-        data.visitor_id == "" ||
-        data.drive == "" ||
-        data.destination_id == "" ||
-        data.reason == "" ||
-        data.badge == ""
-    ){
-
+    if (data.week == "1" || data.date == "1") {
+        day = 1;
+    } else {
         Toast.fire({
             icon: 'error',
-            title: '&nbsp&nbsp Todos os campos devem estar preenchidos.'
+            title: '&nbsp&nbsp Selecione pelo menos um dia.'
         });
 
         return false;
     }
 
-    if (data.phone.replace(/\D+/g, "").length > 1 && data.phone.replace(/\D+/g, "").length < 11)
-    {
+    if (data.brekker == "1" || data.lunch == "1" || data.dinner == "1") {
+        snack = 1;
+    } else {
         Toast.fire({
             icon: 'error',
-            title: '&nbsp&nbsp Número de telefone incorreto.'
+            title: '&nbsp&nbsp Selecione pelo menos uma refeição.'
         });
+
         return false;
     }
 
 
+    if (day == 1 && snack == 1) {
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: 'new_arranchamento',
+            type: 'POST',
+            data: data,
+            dataType: 'text',
+            success: function(data) {
 
-    $.ajax({
-        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        url:'/record/visitor',
-        type: 'POST',
-        data: data,
-        dataType: 'text',
-        success: function (data) {
+                if (data == "error") {
 
-            if (data == "error") {
-
-                Toast.fire({
-                icon: 'error',
-                title: '&nbsp&nbsp O visitante não possui CNH ou já esta registrado.'
-             });
-            } else {
-
-                $("#register").modal('hide');
-                $("#table").DataTable().clear().draw(6);
-                Toast.fire({
-                    icon: 'success',
-                    title: '&nbsp&nbsp Entrada registrada com sucesso.'
-                });
-
-                $('#form-register')[0].reset();
-                $(".select2s").val('').trigger('change');
-                $(".select2").val('').trigger('change');
-
-            }
-
-        },
-
-        error: function (data) {
-             Toast.fire({
+                    Toast.fire({
                         icon: 'error',
-                        title: '&nbsp&nbsp Erro ao registrar.'
+                        title: '&nbsp&nbsp Erro ao arranchar.'
                     });
-        }
-    });
+                } else {
+
+                    $("#register").modal('hide');
+                    $("#table").DataTable().clear().draw(6);
+                    Toast.fire({
+                        icon: 'success',
+                        title: '&nbsp&nbsp Arranchado com sucesso.'
+                    });
+                    $('#form-arranchar')[0].reset();
+                }
+
+            },
+
+            error: function(data) {
+                Toast.fire({
+                    icon: 'error',
+                    title: '&nbsp&nbsp  Erro ao arranchar.'
+                });
+            }
+        });
+    }
+
+
+
+
 }
 
 //================================[RESGISTRANDO SAIDA]================================//
 function confirm_exit(id) {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -99,25 +97,25 @@ function confirm_exit(id) {
         callback: function(confirmacao) {
 
             if (confirmacao)
-            $.ajax({
-                url:  location+"record/finish/"+id,
-                type: "GET",
-                success: function(data) {
-                   $("#table").DataTable().clear().draw(6);
-                    Toast.fire({
-                        icon: 'success',
-                        title: '&nbsp&nbsp Visita encerrada com sucesso.'
-                    });
+                $.ajax({
+                    url: location + "record/finish/" + id,
+                    type: "GET",
+                    success: function(data) {
+                        $("#table").DataTable().clear().draw(6);
+                        Toast.fire({
+                            icon: 'success',
+                            title: '&nbsp&nbsp Visita encerrada com sucesso.'
+                        });
 
-                },
-                 error: function(data) {
-                    Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro ao encerrar visita'
-                    });
+                    },
+                    error: function(data) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: '&nbsp&nbsp Erro ao encerrar visita'
+                        });
 
-                }
-            });
+                    }
+                });
         },
         buttons: {
             cancel: {
@@ -135,7 +133,7 @@ function confirm_exit(id) {
 
 //================================[ADICIONAR EMPRESA]================================//
 function add_enterprise() {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -160,7 +158,7 @@ function add_enterprise() {
         data.number == "" ||
         data.district == "" ||
         data.city == ""
-    ){
+    ) {
 
         Toast.fire({
             icon: 'error',
@@ -170,8 +168,7 @@ function add_enterprise() {
         return false;
     }
 
-    if (data.phone.replace(/\D+/g, "").length < 11)
-    {
+    if (data.phone.replace(/\D+/g, "").length < 11) {
         Toast.fire({
             icon: 'error',
             title: '&nbsp&nbsp Número de telefone incorreto.'
@@ -187,14 +184,14 @@ function add_enterprise() {
         type: 'POST',
         data: data,
         dataType: 'text',
-        success: function (data) {
+        success: function(data) {
 
             if (data == "error") {
 
                 Toast.fire({
-                icon: 'error',
-                title: '&nbsp&nbsp Essa empresa já está cadastrada.'
-             });
+                    icon: 'error',
+                    title: '&nbsp&nbsp Essa empresa já está cadastrada.'
+                });
             } else {
 
                 $("#register").modal('hide');
@@ -210,18 +207,18 @@ function add_enterprise() {
 
         },
 
-        error: function (data) {
-             Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro ao cadastrar.'
-                    });
+        error: function(data) {
+            Toast.fire({
+                icon: 'error',
+                title: '&nbsp&nbsp Erro ao cadastrar.'
+            });
         }
     });
 }
 
 //================================[DELETAR EMPRESA]================================//
 function confirm_delete(id) {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -234,25 +231,25 @@ function confirm_delete(id) {
         callback: function(confirmacao) {
 
             if (confirmacao)
-            $.ajax({
-                url:  "/enterprise/delete/"+id,
-                type: "GET",
-                success: function(data) {
-                   $("#table").DataTable().clear().draw(6);
-                    Toast.fire({
-                        icon: 'success',
-                        title: '&nbsp&nbsp Empresa excluida.'
-                    });
+                $.ajax({
+                    url: "/enterprise/delete/" + id,
+                    type: "GET",
+                    success: function(data) {
+                        $("#table").DataTable().clear().draw(6);
+                        Toast.fire({
+                            icon: 'success',
+                            title: '&nbsp&nbsp Empresa excluida.'
+                        });
 
-                },
-                 error: function(data) {
-                    Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro excluir.'
-                    });
+                    },
+                    error: function(data) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: '&nbsp&nbsp Erro excluir.'
+                        });
 
-                }
-            });
+                    }
+                });
         },
         buttons: {
             cancel: {
@@ -270,7 +267,7 @@ function confirm_delete(id) {
 
 //================================[EDITAR EMPRESA]================================//
 function edit_enterprise() {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -286,7 +283,7 @@ function edit_enterprise() {
     };
 
 
-    if ( data.new_name == "" || data.new_phone == "" || data.new_address == ""  ){
+    if (data.new_name == "" || data.new_phone == "" || data.new_address == "") {
 
         Toast.fire({
             icon: 'error',
@@ -296,8 +293,7 @@ function edit_enterprise() {
         return false;
     }
 
-    if (data.new_phone.replace(/\D+/g, "").length < 11)
-    {
+    if (data.new_phone.replace(/\D+/g, "").length < 11) {
         Toast.fire({
             icon: 'error',
             title: '&nbsp&nbsp Número de telefone incorreto.'
@@ -314,13 +310,13 @@ function edit_enterprise() {
         type: 'POST',
         data: data,
         dataType: 'text',
-        success: function (data) {
+        success: function(data) {
             if (data == "error") {
 
                 Toast.fire({
-                icon: 'error',
-                title: '&nbsp&nbsp Uma empresa com este nome já está cadastrada.'
-             });
+                    icon: 'error',
+                    title: '&nbsp&nbsp Uma empresa com este nome já está cadastrada.'
+                });
             } else {
 
                 $("#enterprise_edit").modal('hide');
@@ -335,18 +331,18 @@ function edit_enterprise() {
             }
         },
 
-        error: function (data) {
-             Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro ao cadastrar.'
-                    });
+        error: function(data) {
+            Toast.fire({
+                icon: 'error',
+                title: '&nbsp&nbsp Erro ao cadastrar.'
+            });
         }
     });
 }
 
 //================================[ADICIONAR VISITANTE]================================//
 function add_visitor() {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -371,7 +367,7 @@ function add_visitor() {
         data.cnh == "" ||
         data.enterprise_id == "" ||
         data.name == ""
-    ){
+    ) {
 
         Toast.fire({
             icon: 'error',
@@ -381,8 +377,7 @@ function add_visitor() {
         return false;
     }
 
-       if (data.cpf.replace(/\D+/g, "").length < 11)
-    {
+    if (data.cpf.replace(/\D+/g, "").length < 11) {
         Toast.fire({
             icon: 'error',
             title: '&nbsp&nbsp Número de CPF incorreto.'
@@ -390,8 +385,7 @@ function add_visitor() {
         return false;
     }
 
-    if (data.phone.replace(/\D+/g, "").length < 11)
-    {
+    if (data.phone.replace(/\D+/g, "").length < 11) {
         Toast.fire({
             icon: 'error',
             title: '&nbsp&nbsp Número de telefone incorreto.'
@@ -407,14 +401,14 @@ function add_visitor() {
         type: 'POST',
         data: data,
         dataType: 'text',
-        success: function (data) {
+        success: function(data) {
 
             if (data == "error") {
 
                 Toast.fire({
-                icon: 'error',
-                title: '&nbsp&nbsp Esse(a) visitante já está cadastrada.'
-             });
+                    icon: 'error',
+                    title: '&nbsp&nbsp Esse(a) visitante já está cadastrada.'
+                });
             } else {
 
                 $("#register").modal('hide');
@@ -431,18 +425,18 @@ function add_visitor() {
 
         },
 
-        error: function (data) {
-             Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro ao cadastrar.'
-                    });
+        error: function(data) {
+            Toast.fire({
+                icon: 'error',
+                title: '&nbsp&nbsp Erro ao cadastrar.'
+            });
         }
     });
 }
 
 //================================[DELETAR VISITANTE]================================//
 function delete_visitor(id) {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -455,25 +449,25 @@ function delete_visitor(id) {
         callback: function(confirmacao) {
 
             if (confirmacao)
-            $.ajax({
-                url:  "/visitor/delete/"+id,
-                type: "GET",
-                success: function(data) {
-                   $("#table").DataTable().clear().draw(6);
-                    Toast.fire({
-                        icon: 'success',
-                        title: '&nbsp&nbsp Visitante excluido.'
-                    });
+                $.ajax({
+                    url: "/visitor/delete/" + id,
+                    type: "GET",
+                    success: function(data) {
+                        $("#table").DataTable().clear().draw(6);
+                        Toast.fire({
+                            icon: 'success',
+                            title: '&nbsp&nbsp Visitante excluido.'
+                        });
 
-                },
-                 error: function(data) {
-                    Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro ao excluir.'
-                    });
+                    },
+                    error: function(data) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: '&nbsp&nbsp Erro ao excluir.'
+                        });
 
-                }
-            });
+                    }
+                });
         },
         buttons: {
             cancel: {
@@ -491,7 +485,7 @@ function delete_visitor(id) {
 
 //================================[ADICIONAR DESTINO]================================//
 function add_destination() {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -509,7 +503,7 @@ function add_destination() {
         data.destination == "" ||
         data.color == ""
 
-    ){
+    ) {
 
         Toast.fire({
             icon: 'error',
@@ -525,14 +519,14 @@ function add_destination() {
         type: 'POST',
         data: data,
         dataType: 'text',
-        success: function (data) {
+        success: function(data) {
 
             if (data == "error") {
 
                 Toast.fire({
-                icon: 'error',
-                title: '&nbsp&nbsp Esse destino já existe.'
-             });
+                    icon: 'error',
+                    title: '&nbsp&nbsp Esse destino já existe.'
+                });
             } else {
 
                 $("#register").modal('hide');
@@ -548,18 +542,18 @@ function add_destination() {
 
         },
 
-        error: function (data) {
-             Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro ao adicionar.'
-                    });
+        error: function(data) {
+            Toast.fire({
+                icon: 'error',
+                title: '&nbsp&nbsp Erro ao adicionar.'
+            });
         }
     });
 }
 
 //================================[DELETAR DESTINO]================================//
 function delete_destination(id) {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -572,25 +566,25 @@ function delete_destination(id) {
         callback: function(confirmacao) {
 
             if (confirmacao)
-            $.ajax({
-                url:  "/destination/delete/"+id,
-                type: "GET",
-                success: function(data) {
-                   $("#table").DataTable().clear().draw(6);
-                    Toast.fire({
-                        icon: 'success',
-                        title: '&nbsp&nbsp Destino excluido.'
-                    });
+                $.ajax({
+                    url: "/destination/delete/" + id,
+                    type: "GET",
+                    success: function(data) {
+                        $("#table").DataTable().clear().draw(6);
+                        Toast.fire({
+                            icon: 'success',
+                            title: '&nbsp&nbsp Destino excluido.'
+                        });
 
-                },
-                 error: function(data) {
-                    Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro excluir.'
-                    });
+                    },
+                    error: function(data) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: '&nbsp&nbsp Erro excluir.'
+                        });
 
-                }
-            });
+                    }
+                });
         },
         buttons: {
             cancel: {
@@ -608,7 +602,7 @@ function delete_destination(id) {
 
 //================================[RESGISTRANDO FIM DE EXPEDIENTE]================================//
 function finish_all(id) {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -621,25 +615,25 @@ function finish_all(id) {
         callback: function(confirmacao) {
 
             if (confirmacao)
-            $.ajax({
-                url:  '/finish_all',
-                type: "GET",
-                success: function(data) {
-                   $("#table").DataTable().clear().draw(6);
-                    Toast.fire({
-                        icon: 'success',
-                        title: '&nbsp&nbsp Expediente encerrado com sucesso.'
-                    });
+                $.ajax({
+                    url: '/finish_all',
+                    type: "GET",
+                    success: function(data) {
+                        $("#table").DataTable().clear().draw(6);
+                        Toast.fire({
+                            icon: 'success',
+                            title: '&nbsp&nbsp Expediente encerrado com sucesso.'
+                        });
 
-                },
-                 error: function(data) {
-                    Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro ao encerrar'
-                    });
+                    },
+                    error: function(data) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: '&nbsp&nbsp Erro ao encerrar'
+                        });
 
-                }
-            });
+                    }
+                });
         },
         buttons: {
             cancel: {
@@ -657,12 +651,12 @@ function finish_all(id) {
 
 //================================[BUSCANDO RELATORIOS]================================//
 function search_reports() {
-       var Toast = Swal.mixin({
+    var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
         timer: 4000
-       });
+    });
 
     var data = {
         visitor_id: visitor_id.value,

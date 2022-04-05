@@ -15,7 +15,7 @@ $(function() {
         $('[data-mask]').inputmask()
 
         //Date picker
-        $('#reservationdate').datetimepicker({
+        $('#date').datetimepicker({
             format: 'DD/MM/YYYY',
 
         });
