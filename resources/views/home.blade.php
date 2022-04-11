@@ -141,25 +141,6 @@
             });
         });
     </script>
-
-    <script>
-        function formatText(icon) {
-            return $('<span><i style="color:' + $(icon.element).data('color') + '" class="fas ' + $(icon.element).data(
-                'icon') + '"></i> ' + icon.text + '</span>');
-        };
-
-        $('.select2').select2({
-            dropdownParent: $("#register"),
-            templateSelection: formatText,
-            templateResult: formatText
-        });
-
-        //Initialize Select2 Elements
-        $('.select2s').select2({
-            dropdownParent: $("#register"),
-            matcher: matchCustom,
-        });
-    </script>
     <script src="{{ asset('js/actions.js') }}"></script>
 
     <!-- InputMask -->

@@ -18,9 +18,14 @@ class MainController extends Controller
     //NOVO ARRANCHAMENTO
     public function new_arranchamento(Request $request)
     {
-        $arranchamento = $request->all();
-
-        
+        $data = $request->all();
+        $new_arranchamento = new ArranchamentoModel();
+        $new_arranchamento->user_id = 1;
+        $new_arranchamento->date = date('Y-m-d', strtotime($data['date']));
+        $new_arranchamento->brekker = $data['brekker'];
+        $new_arranchamento->lunch = $data['lunch'];
+        $new_arranchamento->dinner = $data['dinner'];
+        $new_arranchamento->save();
     }
 
     //DATATABLES ARRANCHAMENTOS
