@@ -75,10 +75,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input class="custom-control-input" type="checkbox" id="week" name='week' value="1">
-                                    <label for="week" class="custom-control-label">Semana inteira </label>
-                                </div>
                             </div>
                         </div>
                         <div class="row">

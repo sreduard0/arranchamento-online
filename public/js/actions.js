@@ -11,36 +11,32 @@ function arranchar() {
     var data = {
         military: $('input[name=military]').attr('value'),
         date: $('input[name=date]').val(),
-        week: $('input[name=week]:checked').attr('value'),
         brekker: $('input[name=brekker]:checked').attr('value'),
         lunch: $('input[name=lunch]:checked').attr('value'),
         dinner: $('input[name=dinner]:checked').attr('value')
     };
 
-    if (data.week == "1" || data.date == "1") {
-        day = 1;
-    } else {
+    if (data.brekker == undefined) {
+        data.brekker = 0
+    }
+    if (data.lunch == undefined) {
+        data.lunch = 0
+    }
+    if (data.dinner == undefined) {
+        data.dinner = 0
+    }
+
+    if (data.date == '') {
+
         Toast.fire({
             icon: 'error',
-            title: '&nbsp&nbsp Selecione pelo menos um dia.'
+            title: '&nbsp&nbsp Selecione um dia.'
         });
 
         return false;
     }
 
     if (data.brekker == "1" || data.lunch == "1" || data.dinner == "1") {
-        snack = 1;
-    } else {
-        Toast.fire({
-            icon: 'error',
-            title: '&nbsp&nbsp Selecione pelo menos uma refeição.'
-        });
-
-        return false;
-    }
-
-
-    if (day == 1 && snack == 1) {
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: 'new_arranchamento',
@@ -49,22 +45,13 @@ function arranchar() {
             dataType: 'text',
             success: function(data) {
 
-                if (data == "error") {
-
-                    Toast.fire({
-                        icon: 'error',
-                        title: '&nbsp&nbsp Erro ao arranchar.'
-                    });
-                } else {
-
-                    $("#register").modal('hide');
-                    $("#table").DataTable().clear().draw(6);
-                    Toast.fire({
-                        icon: 'success',
-                        title: '&nbsp&nbsp Arranchado com sucesso.'
-                    });
-                    $('#form-arranchar')[0].reset();
-                }
+                $("#register").modal('hide');
+                $("#table").DataTable().clear().draw(6);
+                Toast.fire({
+                    icon: 'success',
+                    title: '&nbsp&nbsp Arranchado com sucesso.'
+                });
+                $('#form-arranchar')[0].reset();
 
             },
 
@@ -75,10 +62,15 @@ function arranchar() {
                 });
             }
         });
+
+    } else {
+        Toast.fire({
+            icon: 'error',
+            title: '&nbsp&nbsp Selecione pelo menos uma refeição.'
+        });
+
+        return false;
     }
-
-
-
 
 }
 

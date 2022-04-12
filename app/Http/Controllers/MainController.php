@@ -10,7 +10,12 @@ class MainController extends Controller
 {
     // Início
     public function home(){
-        return view('home');
+        // return view('home');
+
+        echo session('Arranchamento')['profileType'];
+
+
+
     }
 
     // POSTs //
