@@ -10,11 +10,9 @@ class MainController extends Controller
 {
     // Início
     public function home(){
-        // return view('home');
+        //  return view('home');
 
-        echo session('Arranchamento')['profileType'];
-
-
+print_r(session('user')['company']['id']);
 
     }
 
@@ -24,8 +22,9 @@ class MainController extends Controller
     public function new_arranchamento(Request $request)
     {
         $data = $request->all();
+
         $new_arranchamento = new ArranchamentoModel();
-        $new_arranchamento->user_id = 1;
+        $new_arranchamento->user_id = session('user')['id'];
         $new_arranchamento->date = date('Y-m-d', strtotime($data['date']));
         $new_arranchamento->brekker = $data['brekker'];
         $new_arranchamento->lunch = $data['lunch'];
@@ -53,21 +52,33 @@ class MainController extends Controller
 
 
 
-            $enterprises = ArranchamentoModel::orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir'] )->offset( $requestData['start'])->take($requestData['length'])->get();
-            $filtered = count($enterprises);
+            $arranchamentos = ArranchamentoModel::where('user_id', session('user')['id'])->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir'] )->offset( $requestData['start'])->take($requestData['length'])->get();
+            $filtered = count($arranchamentos);
 
 
 
         // Ler e criar o array de dados
         $dados = array();
-        foreach ($enterprises as $enterprise){
+        foreach ($arranchamentos as $arranchamento){
             $dado = array();
-            $dado[] = $enterprise->date;
-            $dado[] = $enterprise->brekker;
-            $dado[] = $enterprise->lunch;
-            $dado[] = $enterprise->dinner;
+            $dado[] =  date('d-m-Y', strtotime($arranchamento->date));
+            if($arranchamento->brekker == 1){
+                    $dado[] = 'sim';
+            }else{
+                    $dado[] = 'Não';
+            }
+            if($arranchamento->lunch == 1){
+                    $dado[] = 'sim';
+            }else{
+                    $dado[] = 'Não';
+            }
+            if($arranchamento->dinner == 1){
+                    $dado[] = 'sim';
+            }else{
+                    $dado[] = 'Não';
+            }
             $dado[] = "
-            <button class='btn btn-primary'  data-toggle='modal' data-target='#enterprise_edit' data-id=''><i class='fa fa-pen '></i></button>
+            <button class='btn btn-primary'  data-toggle='modal' data-target='#arranchamento_edit' data-id=''><i class='fa fa-pen '></i></button>
             <button class='btn btn-danger' title='Excluir empresa' onclick='return confirm_delete()'><i class='fa fa-trash'></i></button>
             ";
             $dados[] = $dado;

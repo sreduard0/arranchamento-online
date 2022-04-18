@@ -1,24 +1,25 @@
 // $(function() {
-//         //Initialize Select2 Elements
-//         $('.select2').select2()
+//Initialize Select2 Elements
+// $('.select2').select2()
 
-//         //Initialize Select2 Elements
-//         $('.select2bs4').select2({
-//             theme: 'bootstrap4'
-//         })
+// //Initialize Select2 Elements
+// $('.select2bs4').select2({
+//     theme: 'bootstrap4'
+// })
 
-//         //Datemask dd/mm/yyyy
-//         $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-//             //Datemask2 mm/dd/yyyy
-//         $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-//             //Money Euro
-//         $('[data-mask]').inputmask()
+// // Datemask dd / mm / yyyy
+// $('#date').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+// // Datemask2 mm / dd / yyyy
+// // $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+// //Money Euro
+// $('[data-mask]').inputmask();
 
-//         //Date picker
+//Date picker
 $('#date').datetimepicker({
-    format: 'DD/MM/YYYY',
+    format: 'DD-MM-YYYY',
 
 });
+// }
 
 //         //Date and time picker
 //         $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
@@ -31,7 +32,7 @@ $('#date').datetimepicker({
 //                 timePickerIncrement: 30,
 //                 locale: {
 //                     format: 'DD/MM/YYYY'
-//                 }
+//
 //             })
 //             //Date range as a button
 //         $('#daterange-btn').daterangepicker({

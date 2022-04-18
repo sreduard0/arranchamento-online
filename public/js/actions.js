@@ -1,4 +1,4 @@
-//================================[RESGISTRANDO ENTRADA]================================//
+//================================[RESGISTRANDO ARRANCHAMENTO]================================//
 function arranchar() {
     var Toast = Swal.mixin({
         toast: true,
@@ -30,40 +30,25 @@ function arranchar() {
 
         Toast.fire({
             icon: 'error',
-            title: '&nbsp&nbsp Selecione um dia.'
+            title: '&nbsp&nbsp Selecione uma data.'
         });
 
         return false;
     }
 
-    if (data.brekker == "1" || data.lunch == "1" || data.dinner == "1") {
-        $.ajax({
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            url: 'new_arranchamento',
-            type: 'POST',
-            data: data,
-            dataType: 'text',
-            success: function(data) {
+    var partsDate = data.date.split("-");
+    var day = new Date(partsDate[2], partsDate[1] - 1, partsDate[0]);
+    if (!moment(moment(day).format('YYYY-MM-DD')).isAfter(moment().format('YYYY-MM-DD'))) {
 
-                $("#register").modal('hide');
-                $("#table").DataTable().clear().draw(6);
-                Toast.fire({
-                    icon: 'success',
-                    title: '&nbsp&nbsp Arranchado com sucesso.'
-                });
-                $('#form-arranchar')[0].reset();
-
-            },
-
-            error: function(data) {
-                Toast.fire({
-                    icon: 'error',
-                    title: '&nbsp&nbsp  Erro ao arranchar.'
-                });
-            }
+        Toast.fire({
+            icon: 'error',
+            title: '&nbsp&nbsp Selecione uma data à partir de amanhã.'
         });
 
-    } else {
+        return false;
+    }
+
+    if (data.brekker == "0" && data.lunch == "0" && data.dinner == "0") {
         Toast.fire({
             icon: 'error',
             title: '&nbsp&nbsp Selecione pelo menos uma refeição.'
@@ -71,6 +56,31 @@ function arranchar() {
 
         return false;
     }
+
+
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: 'new_arranchamento',
+        type: 'POST',
+        data: data,
+        dataType: 'text',
+        success: function(data) {
+            $("#register").modal('hide');
+            $("#table").DataTable().clear().draw(6);
+            Toast.fire({
+                icon: 'success',
+                title: '&nbsp&nbsp Arranchado com sucesso.'
+            });
+            $('#form-arranchar')[0].reset();
+        },
+
+        error: function(data) {
+            Toast.fire({
+                icon: 'error',
+                title: '&nbsp&nbsp  Erro ao arranchar.'
+            });
+        }
+    });
 
 }
 

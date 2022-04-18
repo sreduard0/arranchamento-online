@@ -56,12 +56,13 @@
                         <div class="row">
                             <div class="form-group col">
                                 <label for="reason">Militar</label>
-                                <input class="form-control" value="Cb Eduardo" id="military" name="military" disabled
-                                    style="width: 100%;">
+                                <input class="form-control"
+                                    value="{{ session('user')['rank'] }} {{ session('user')['professionalName'] }}"
+                                    id="military" name="military" disabled style="width: 100%;">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="reason">CIA</label>
-                                <input class="form-control" value="CCSv" disabled style="width: 100%;">
+                                <input class="form-control" value="    " disabled style="width: 100%;">
                             </div>
 
                             <div class="form-group col-md-3">
