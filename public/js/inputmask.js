@@ -17,6 +17,7 @@
 //Date picker
 $('#date').datetimepicker({
     format: 'DD-MM-YYYY',
+    locale: 'pt-br',
 
 });
 // }

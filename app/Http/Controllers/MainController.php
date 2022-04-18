@@ -10,10 +10,7 @@ class MainController extends Controller
 {
     // Início
     public function home(){
-        //  return view('home');
-
-print_r(session('user')['company']['id']);
-
+        return view('home');
     }
 
     // POSTs //
@@ -23,13 +20,24 @@ print_r(session('user')['company']['id']);
     {
         $data = $request->all();
 
-        $new_arranchamento = new ArranchamentoModel();
-        $new_arranchamento->user_id = session('user')['id'];
-        $new_arranchamento->date = date('Y-m-d', strtotime($data['date']));
-        $new_arranchamento->brekker = $data['brekker'];
-        $new_arranchamento->lunch = $data['lunch'];
-        $new_arranchamento->dinner = $data['dinner'];
-        $new_arranchamento->save();
+        $checkarrachamento = ArranchamentoModel::where('date', date('Y-m-d', strtotime($data['date'])))->first();
+
+        if($checkarrachamento)
+        {
+            return 'error';
+
+        }else{
+
+            $new_arranchamento = new ArranchamentoModel();
+            $new_arranchamento->user_id = session('user')['id'];
+            $new_arranchamento->date = date('Y-m-d', strtotime($data['date']));
+            $new_arranchamento->brekker = $data['brekker'];
+            $new_arranchamento->lunch = $data['lunch'];
+            $new_arranchamento->dinner = $data['dinner'];
+            $new_arranchamento->save();
+        }
+
+
     }
 
     //DATATABLES ARRANCHAMENTOS
@@ -61,7 +69,11 @@ print_r(session('user')['company']['id']);
         $dados = array();
         foreach ($arranchamentos as $arranchamento){
             $dado = array();
-            $dado[] =  date('d-m-Y', strtotime($arranchamento->date));
+            if($arranchamento->date == date('Y-m-d')){
+                    $dado[] = 'Está arranchado hoje';
+            }else{
+                    $dado[] = date('d-m-Y', strtotime($arranchamento->date));
+            }
             if($arranchamento->brekker == 1){
                     $dado[] = 'sim';
             }else{
@@ -79,7 +91,7 @@ print_r(session('user')['company']['id']);
             }
             $dado[] = "
             <button class='btn btn-primary'  data-toggle='modal' data-target='#arranchamento_edit' data-id=''><i class='fa fa-pen '></i></button>
-            <button class='btn btn-danger' title='Excluir empresa' onclick='return confirm_delete()'><i class='fa fa-trash'></i></button>
+            <button class='btn btn-danger'  onclick='return confirm_delete()'><i class='fa fa-trash'></i></button>
             ";
             $dados[] = $dado;
         }
