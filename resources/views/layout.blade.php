@@ -29,7 +29,6 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/util.css') }}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <script type="text/javascript">
@@ -52,6 +51,7 @@
             return i;
         }
     </script>
+    <link rel="stylesheet" href="{{ asset('css/util.css') }}">
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootbox.min.js') }}"></script>
@@ -206,20 +206,17 @@
 
                             </div> --}}
                             <div class="small-box bg-primary">
-                                <div class="inner">
-                                    <h3 id="today">Cardápio do dia</h3>
-                                    - teste <br>
-                                    - teste<br>
-                                    - teste<br>
-                                    - teste
+                                <div style='min-height: 150px' class="inner">
+                                    <strong>
+                                        <h2 id="hour"></h2>
+                                    </strong>
+                                    <div id='menu_day'></div>
                                 </div>
                                 <div class="icon">
-                                    <i class="icon ion-md-people"></i>
+                                    <i class="mt-2 icon ion-md-restaurant"></i>
                                 </div>
-
+                                <a href="{{ route('menu') }}" class="btn btn-small btn-default">Ver mais</a>
                             </div>
-
-
                             <div class="card bg-default">
                                 <div class="card-header border-0 bg-success">
 
@@ -269,6 +266,35 @@
     {{-- ========================== MODAL ========================== --}}
     @yield('modal')
     {{-- ==================================== PLUGINS ===================================== --}}
+    <script>
+        function getHour() {
+            var currentTime = new Date();
+            return (currentTime.getHours());
+        }
+
+        $(function() {
+            var hour = getHour();
+
+            if (hour > 05 && hour < 11) {
+                $.get('menu_day', function(result) {
+                    document.getElementById('hour').innerText = 'Cardápio do café';
+                    document.getElementById('menu_day').innerHTML = result.brekker;
+                })
+            } else if (hour >= 11 && hour < 14) {
+
+                $.get('menu_day', function(result) {
+                    document.getElementById('hour').innerText = 'Cardápio do almoço';
+                    document.getElementById('menu_day').innerHTML = result.lunch;
+                })
+            } else {
+                $.get('menu_day', function(result) {
+                    document.getElementById('hour').innerText = 'Cardápio da janta';
+                    document.getElementById('menu_day').innerHTML = result.dinner;
+                })
+            }
+
+        });
+    </script>
     <script src="{{ asset('js/calendar.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>

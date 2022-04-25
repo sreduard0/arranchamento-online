@@ -19,8 +19,7 @@
     <section class="col ">
         <div class="card">
             <div class="card-header">
-                <button class="float-r btn btn-success" data-toggle="modal" data-target="#register">Novo
-                    arranchamento</button>
+                <button class="float-r btn btn-success" data-toggle="modal" data-target="#arrancharse">Arranchar-se</button>
             </div>
             <div class="card-body">
                 <table id="table" class="table table-bordered table-striped">
@@ -41,12 +40,13 @@
     </section>
 @endsection
 @section('modal')
-    <!-- Modal  registro de visitante-->
-    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="registerLabel" aria-hidden="true">
+    <!-- Modal se arranchar-->
+    <div class="modal fade" id="arrancharse" tabindex="-1" role="dialog" aria-labelledby="arrancharseLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="registerLabel">Novo arranchamento</h5>
+                    <h5 class="modal-title" id="arrancharseLabel">Novo arranchamento</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -55,13 +55,13 @@
                     <form id="form-arranchar">
                         <div class="row">
                             <div class="form-group col">
-                                <label for="reason">Militar</label>
+                                <label for="military">Militar</label>
                                 <input class="form-control"
                                     value="{{ session('user')['rank'] }} {{ session('user')['professionalName'] }}"
                                     id="military" name="military" disabled style="width: 100%;">
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="reason">CIA</label>
+                                <label for="company">CIA</label>
                                 <input class="form-control" value="{{ session('user')['company']['name'] }}" disabled
                                     style="width: 100%;">
                             </div>
@@ -103,6 +103,71 @@
         </div>
     </div>
 
+    <!-- Modal ediar arranchamento-->
+    <div class="modal fade" id="editarranchamento" tabindex="-1" role="dialog" aria-labelledby="editarranchamentoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarranchamentoLabel">Editar arranchamento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-editarranchar">
+                        <input type="hidden" name="id" id="id" value="">
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="military">Militar</label>
+                                <input class="form-control"
+                                    value="{{ session('user')['rank'] }} {{ session('user')['professionalName'] }}"
+                                    id="military" name="military" disabled style="width: 100%;">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="company">CIA</label>
+                                <input class="form-control" value="{{ session('user')['company']['name'] }}" disabled
+                                    style="width: 100%;">
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <div class="form-group">
+                                    <label>Data:</label>
+                                    <div class="input-group date" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#date"
+                                            value="" name="date" id="edate" disabled />
+                                        <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="custom-control custom-checkbox m-l-8 m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="ebrekker" name='ebrekker' value="1">
+                                <label for="ebrekker" class="custom-control-label">Café </label>
+                            </div>
+                            <div class="custom-control custom-checkbox m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="elunch" name='elunch' value="1">
+                                <label for="elunch" class="custom-control-label">Almoço</label>
+                            </div>
+                            <div class="custom-control custom-checkbox m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="edinner" name='edinner' value="1">
+                                <label for="edinner" class="custom-control-label">Janta</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" onclick=" return editarranchamento()">Alterar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 @section('plugins')
 
@@ -129,18 +194,20 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": "/get_arranchamentos",
+                    "url": "get_arranchamentos",
                     "type": "POST",
                     "headers": {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     },
 
                 }
-            });;
+            });
         });
     </script>
-    <script src="{{ asset('js/actions.js') }}"></script>
+    <script>
 
+    </script>
+    <script src="{{ asset('js/actions.js') }}"></script>
     <!-- InputMask -->
     <script src="{{ asset('plugins/inputmask/jquery.inputmask.min.js') }}"></script>
 @endsection

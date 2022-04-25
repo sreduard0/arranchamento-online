@@ -9,7 +9,6 @@ function arranchar() {
 
 
     var data = {
-        military: $('input[name=military]').attr('value'),
         date: $('input[name=date]').val(),
         brekker: $('input[name=brekker]:checked').attr('value'),
         lunch: $('input[name=lunch]:checked').attr('value'),
@@ -72,7 +71,7 @@ function arranchar() {
                     title: '&nbsp&nbsp Você já está arranchado para este dia.'
                 });
             } else {
-                $("#register").modal('hide');
+                $("#arrancharse").modal('hide');
                 $("#table").DataTable().clear().draw(6);
                 Toast.fire({
                     icon: 'success',
@@ -93,6 +92,234 @@ function arranchar() {
 
 }
 
+//================================[EDITANDO RESGISTRANDO ARRANCHAMENTO]================================//
+function editarranchamento() {
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000
+    });
+
+
+    var data = {
+        id: $('input[name=id]').attr('value'),
+        brekker: $('input[name=ebrekker]:checked').attr('value'),
+        lunch: $('input[name=elunch]:checked').attr('value'),
+        dinner: $('input[name=edinner]:checked').attr('value')
+    };
+
+    if (data.brekker == undefined) {
+        data.brekker = 0
+    }
+    if (data.lunch == undefined) {
+        data.lunch = 0
+    }
+    if (data.dinner == undefined) {
+        data.dinner = 0
+    }
+
+    if (data.brekker == "0" && data.lunch == "0" && data.dinner == "0") {
+        Toast.fire({
+            icon: 'error',
+            title: '&nbsp&nbsp Selecione pelo menos uma refeição.'
+        });
+
+        return false;
+    }
+
+
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: 'edit_arranchamento',
+        type: 'POST',
+        data: data,
+        dataType: 'text',
+        success: function(data) {
+
+            if (data == "error") {
+                Toast.fire({
+                    icon: 'error',
+                    title: '&nbsp&nbsp Você já está arranchado para este dia.'
+                });
+            } else {
+                $("#editarranchamento").modal('hide');
+                $("#table").DataTable().clear().draw(6);
+                Toast.fire({
+                    icon: 'success',
+                    title: '&nbsp&nbsp Arranchamento alterado com sucesso.'
+                });
+                $('#form-editarranchar')[0].reset();
+            }
+        },
+
+        error: function(data) {
+            Toast.fire({
+                icon: 'error',
+                title: '&nbsp&nbsp  Erro ao alterar arranchamento atualiza a página.'
+            });
+        }
+    });
+
+}
+
+$('#editarranchamento').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var id = button.data('id');
+    var modal = $(this)
+    var url = 'get_edit_arranchamento/' + id;
+    $('#form-editarranchar')[0].reset();
+    $.get(url, function(result) {
+        modal.find('.modal-title').text('Editar arranchamento')
+        modal.find('#id').val(result.id)
+        modal.find('#edate').val(moment(result.date).format('DD-MM-YYYY'))
+        if (result.brekker == 1) {
+            $("#ebrekker").prop("checked", true);
+        }
+        if (result.lunch == 1) {
+            $("#elunch").prop("checked", true);
+        }
+        if (result.dinner == 1) {
+            $("#edinner").prop("checked", true);
+        }
+
+    })
+});
+
+
+//================================[DELETAR ARRANCHAMENO]================================//
+function delete_arranchamento(id) {
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000
+    });
+
+    bootbox.confirm({
+        title: ' Deseja excluir este arranchamento?',
+        message: '<strong>Essa operação apagara seu arranchamento, mas você pode se arranchar novamente!</strong>',
+        callback: function(confirmacao) {
+
+            if (confirmacao)
+                $.ajax({
+                    url: "/arranchamento/delete/" + id,
+                    type: "GET",
+                    success: function(data) {
+                        $("#table").DataTable().clear().draw(6);
+                        Toast.fire({
+                            icon: 'success',
+                            title: '&nbsp&nbsp Arranchamento excluido.'
+                        });
+
+                    },
+                    error: function(data) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: '&nbsp&nbsp Erro excluir.'
+                        });
+
+                    }
+                });
+        },
+        buttons: {
+            cancel: {
+                label: 'Cancelar',
+                className: 'btn-default'
+            },
+            confirm: {
+                label: 'Excluir',
+                className: 'btn-danger'
+            }
+
+        }
+    });
+}
+
+//================================[RESGISTRANDO CARDAPIO]================================//
+function new_menu() {
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000
+    });
+
+
+    var data = {
+        date: $('input[name=date]').val(),
+        brekker: $('#brekker').val(),
+        lunch: $('#lunch').val(),
+        dinner: $('#dinner').val()
+    };
+
+    if (data.brekker == undefined) {
+        data.brekker = 'Sem cardápio'
+    }
+    if (data.lunch == undefined) {
+        data.lunch = 'Sem cardápio'
+    }
+    if (data.dinner == undefined) {
+        data.dinner = 'Sem cardápio'
+    }
+
+    if (data.date == '') {
+
+        Toast.fire({
+            icon: 'error',
+            title: '&nbsp&nbsp Selecione uma data.'
+        });
+
+        return false;
+    }
+
+
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: 'new_menu',
+        type: 'POST',
+        data: data,
+        dataType: 'text',
+        success: function(data) {
+
+            if (data == "error") {
+                Toast.fire({
+                    icon: 'error',
+                    title: '&nbsp&nbsp Você já está arranchado para este dia.'
+                });
+            } else {
+                $("#menu").modal('hide');
+                $("#table").DataTable().clear().draw(6);
+                Toast.fire({
+                    icon: 'success',
+                    title: '&nbsp&nbsp Arranchado com sucesso.'
+                });
+                $('#form-menu')[0].reset();
+
+            }
+        },
+
+        error: function(data) {
+            Toast.fire({
+                icon: 'error',
+                title: '&nbsp&nbsp  Erro no adicionar.'
+            });
+        }
+    });
+
+}
+
+//================================[BUSCANDO COGITATIVO DAS CIAs]================================//
+setInterval(function() {
+    var url = 'get_cogitative_day';
+    $.get(url, function(result) {
+        document.getElementById('em').innerText = result.em;
+        document.getElementById('ccsv').innerText = result.ccsv;
+        document.getElementById('1cia').innerText = result.cia1;
+        document.getElementById('2cia').innerText = result.cia2;
+        document.getElementById('3cia').innerText = result.cia3;
+    })
+}, 5000);
 
 
 
@@ -246,55 +473,6 @@ function arranchar() {
 //                 icon: 'error',
 //                 title: '&nbsp&nbsp Erro ao cadastrar.'
 //             });
-//         }
-//     });
-// }
-
-// //================================[DELETAR EMPRESA]================================//
-// function confirm_delete(id) {
-//     var Toast = Swal.mixin({
-//         toast: true,
-//         position: 'top-end',
-//         showConfirmButton: false,
-//         timer: 4000
-//     });
-
-//     bootbox.confirm({
-//         title: ' Deseja excluir essa empresa?',
-//         message: '<strong>Essa operação não pode ser desfeita!</strong>',
-//         callback: function(confirmacao) {
-
-//             if (confirmacao)
-//                 $.ajax({
-//                     url: "/enterprise/delete/" + id,
-//                     type: "GET",
-//                     success: function(data) {
-//                         $("#table").DataTable().clear().draw(6);
-//                         Toast.fire({
-//                             icon: 'success',
-//                             title: '&nbsp&nbsp Empresa excluida.'
-//                         });
-
-//                     },
-//                     error: function(data) {
-//                         Toast.fire({
-//                             icon: 'error',
-//                             title: '&nbsp&nbsp Erro excluir.'
-//                         });
-
-//                     }
-//                 });
-//         },
-//         buttons: {
-//             cancel: {
-//                 label: 'Cancelar',
-//                 className: 'btn-default'
-//             },
-//             confirm: {
-//                 label: 'Excluir',
-//                 className: 'btn-danger'
-//             }
-
 //         }
 //     });
 // }

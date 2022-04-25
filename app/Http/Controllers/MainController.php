@@ -10,11 +10,52 @@ class MainController extends Controller
 {
     // Início
     public function home(){
-        return view('home');
+         if(session('Arranchamento')['profileType'] == 1){
+            return view('homeadmin');
+        }else{
+            return view('home');
+        }
     }
 
-    // POSTs //
+    //EDITAR ARRANCHAMENTO
+    public function get_edit_arranchamento($id){
+        return ArranchamentoModel::where('user_id', session('user')['id'])->where('id', $id)->first();
+    }
 
+    //EXCLUIR ARRANCHAMENTO
+    public function get_delete_arranchamento($id){
+        ArranchamentoModel::where('user_id', session('user')['id'])->where('id', $id)->first()->delete();
+    }
+
+    //BUSCANDO COGITATIVO DAS CIAS
+    public function get_cogitative_day(){
+        $em = count(ArranchamentoModel::where('company_id', 1)->where('date',date('Y-m-d'))->get());
+        $ccsv = count(ArranchamentoModel::where('company_id', 2)->where('date',date('Y-m-d'))->get());
+        $cia1 = count(ArranchamentoModel::where('company_id', 3)->where('date',date('Y-m-d'))->get());
+        $cia2 = count(ArranchamentoModel::where('company_id', 4)->where('date',date('Y-m-d'))->get());
+        $cia3 = count(ArranchamentoModel::where('company_id', 5)->where('date',date('Y-m-d'))->get());
+
+        $data = [
+            'em' => $em,
+            'ccsv' => $ccsv,
+            'cia1' => $cia1,
+            'cia2' => $cia2,
+            'cia3' => $cia3,
+        ];
+        return $data;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // POSTs //
     //NOVO ARRANCHAMENTO
     public function new_arranchamento(Request $request)
     {
@@ -30,11 +71,33 @@ class MainController extends Controller
 
             $new_arranchamento = new ArranchamentoModel();
             $new_arranchamento->user_id = session('user')['id'];
+            $new_arranchamento->company_id = session('user')['company']['id'];
             $new_arranchamento->date = date('Y-m-d', strtotime($data['date']));
             $new_arranchamento->brekker = $data['brekker'];
             $new_arranchamento->lunch = $data['lunch'];
             $new_arranchamento->dinner = $data['dinner'];
+            $new_arranchamento->status = 1;
             $new_arranchamento->save();
+        }
+
+
+    }
+    //EDITAR ARRANCHAMENTO
+    public function edit_arranchamento(Request $request)
+    {
+        $data = $request->all();
+
+        $editarrachamento = ArranchamentoModel::find($data['id']);
+
+        if($editarrachamento->user_id != session('user')['id'])
+        {
+            return 'error';
+
+        }else{
+            $editarrachamento->brekker = $data['brekker'];
+            $editarrachamento->lunch = $data['lunch'];
+            $editarrachamento->dinner = $data['dinner'];
+            $editarrachamento->save();
         }
 
 
@@ -55,13 +118,9 @@ class MainController extends Controller
             4=> 'id'
         );
 
-       //Obtendo registros de número total sem qualquer pesquisa
-       $rows = count(ArranchamentoModel::all());
-
-
-
-            $arranchamentos = ArranchamentoModel::where('user_id', session('user')['id'])->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir'] )->offset( $requestData['start'])->take($requestData['length'])->get();
+            $arranchamentos = ArranchamentoModel::where('user_id', session('user')['id'])->where('date','>=', date('Y-m-d'))->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir'] )->offset( $requestData['start'])->take($requestData['length'])->get();
             $filtered = count($arranchamentos);
+            $rows= count($arranchamentos);
 
 
 
@@ -70,9 +129,9 @@ class MainController extends Controller
         foreach ($arranchamentos as $arranchamento){
             $dado = array();
             if($arranchamento->date == date('Y-m-d')){
-                    $dado[] = 'Está arranchado hoje';
+                    $dado[] = '<strong>Está arranchado hoje<strong/>';
             }else{
-                    $dado[] = date('d-m-Y', strtotime($arranchamento->date));
+                    $dado[] = "<strong>".date('d-m-Y', strtotime($arranchamento->date))."<strong/>";
             }
             if($arranchamento->brekker == 1){
                     $dado[] = 'sim';
@@ -89,10 +148,17 @@ class MainController extends Controller
             }else{
                     $dado[] = 'Não';
             }
-            $dado[] = "
-            <button class='btn btn-primary'  data-toggle='modal' data-target='#arranchamento_edit' data-id=''><i class='fa fa-pen '></i></button>
-            <button class='btn btn-danger'  onclick='return confirm_delete()'><i class='fa fa-trash'></i></button>
+            if($arranchamento->date == date('Y-m-d')){
+                    $dado[] = "
+                    <button class='btn btn-primary' disabled ><i class='fa fa-pen '></i></button>
+                    <button class='btn btn-danger' disabled ><i class='fa fa-trash'></i></button>
+                    ";
+            }else{
+                   $dado[] = "
+                    <button class='btn btn-primary'  data-toggle='modal' data-target='#editarranchamento' data-id='".$arranchamento->id."'><i class='fa fa-pen '></i></button>
+                    <button class='btn btn-danger'  onclick='return delete_arranchamento(".$arranchamento->id.") '><i class='fa fa-trash'></i></button>
             ";
+            }
             $dados[] = $dado;
         }
 
