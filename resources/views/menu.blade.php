@@ -33,7 +33,9 @@
                             <th>Café</th>
                             <th>Almoço</th>
                             <th>Janta</th>
+                            <th width="150">Deslocamento</th>
                             @if (session('Arranchamento')['profileType'] == 1)
+                                <th width="120">Criado/Alterado</th>
                                 <th width="80">Ações</th>
                             @endif
                         </tr>
@@ -74,7 +76,56 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label>Horário de deslocamento ao rancho</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-2">
+                                    <label>Horário CCSv:</label>
+                                    <div class="input-group time" id="h_ccsv" data-target-input="nearest">
+                                        <input name="h_ccsv" type="text" class="form-control datetimepicker-input"
+                                            data-target="#h_ccsv" value="">
+                                        <div class="input-group-append time" data-target="#h_ccsv"
+                                            data-toggle="datetimepicker">
+                                            <div class="input-group-text time"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label>Horário 1ª Cia:</label>
+                                    <div class="input-group time " id="h_cia1" data-target-input="nearest">
+                                        <input name="h_cia1" type="text" class="form-control datetimepicker-input"
+                                            data-target="#h_cia1" value="">
+                                        <div class="input-group-append time" data-target="#h_cia1"
+                                            data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label>Horário 2ª Cia:</label>
+                                    <div class="input-group time" id="h_cia2" data-target-input="nearest">
+                                        <input name="h_cia2" type="text" class="form-control datetimepicker-input"
+                                            data-target="#h_cia2">
+                                        <div class="input-group-append time" data-target="#h_cia2"
+                                            data-toggle="datetimepicker" value="">
+                                            <div class="input-group-text time"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label>Horário 3ª Cia:</label>
+                                    <div class="input-group  time" id="h_cia3" data-target-input="nearest">
+                                        <input name="h_cia3" type="text" class="form-control datetimepicker-input"
+                                            data-target="#h_cia3" value="">
+                                        <div class="input-group-append" data-target="#h_cia3" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <div class="form-group col">
@@ -104,6 +155,23 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            $('#menu').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                modal.find('.modal-title').text('Editar cardápio ')
+                var modal = $(this);
+                var url = '/enterprise/info/' + id;
+                $.get(url, function(result) {
+
+                    modal.find('#newName').val(result.name)
+                    modal.find('#newPhone').val(result.phone)
+                    modal.find('#newAddress').val(result.address)
+                    document.getElementById("id").value = id
+                })
+            });
+        </script>
     @endif
 @endsection
 @section('plugins')

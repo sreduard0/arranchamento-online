@@ -248,26 +248,42 @@ function new_menu() {
 
     var data = {
         date: $('input[name=date]').val(),
+        h_ccsv: $('input[name=h_ccsv]').val(),
+        h_cia1: $('input[name=h_cia1]').val(),
+        h_cia2: $('input[name=h_cia2]').val(),
+        h_cia3: $('input[name=h_cia3]').val(),
         brekker: $('#brekker').val(),
         lunch: $('#lunch').val(),
         dinner: $('#dinner').val()
     };
 
-    if (data.brekker == undefined) {
+    if (data.brekker == '') {
         data.brekker = 'Sem cardápio'
     }
-    if (data.lunch == undefined) {
+    if (data.lunch == '') {
         data.lunch = 'Sem cardápio'
     }
-    if (data.dinner == undefined) {
+    if (data.dinner == '') {
         data.dinner = 'Sem cardápio'
     }
+
+
 
     if (data.date == '') {
 
         Toast.fire({
             icon: 'error',
             title: '&nbsp&nbsp Selecione uma data.'
+        });
+
+        return false;
+    }
+
+    if (data.h_ccsv == '' || data.h_cia1 == '' || data.h_cia2 == '' || data.h_cia3 == '') {
+
+        Toast.fire({
+            icon: 'error',
+            title: '&nbsp&nbsp Selecione o horário de deslocamento das CIAs.'
         });
 
         return false;
@@ -285,7 +301,7 @@ function new_menu() {
             if (data == "error") {
                 Toast.fire({
                     icon: 'error',
-                    title: '&nbsp&nbsp Você já está arranchado para este dia.'
+                    title: '&nbsp&nbsp Já existe um cardápio para este dia.'
                 });
             } else {
                 $("#menu").modal('hide');
@@ -309,17 +325,7 @@ function new_menu() {
 
 }
 
-//================================[BUSCANDO COGITATIVO DAS CIAs]================================//
-setInterval(function() {
-    var url = 'get_cogitative_day';
-    $.get(url, function(result) {
-        document.getElementById('em').innerText = result.em;
-        document.getElementById('ccsv').innerText = result.ccsv;
-        document.getElementById('1cia').innerText = result.cia1;
-        document.getElementById('2cia').innerText = result.cia2;
-        document.getElementById('3cia').innerText = result.cia3;
-    })
-}, 5000);
+
 
 
 

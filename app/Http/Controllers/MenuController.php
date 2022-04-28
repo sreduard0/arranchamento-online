@@ -52,6 +52,10 @@ class MenuController extends Controller
             $new_arranchamento->brekker = $data['brekker'];
             $new_arranchamento->lunch = $data['lunch'];
             $new_arranchamento->dinner = $data['dinner'];
+            $new_arranchamento->h_ccsv = $data['h_ccsv'];
+            $new_arranchamento->h_cia1 = $data['h_cia1'];
+            $new_arranchamento->h_cia2 = $data['h_cia2'];
+            $new_arranchamento->h_cia3 = $data['h_cia3'];
             $new_arranchamento->save();
         }
 
@@ -70,7 +74,8 @@ class MenuController extends Controller
             1 =>'brekker',
             2 => 'lunch',
             3=> 'dinner',
-            4=> 'id'
+            4=> 'id',
+            5=> 'date',
         );
 
         if(session('Arranchamento')['profileType'] == 1){
@@ -98,9 +103,11 @@ class MenuController extends Controller
                 $dado[] = $food->brekker;
                 $dado[] = $food->lunch;
                 $dado[] = $food->dinner;
+                 $dado[] = 'CCSv: '.date('H:m',strtotime($food->h_ccsv)).'<br> 1ª Cia: '.date('H:m',strtotime($food->h_cia1)).'<br> 2ª Cia: '.date('H:m',strtotime($food->h_cia2)).'<br> 3ª Cia: '.date('H:m',strtotime($food->h_cia3));
                 if(session('Arranchamento')['profileType'] == 1){
+                    $dado[] = $food->updatedby;
                    $dado[] = "
-                    <button class='btn btn-primary'  data-toggle='modal' data-target='#editfood' data-id='".$food->id."'><i class='fa fa-pen '></i></button>
+                    <button class='btn btn-primary'  data-toggle='modal' data-target='#menu' data-id='".$food->id."'><i class='fa fa-pen '></i></button>
                     <button class='btn btn-danger'  onclick='return delete_food(".$food->id.") '><i class='fa fa-trash'></i></button>
             ";
                 }

@@ -20,10 +20,18 @@ $('#date').datetimepicker({
     locale: 'pt-br',
 
 });
+
+//Date and time picker
+$('.time').datetimepicker({
+    format: 'HH:mm',
+    pickDate: false,
+    pickSeconds: false,
+    pick12HourFormat: false
+});
+
 // }
 
-//         //Date and time picker
-//         $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
 
 //         //Date range picker
 //         $('#reservation').daterangepicker()

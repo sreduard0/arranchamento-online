@@ -12,11 +12,12 @@ use App\Http\Controllers\MenuController;
     Route::get('/arranchamento/delete/{id}' ,[MainController::class, 'get_delete_arranchamento']);
     Route::get('get_cogitative_day' ,[MainController::class, 'get_cogitative_day']);
 
+
     //POSTs
     Route::post('get_arranchamentos',[MainController::class, 'get_arranchamentos']);
     Route::post('new_arranchamento', [MainController::class, 'new_arranchamento']);
     Route::post('edit_arranchamento', [MainController::class, 'edit_arranchamento']);
-
+    Route::post('get_cogitative' ,[MainController::class, 'get_cogitative']);
 
 
     //Cardápio

@@ -14,6 +14,10 @@ class Menu extends Migration
             $table->text('brekker');
             $table->text('lunch');
             $table->text('dinner');
+            $table->time('h_ccsv');
+            $table->time('h_cia1');
+            $table->time('h_cia2');
+            $table->time('h_cia4');
             $table->timestamps();
             $table->softDeletes();
         });

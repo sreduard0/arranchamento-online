@@ -16,6 +16,8 @@ class Arranchamentos extends Migration
             $table->tinyInteger('brekker');
             $table->tinyInteger('lunch');
             $table->tinyInteger('dinner');
+             $table->integer('company_id');
+              $table->integer('status');
             $table->timestamps();
             $table->softDeletes();
         });

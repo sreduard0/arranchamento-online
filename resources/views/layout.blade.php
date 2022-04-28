@@ -104,67 +104,58 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a href="{{ route('history') }}" class="nav-link @yield('history') ">
-                                <i class="nav-icon fas fa-history"></i>
-                                <p>
-                                    Histórico
-                                </p>
-                            </a>
-                        </li>
-
-
-
-                        {{-- <li class="nav-item @yield('register_open')">
-                            <a href="#" class="nav-link @yield('register')">
-                                <i class="nav-icon fas fa-id-card"></i>
-                                <p>
-                                    Cardápio
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item ">
-                                    <a href="" class="nav-link @yield('enterprise')">
-                                        <i class="fa fa-building nav-icon"></i>
-                                        <p>Empresa</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="" class="nav-link @yield('visitors')">
-                                        <i class="fa fa-users nav-icon"></i>
-                                        <p>Visitantes</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                         @if (session('PARPS')['profileType'] >= 1)
-                            <li class="nav-item ">
-                                <a href="{{ route('reports') }}" class="nav-link @yield('reports')">
-                                    <i class="nav-icon fas fa-file-chart-pie"></i>
-                                    <p>
-                                        Relatórios
-                                    </p>
-                                </a>
-                            </li>
+                        @if (session('Arranchamento')['profileType'] == 1)
                             <li class="nav-item @yield('config_open')">
                                 <a href="#" class="nav-link @yield('config')">
-                                    <i class="nav-icon fas fa-cog"></i>
+                                    <i class="nav-icon fas fa-chart-bar"></i>
                                     <p>
-                                        Configurações
+                                        Cogitativo
                                         <i class="fas fa-angle-left right"></i>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{ route('destination') }}" class="nav-link @yield('destination')">
-                                            <i class="fa fa-map-marker-alt nav-icon"></i>
-                                            <p>Destinos</p>
+                                        <a href="" class="nav-link @yield('destination')">
+                                            <i class="fas fa-users nav-icon"></i>
+                                            <p>CCSv</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link @yield('destination')">
+                                            <i class="fas fa-users nav-icon"></i>
+                                            <p>1ª Cia</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link @yield('destination')">
+                                            <i class="fas fa-users nav-icon"></i>
+                                            <p>2ª Cia</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link @yield('destination')">
+                                            <i class="fas fa-users nav-icon"></i>
+                                            <p>3ª Cia</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link @yield('destination')">
+                                            <i class="fas fa-users nav-icon"></i>
+                                            <p>EM</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                        @endif --}}
+                        @else
+                            <li class="nav-item ">
+                                <a href="{{ route('history') }}" class="nav-link @yield('history') ">
+                                    <i class="nav-icon fas fa-history"></i>
+                                    <p>
+                                        Histórico
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
             </div>

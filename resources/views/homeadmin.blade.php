@@ -17,14 +17,21 @@
 
 @section('content')
     <section class="col ">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-chart-pie mr-1"></i>
+                Cogitativo do dia <strong id="total"> </strong>
+            </h3>
+        </div>
+
         <div class="row">
-            <div class="col col-3">
+            <div class="col-md-2 col-6">
 
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3 id="ccsv">Carregando</h3>
+                        <h3 id="ccsv"><i class="fas fa-spinner"></i></h3>
 
-                        <h5>CCSv</h5>
+                        <h5>CCSv - Hoje</h5>
 
                     </div>
                     <div class="icon">
@@ -33,11 +40,11 @@
                     <a href="#" class="small-box-footer">Ver mais <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col col-3">
+            <div class="col-md-2 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3 id="1cia">Carregando</h3>
-                        <h5>1ª Cia</h5>
+                        <h3 id="1cia"><i class="fas fa-spinner"></i></h3>
+                        <h5>1ª Cia - Hoje</h5>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -45,11 +52,11 @@
                     <a href="#" class="small-box-footer">Ver mais <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col col-3">
+            <div class="col-md-2 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3 id="2cia">Carregando</h3>
-                        <h5>2ª Cia</h5>
+                        <h3 id="2cia"><i class="fas fa-spinner"></i></h3>
+                        <h5>2ª Cia - Hoje</h5>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -57,12 +64,12 @@
                     <a href="#" class="small-box-footer">Ver mais <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col col-3">
+            <div class="col-md-2 col-6">
 
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3 id="3cia">Carregando</h3>
-                        <h5>3ª Cia</h5>
+                        <h3 id="3cia"><i class="fas fa-spinner"></i></h3>
+                        <h5>3ª Cia - Hoje</h5>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
@@ -70,12 +77,12 @@
                     <a href="#" class="small-box-footer">Ver mais <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col col-3">
+            <div class="col-md-2 col-6">
 
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3 id="em">Carregando</h3>
-                        <h5>EM</h5>
+                        <h3 id="em"><i class="fas fa-spinner"></i></h3>
+                        <h5>EM - Hoje</h5>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
@@ -92,19 +99,46 @@
                         <div class="card-header ui-sortable-handle" style="cursor: move;">
                             <h3 class="card-title">
                                 <i class="fas fa-chart-pie mr-1"></i>
-                                Cogitativo dos próximos dias
+                                Cogitativo do próximo dia (pode alterar até {{ date('d/m/Y') }} 23:59)
                             </h3>
                         </div>
                         <table id="table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th width="150">Dia</th>
+                                    <th width="150">Refeição</th>
                                     <th>CCSv</th>
                                     <th>1ª Cia</th>
                                     <th>2ª Cia</th>
                                     <th>3ª Cia</th>
+                                    <th>EM</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Café</td>
+                                    <td>{{ $ccsv['brekker'] }} </td>
+                                    <td>{{ $cia1['brekker'] }}</td>
+                                    <td>{{ $cia2['brekker'] }}</td>
+                                    <td>{{ $cia3['brekker'] }}</td>
+                                    <td>{{ $em['brekker'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Almoço</td>
+                                    <td>{{ $ccsv['lunch'] }} </td>
+                                    <td>{{ $cia1['lunch'] }}</td>
+                                    <td>{{ $cia2['lunch'] }}</td>
+                                    <td>{{ $cia3['lunch'] }}</td>
+                                    <td>{{ $em['lunch'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Janta</td>
+                                    <td>{{ $ccsv['dinner'] }} </td>
+                                    <td>{{ $cia1['dinner'] }}</td>
+                                    <td>{{ $cia2['dinner'] }}</td>
+                                    <td>{{ $cia3['dinner'] }}</td>
+                                    <td>{{ $em['dinner'] }}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
@@ -125,31 +159,24 @@
     <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/inputmask.js') }}"></script>
     <script>
-        $(function() {
-            $("#table").DataTable({
-                "paging": true,
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "dom": '<"top">rt<"bottom"ip><"clear">',
-                "language": {
-                    "url": "{{ asset('plugins/datatables/Portuguese2.json') }}"
-                },
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": "get_arranchamentos",
-                    "type": "POST",
-                    "headers": {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
-                    },
-
-                }
-            });
-        });
-    </script>
-    <script>
-
+        //================================[BUSCANDO COGITATIVO DAS CIAs]================================//
+        setInterval(function() {
+            var url = 'get_cogitative_day';
+            $.get(url, function(result) {
+                document.getElementById('ccsv').innerHTML = 'Café:  ' + result.ccsv['brekker'] +
+                    '<br> Almoço:  ' + result.ccsv['lunch'] + '<br>Janta:  ' + result.ccsv['dinner'];
+                document.getElementById('1cia').innerHTML = 'Café:  ' + result.cia1['brekker'] +
+                    '<br> Almoço:  ' + result.cia1['lunch'] + '<br>Janta:  ' + result.cia1['dinner'];
+                document.getElementById('2cia').innerHTML = 'Café:  ' + result.cia2['brekker'] +
+                    '<br> Almoço:  ' + result.cia2['lunch'] + '<br>Janta:  ' + result.cia2['dinner'];
+                document.getElementById('3cia').innerHTML = 'Café:  ' + result.cia3['brekker'] +
+                    '<br> Almoço:  ' + result.cia3['lunch'] + '<br>Janta:  ' + result.cia3['dinner'];
+                document.getElementById('em').innerHTML = 'Café:  ' + result.em['brekker'] +
+                    '<br> Almoço:  ' + result.em['lunch'] + '<br>Janta:  ' + result.em['dinner'];
+                document.getElementById('total').innerHTML = '( Total: Café:  ' + result.total['brekker'] +
+                    ' |  Almoço:  ' + result.total['lunch'] + ' | Janta:  ' + result.total['dinner'] + ')';
+            })
+        }, 5000);
     </script>
     <script src="{{ asset('js/actions.js') }}"></script>
     <!-- InputMask -->

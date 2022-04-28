@@ -84,6 +84,7 @@ body {
 [tabindex="-1"]:focus:not(:focus-visible) {
     outline: 0 !important;
 }
+
 hr {
     box-sizing: content-box;
     height: 0;
@@ -1303,10 +1304,10 @@ pre code {
         max-width: 8.333333%;
     }
     .col-md-2 {
-        -webkit-flex: 0 0 16.666667%;
-        -ms-flex: 0 0 16.666667%;
-        flex: 0 0 16.666667%;
-        max-width: 16.666667%;
+        -webkit-flex: 0 0 20%%;
+        -ms-flex: 0 0 20%%;
+        flex: 0 0 20%;
+        max-width: 20%;
     }
     .col-md-3 {
         -webkit-flex: 0 0 25%;
@@ -11531,7 +11532,7 @@ body,
 }
 
 .wrapper .content-wrapper {
-     min-height: calc(100vh - calc(3.5rem + 1px) - calc(3.5rem + 1px));
+    min-height: calc(100vh - calc(3.5rem + 1px) - calc(3.5rem + 1px));
     /* min-height: calc(100% + calc(20em + 1px)); */
 }
 
@@ -13902,7 +13903,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 [class*="sidebar-dark-"] .nav-treeview>.nav-item>.nav-link.active,
 [class*="sidebar-dark-"] .nav-treeview>.nav-item>.nav-link.active:hover,
 [class*="sidebar-dark-"] .nav-treeview>.nav-item>.nav-link.active:focus {
-       background-color: #00664d6b;
+    background-color: #00664d6b;
     color: #ffffff;
 }
 
@@ -27841,7 +27842,7 @@ body.text-sm .input-group-text {
 }
 
 .card-primary:not(.card-outline)>.card-header {
-    background-color:  #00664d;
+    background-color: #00664d;
 }
 
 .card-primary:not(.card-outline)>.card-header,
@@ -27854,7 +27855,7 @@ body.text-sm .input-group-text {
 }
 
 .card-primary.card-outline {
-    border-top: 3px solid  #00664d;
+    border-top: 3px solid #00664d;
 }
 
 .card-primary.card-outline-tabs>.card-header a:hover {
@@ -27862,7 +27863,7 @@ body.text-sm .input-group-text {
 }
 
 .card-primary.card-outline-tabs>.card-header a.active {
-    border-top: 3px solid  #00664d;
+    border-top: 3px solid #00664d;
 }
 
 .bg-primary>.card-header .btn-tool,

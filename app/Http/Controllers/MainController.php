@@ -11,7 +11,44 @@ class MainController extends Controller
     // Início
     public function home(){
          if(session('Arranchamento')['profileType'] == 1){
-            return view('homeadmin');
+            $data['date'] = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d")+1, date("Y")));
+            $em = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
+            $data['em'] = [
+                'brekker' => $em->where('brekker', 1)->count(),
+                'lunch' => $em->where('lunch', 1)->count(),
+                'dinner' => $em->where('dinner', 1)->count()
+            ];
+
+
+            $ccsv = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
+            $data['ccsv'] = [
+                'brekker' => $ccsv->where('brekker', 1)->count(),
+                'lunch' =>$ccsv->where('lunch', 1)->count(),
+                'dinner' => $ccsv->where('dinner', 1)->count()
+            ];
+
+            $cia1 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 3);
+            $data['cia1'] = [
+                'brekker' => $cia1->where('brekker', 1)->count(),
+                'lunch' =>$cia1->where('lunch', 1)->count(),
+                'dinner' => $cia1->where('dinner', 1)->count()
+            ];
+
+
+            $cia2 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 4);
+            $data['cia2'] = [
+                'brekker' => $cia2->where('brekker', 1)->count(),
+                'lunch' =>$cia2->where('lunch', 1)->count(),
+                'dinner' => $cia2->where('dinner', 1)->count()
+            ];
+
+            $cia3 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 5);
+            $data['cia3'] = [
+                'brekker' => $cia3->where('brekker', 1)->count(),
+                'lunch' =>$cia3->where('lunch', 1)->count(),
+                'dinner' => $cia3->where('dinner', 1)->count()
+            ];
+            return view('homeadmin', $data);
         }else{
             return view('home');
         }
@@ -29,19 +66,51 @@ class MainController extends Controller
 
     //BUSCANDO COGITATIVO DAS CIAS
     public function get_cogitative_day(){
-        $em = count(ArranchamentoModel::where('company_id', 1)->where('date',date('Y-m-d'))->get());
-        $ccsv = count(ArranchamentoModel::where('company_id', 2)->where('date',date('Y-m-d'))->get());
-        $cia1 = count(ArranchamentoModel::where('company_id', 3)->where('date',date('Y-m-d'))->get());
-        $cia2 = count(ArranchamentoModel::where('company_id', 4)->where('date',date('Y-m-d'))->get());
-        $cia3 = count(ArranchamentoModel::where('company_id', 5)->where('date',date('Y-m-d'))->get());
 
-        $data = [
-            'em' => $em,
-            'ccsv' => $ccsv,
-            'cia1' => $cia1,
-            'cia2' => $cia2,
-            'cia3' => $cia3,
-        ];
+            $data['date'] = date('Y-m-d');
+            $em = ArranchamentoModel::where('date',$data['date'])->where('company_id', 1);
+            $data['em'] = [
+                'brekker' => $em->where('brekker', 1)->count(),
+                'lunch' => $em->where('lunch', 1)->count(),
+                'dinner' => $em->where('dinner', 1)->count()
+            ];
+
+
+            $ccsv = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
+            $data['ccsv'] = [
+                'brekker' => $ccsv->where('brekker', 1)->count(),
+                'lunch' =>$ccsv->where('lunch', 1)->count(),
+                'dinner' => $ccsv->where('dinner', 1)->count()
+            ];
+
+            $cia1 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 3);
+            $data['cia1'] = [
+                'brekker' => $cia1->where('brekker', 1)->count(),
+                'lunch' =>$cia1->where('lunch', 1)->count(),
+                'dinner' => $cia1->where('dinner', 1)->count()
+            ];
+
+
+            $cia2 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 4);
+            $data['cia2'] = [
+                'brekker' => $cia2->where('brekker', 1)->count(),
+                'lunch' =>$cia2->where('lunch', 1)->count(),
+                'dinner' => $cia2->where('dinner', 1)->count()
+            ];
+
+            $cia3 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 5);
+            $data['cia3'] = [
+                'brekker' => $cia3->where('brekker', 1)->count(),
+                'lunch' =>$cia3->where('lunch', 1)->count(),
+                'dinner' => $cia3->where('dinner', 1)->count()
+            ];
+
+            $total = ArranchamentoModel::where('date',$data['date']);
+            $data['total'] = [
+                'brekker' => $total->where('brekker', 1)->count(),
+                'lunch' => $total->where('lunch', 1)->count(),
+                'dinner' => $total->where('dinner', 1)->count()
+            ];
         return $data;
     }
 
