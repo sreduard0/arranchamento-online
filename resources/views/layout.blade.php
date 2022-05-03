@@ -105,8 +105,8 @@
                             </a>
                         </li>
                         @if (session('Arranchamento')['profileType'] == 1)
-                            <li class="nav-item @yield('config_open')">
-                                <a href="#" class="nav-link @yield('config')">
+                            <li class="nav-item @yield('cogitative_open')">
+                                <a href="#" class="nav-link @yield('cogitative')">
                                     <i class="nav-icon fas fa-chart-bar"></i>
                                     <p>
                                         Cogitativo
@@ -114,32 +114,37 @@
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link @yield('destination')">
+                                    <li class="nav-item  ">
+                                        <a href="{{ route('cogitative_company', ['company' => 2]) }}"
+                                            class="nav-link @if (!empty($company) && $company == 2) active @endif">
                                             <i class="fas fa-users nav-icon"></i>
                                             <p>CCSv</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="nav-link @yield('destination')">
+                                        <a href="{{ route('cogitative_company', ['company' => 3]) }}"
+                                            class="nav-link  @if (!empty($company) && $company == 3) active @endif">
                                             <i class="fas fa-users nav-icon"></i>
                                             <p>1ª Cia</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="nav-link @yield('destination')">
+                                        <a href="{{ route('cogitative_company', ['company' => 4]) }}"
+                                            class="nav-link  @if (!empty($company) && $company == 4) active @endif">
                                             <i class="fas fa-users nav-icon"></i>
                                             <p>2ª Cia</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="nav-link @yield('destination')">
+                                        <a href="{{ route('cogitative_company', ['company' => 5]) }}"
+                                            class="nav-link  @if (!empty($company) && $company == 5) active @endif">
                                             <i class="fas fa-users nav-icon"></i>
                                             <p>3ª Cia</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="nav-link @yield('destination')">
+                                        <a href="{{ route('cogitative_company', ['company' => 1]) }}"
+                                            class="nav-link  @if (!empty($company) && $company == 1) active @endif">
                                             <i class="fas fa-users nav-icon"></i>
                                             <p>EM</p>
                                         </a>
@@ -186,28 +191,35 @@
 
                         {{-- /CONTEUDO --}}
                         <section class="col-lg-3">
-                            {{-- <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3 id="here">0</h3>
-                                    <p>Visitantes na OM</p>
+                            @if (session('Arranchamento')['profileType'] == 1)
+                                <div class="small-box bg-primary">
+                                    <div style='min-height: 150px' class="inner">
+                                        <strong>
+                                            <h2>Cogitativo total do dia</h2>
+                                        </strong>
+                                        <div class="fs-20" id='c_day'></div>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="mt-2 icon ion-md-restaurant"></i>
+                                    </div>
                                 </div>
-                                <div class="icon">
-                                    <i class="icon ion-md-people"></i>
+                            @else
+                                <div class="small-box bg-primary">
+                                    <div style='min-height: 150px' class="inner">
+                                        <strong>
+                                            <h2 id="hour"></h2>
+                                        </strong>
+                                        <div id='menu_day'></div>
+                                        <br>
+                                        <div id='displacement'></div>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="mt-2 icon ion-md-restaurant"></i>
+                                    </div>
+                                    <a href="{{ route('menu') }}" class="btn btn-small btn-primary">Ver mais</a>
                                 </div>
+                            @endif
 
-                            </div> --}}
-                            <div class="small-box bg-primary">
-                                <div style='min-height: 150px' class="inner">
-                                    <strong>
-                                        <h2 id="hour"></h2>
-                                    </strong>
-                                    <div id='menu_day'></div>
-                                </div>
-                                <div class="icon">
-                                    <i class="mt-2 icon ion-md-restaurant"></i>
-                                </div>
-                                <a href="{{ route('menu') }}" class="btn btn-small btn-default">Ver mais</a>
-                            </div>
                             <div class="card bg-default">
                                 <div class="card-header border-0 bg-success">
 
@@ -250,42 +262,58 @@
                 </div>
             </footer>
         </footer>
-
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
     </div>
     {{-- ========================== MODAL ========================== --}}
     @yield('modal')
     {{-- ==================================== PLUGINS ===================================== --}}
-    <script>
-        function getHour() {
-            var currentTime = new Date();
-            return (currentTime.getHours());
-        }
-
-        $(function() {
-            var hour = getHour();
-
-            if (hour > 05 && hour < 11) {
-                $.get('menu_day', function(result) {
-                    document.getElementById('hour').innerText = 'Cardápio do café';
-                    document.getElementById('menu_day').innerHTML = result.brekker;
+    @if (session('Arranchamento')['profileType'] == 1)
+        <script>
+            setTimeout(function() {
+                var url = '/get_cogitative_day';
+                $.get(url, function(result) {
+                    document.getElementById('c_day').innerHTML = '<strong >Café:</strong>  ' + result
+                        .total['brekker'] +
+                        '<br> <strong>Almoço:</strong>  ' + result.total['lunch'] +
+                        '<br> <strong>Janta:</strong>  ' + result.total['dinner'];
                 })
-            } else if (hour >= 11 && hour < 14) {
-
-                $.get('menu_day', function(result) {
-                    document.getElementById('hour').innerText = 'Cardápio do almoço';
-                    document.getElementById('menu_day').innerHTML = result.lunch;
-                })
-            } else {
-                $.get('menu_day', function(result) {
-                    document.getElementById('hour').innerText = 'Cardápio da janta';
-                    document.getElementById('menu_day').innerHTML = result.dinner;
-                })
+            }, 1000);
+        </script>
+    @else
+        <script>
+            function getHour() {
+                var currentTime = new Date();
+                return (currentTime.getHours());
             }
+            $(function() {
+                var hour = getHour();
 
-        });
-    </script>
+                if (hour > 05 && hour < 11) {
+                    $.get('menu_day', function(result) {
+                        document.getElementById('hour').innerText = 'Cardápio do café';
+                        document.getElementById('menu_day').innerHTML = result.brekker;
+                    })
+                } else if (hour >= 11 && hour < 14) {
+
+                    $.get('menu_day', function(result) {
+                        document.getElementById('hour').innerText = 'Cardápio do almoço';
+                        document.getElementById('menu_day').innerHTML = result.lunch;
+                        document.getElementById('displacement').innerHTML =
+                            'Horário de deslocamento da sua CIA:<br> <strong class="fs-20">' + result
+                            .displacement + '</strong>';
+
+                    })
+                } else {
+                    $.get('menu_day', function(result) {
+                        document.getElementById('hour').innerText = 'Cardápio da janta';
+                        document.getElementById('menu_day').innerHTML = result.dinner;
+                    })
+                }
+
+            });
+        </script>
+    @endif
     <script src="{{ asset('js/calendar.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>

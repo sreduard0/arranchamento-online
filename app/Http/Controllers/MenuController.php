@@ -12,24 +12,42 @@ class MenuController extends Controller
     public function menu(){
         return view('menu');
     }
-
     //BUSCANDO INFORMAÇÔES DO CARDAPIO
     public function get_edit_menu($id){
         $data = MenuModel::find($id);
         return $data;
     }
-
     //CARDAPIO DO DIA
     public function menu_day(){
         $data = MenuModel::where('date', date('Y-m-d'))->first();
 
         if($data){
-            $menu = $data;
+            switch (session('user')['company']['id']) {
+                case 2:
+                    $date = $data['h_ccsv'];
+                break;
+                case 3:
+                    $date = $data['h_cia1'];
+                break;
+                case 4:
+                    $date = $data['h_cia2'];
+                break;
+                case 5:
+                    $date = $data['h_cia3'];
+                break;
+            }
+            $menu = [
+                'brekker'=> $data['brekker'],
+                'lunch' => $data['lunch'],
+                'dinner' => $data['dinner'],
+                'displacement' => date('H:m', strtotime($date))
+            ];
         }else{
             $menu = [
             'brekker'=> 'Sem cardápio disponível.',
             'lunch' => 'Sem cardápio disponível.',
-            'dinner' => 'Sem cardápio disponível.'
+            'dinner' => 'Sem cardápio disponível.',
+            'h_lunch' => 'Indísponivel.'
             ];
         }
 

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArranchamentoModel extends Model
 {
+     public function military()
+    {
+        return $this->hasOne('App\MilitaryModel', 'id', 'user_id');
+    }
     use HasFactory;
     use SoftDeletes;
     protected $table = 'arranchamentos';

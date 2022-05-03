@@ -33308,14 +33308,14 @@ html.maximized-card {
 
 .dark-mode .btn-primary {
     color: #fff;
-    background-color: #3f6791;
+    background-color: #335476;
     border-color: #3f6791;
     box-shadow: none;
 }
 
 .dark-mode .btn-primary:hover {
     color: #fff;
-    background-color: #335476;
+    background-color: #33779f;
     border-color: #304e6d;
 }
 

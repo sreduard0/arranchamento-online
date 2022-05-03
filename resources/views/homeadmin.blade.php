@@ -20,7 +20,7 @@
         <div class="card-header">
             <h3 class="card-title">
                 <i class="fas fa-chart-pie mr-1"></i>
-                Cogitativo do dia <strong id="total"> </strong>
+                Cogitativo do dia
             </h3>
         </div>
 
@@ -31,7 +31,7 @@
                     <div class="inner">
                         <h3 id="ccsv"><i class="fas fa-spinner"></i></h3>
 
-                        <h5>CCSv - Hoje</h5>
+                        <h5>CCSv - Hoje - <span id='h_ccsv'></span></h5>
 
                     </div>
                     <div class="icon">
@@ -44,7 +44,7 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3 id="1cia"><i class="fas fa-spinner"></i></h3>
-                        <h5>1ª Cia - Hoje</h5>
+                        <h5>1ª Cia - Hoje - <span id='h_cia1'></span> </h5>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -56,7 +56,7 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3 id="2cia"><i class="fas fa-spinner"></i></h3>
-                        <h5>2ª Cia - Hoje</h5>
+                        <h5>2ª Cia - Hoje - <span id='h_cia2'></span></h5>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -69,7 +69,7 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3 id="3cia"><i class="fas fa-spinner"></i></h3>
-                        <h5>3ª Cia - Hoje</h5>
+                        <h5>3ª Cia - Hoje - <span id='h_cia3'></span></h5>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
@@ -160,21 +160,23 @@
     <script src="{{ asset('js/inputmask.js') }}"></script>
     <script>
         //================================[BUSCANDO COGITATIVO DAS CIAs]================================//
-        setInterval(function() {
+        setTimeout(function() {
             var url = 'get_cogitative_day';
             $.get(url, function(result) {
                 document.getElementById('ccsv').innerHTML = 'Café:  ' + result.ccsv['brekker'] +
                     '<br> Almoço:  ' + result.ccsv['lunch'] + '<br>Janta:  ' + result.ccsv['dinner'];
+                document.getElementById('h_ccsv').innerHTML = result.ccsv['h_ccsv'];
                 document.getElementById('1cia').innerHTML = 'Café:  ' + result.cia1['brekker'] +
                     '<br> Almoço:  ' + result.cia1['lunch'] + '<br>Janta:  ' + result.cia1['dinner'];
+                document.getElementById('h_cia1').innerHTML = result.cia1['h_cia1'];
                 document.getElementById('2cia').innerHTML = 'Café:  ' + result.cia2['brekker'] +
                     '<br> Almoço:  ' + result.cia2['lunch'] + '<br>Janta:  ' + result.cia2['dinner'];
+                document.getElementById('h_cia2').innerHTML = result.cia2['h_cia2'];
                 document.getElementById('3cia').innerHTML = 'Café:  ' + result.cia3['brekker'] +
                     '<br> Almoço:  ' + result.cia3['lunch'] + '<br>Janta:  ' + result.cia3['dinner'];
+                document.getElementById('h_cia3').innerHTML = result.cia3['h_cia3'];
                 document.getElementById('em').innerHTML = 'Café:  ' + result.em['brekker'] +
                     '<br> Almoço:  ' + result.em['lunch'] + '<br>Janta:  ' + result.em['dinner'];
-                document.getElementById('total').innerHTML = '( Total: Café:  ' + result.total['brekker'] +
-                    ' |  Almoço:  ' + result.total['lunch'] + ' | Janta:  ' + result.total['dinner'] + ')';
             })
         }, 2000);
     </script>

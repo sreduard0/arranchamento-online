@@ -1,8 +1,8 @@
 {
-    "emptyTable": "Não foi encontrado nenhum destino",
+    "emptyTable": "Não foi encontrado nenhum cardápio",
     "loadingRecords": "Carregando...",
     "processing": "Processando...",
-    "lengthMenu": "Mostrar _MENU_ destinos",
+    "lengthMenu": "Mostrar _MENU_ cardápios",
     "zeroRecords": "Não foram encontrados resultados",
     "search": "Procurar:",
     "paginate": {
@@ -137,12 +137,12 @@
         "close": "Fechar",
         "create": {
             "button": "Novo",
-            "title": "Criar novo destino",
+            "title": "Criar novo cardápio",
             "submit": "Criar"
         },
         "edit": {
             "button": "Editar",
-            "title": "Editar destino",
+            "title": "Editar cardápio",
             "submit": "Atualizar"
         },
         "remove": {
@@ -159,6 +159,6 @@
             "restore": "Desfazer alterações"
         }
     },
-    "info": "Destinos de _START_ a _END_, N° total de destinos _TOTAL_",
-    "infoEmpty": "Não há destinos."
+    "info": "cardápios de _START_ a _END_, N° total de cardápios _TOTAL_",
+    "infoEmpty": "Não há cardápios."
 }

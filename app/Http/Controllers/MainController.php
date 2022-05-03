@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ArranchamentoModel;
 use App\Http\Controllers\Controller;
+use App\MenuModel;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -72,22 +73,27 @@ class MainController extends Controller
             $data['em'] = [
                 'brekker' => $em->where('brekker', 1)->count(),
                 'lunch' => $em->where('lunch', 1)->count(),
-                'dinner' => $em->where('dinner', 1)->count()
+                'dinner' => $em->where('dinner', 1)->count(),
             ];
 
-
+            $displacement = MenuModel::where('date',$data['date'])->first();
             $ccsv = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
             $data['ccsv'] = [
                 'brekker' => $ccsv->where('brekker', 1)->count(),
                 'lunch' =>$ccsv->where('lunch', 1)->count(),
-                'dinner' => $ccsv->where('dinner', 1)->count()
+                'dinner' => $ccsv->where('dinner', 1)->count(),
+                'h_ccsv' => date('H:m', strtotime($displacement->h_ccsv))
             ];
 
             $cia1 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 3);
             $data['cia1'] = [
                 'brekker' => $cia1->where('brekker', 1)->count(),
                 'lunch' =>$cia1->where('lunch', 1)->count(),
-                'dinner' => $cia1->where('dinner', 1)->count()
+                'dinner' => $cia1->where('dinner', 1)->count(),
+                'h_cia1' => date('H:m', strtotime($displacement->h_cia1))
+
+
+
             ];
 
 
@@ -95,14 +101,18 @@ class MainController extends Controller
             $data['cia2'] = [
                 'brekker' => $cia2->where('brekker', 1)->count(),
                 'lunch' =>$cia2->where('lunch', 1)->count(),
-                'dinner' => $cia2->where('dinner', 1)->count()
+                'dinner' => $cia2->where('dinner', 1)->count(),
+                 'h_cia2' => date('H:m', strtotime($displacement->h_cia2))
+
             ];
 
             $cia3 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 5);
             $data['cia3'] = [
                 'brekker' => $cia3->where('brekker', 1)->count(),
                 'lunch' =>$cia3->where('lunch', 1)->count(),
-                'dinner' => $cia3->where('dinner', 1)->count()
+                'dinner' => $cia3->where('dinner', 1)->count(),
+                 'h_cia3' => date('H:m', strtotime($displacement->h_cia3))
+
             ];
 
             $total = ArranchamentoModel::where('date',$data['date']);
@@ -113,12 +123,6 @@ class MainController extends Controller
             ];
         return $data;
     }
-
-
-
-
-
-
 
 
 
@@ -175,7 +179,7 @@ class MainController extends Controller
     //DATATABLES ARRANCHAMENTOS
     public function get_arranchamentos(Request $request)
     {
-    //Receber a requisão da pesquisa
+        //Receber a requisão da pesquisa
        $requestData = $request->all();
 
         //Indice da coluna na tabela visualizar resultado => nome da coluna no banco de dados
