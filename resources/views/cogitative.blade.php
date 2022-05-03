@@ -26,10 +26,10 @@
                     <thead>
                         <tr>
                             <th>Militar</th>
-                            <th>Café</th>
-                            <th>Almoço</th>
-                            <th>Janta</th>
-                            <th>Ações</th>
+                            <th width="200">Café</th>
+                            <th width="200">Almoço</th>
+                            <th width="200">Janta</th>
+                            <th width="85">Ações</th>
                         </tr>
                     </thead>
                 </table>

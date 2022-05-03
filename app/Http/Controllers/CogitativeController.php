@@ -41,8 +41,53 @@ class CogitativeController extends Controller
         $dados = array();
         foreach ($cogitatives as $cogitative){
             $dado = array();
+                switch ( $cogitative->military->rank_id) {
+                    case 1:
+                        $rank = 'Gen';
+                        break;
+                    case 2:
+                        $rank = 'Cel';
+                        break;
+                    case 3:
+                        $rank = 'TC';
+                        break;
+                    case 4:
+                        $rank = 'Maj';
+                        break;
+                    case 5:
+                        $rank = 'Cap';
+                        break;
+                    case 6:
+                        $rank = '1º Ten';
+                        break;
+                    case 7:
+                        $rank = '2º Ten';
+                        break;
+                    case 8:
+                        $rank = 'Asp';
+                        break;
+                    case 9:
+                        $rank = 'ST';
+                        break;
+                    case 10:
+                        $rank = '1º Sgt';
+                        break;
+                    case 11:
+                        $rank = '2º Sgt';
+                        break;
+                    case 12:
+                        $rank = '3º Sgt';
+                        break;
+                    case 13:
+                        $rank = 'Cb';
+                        break;
+                    case 14:
+                        $rank = 'Sd';
+                        break;
+                    }
 
-                $dado[] = $cogitative->military->professionalName;
+
+                $dado[] = $rank." ". $cogitative->military->professionalName;
                 if($cogitative->brekker == 1){
                     $dado[] = 'sim';
                 }else{
