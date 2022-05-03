@@ -13,7 +13,7 @@ class CogitativeController extends Controller
         $data = [
             'company'=> $company
         ];
-        session()->flash('company_id', $company);
+        session()->put('company_id', $company);
         return view('cogitative', $data);
     }
 
@@ -24,7 +24,7 @@ class CogitativeController extends Controller
 
         //Indice da coluna na tabela visualizar resultado => nome da coluna no banco de dados
         $columns = array(
-            0=> 'date',
+            0=> 'user_id',
             1 =>'brekker',
             2 => 'lunch',
             3=> 'dinner',
@@ -43,12 +43,24 @@ class CogitativeController extends Controller
             $dado = array();
 
                 $dado[] = $cogitative->military->professionalName;
-                $dado[] = 'Não';
-                $dado[] = 'Não';
-                $dado[] = 'Não';
+                if($cogitative->brekker == 1){
+                    $dado[] = 'sim';
+                }else{
+                        $dado[] = 'Não';
+                }
+                if($cogitative->lunch == 1){
+                        $dado[] = 'sim';
+                }else{
+                        $dado[] = 'Não';
+                }
+                if($cogitative->dinner == 1){
+                        $dado[] = 'sim';
+                }else{
+                        $dado[] = 'Não';
+                }
                 $dado[] = "
-                    <button class='btn btn-primary'  data-toggle='modal' data-target='#editarranchamento' data-id=''><i class='fa fa-pen '></i></button>
-                    <button class='btn btn-danger'  onclick='return delete_arranchamento() '><i class='fa fa-trash'></i></button>
+                    <button class='btn btn-primary'  data-toggle='modal' data-target='#admineditarranchamento' data-id='".$cogitative->id."'><i class='fa fa-pen '></i></button>
+                    <button class='btn btn-danger'  onclick='return delete_arranchamento(".$cogitative->id.") '><i class='fa fa-trash'></i></button>
             ";
 
             $dados[] = $dado;

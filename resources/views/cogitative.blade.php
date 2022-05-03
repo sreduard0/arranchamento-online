@@ -40,106 +40,69 @@
     </section>
 @endsection
 @section('modal')
-    <!-- Modal -->
-    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="registerLabel" aria-hidden="true">
+    <!-- Modal ediar arranchamento-->
+    <div class="modal fade" id="admineditarranchamento" tabindex="-1" role="dialog"
+        aria-labelledby="admineditarranchamentoLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="registerLabel">Cadastrar empresa</h5>
+                    <h5 class="modal-title" id="admineditarranchamentoLabel">Editar arranchamento</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="form-enterprise">
-                        <div class="row">
-
-                            <div class="form-group col">
-                                <label>Empresa</label>
-                                <input type="text" class="form-control" name="enterprise" id="enterprise"
-                                    placeholder="Nome da empresa">
-                            </div>
-
-                            <div class="col-md-3 form-group ">
-                                <label for="phone">Telefone</label>
-                                <input type="text" class="form-control" data-inputmask="'mask': ['(99) 9 9999-9999']"
-                                    inputmode="text" data-mask="" id="phone" name="phone" placeholder="Telefone" value="">
-                            </div>
-                        </div>
-                        <hr>
-                        <label class="fs-23">Endereço</label>
+                    <form id="form-editarranchar">
+                        <input type="hidden" name="id" id="id" value="">
                         <div class="row">
                             <div class="form-group col">
-                                <label for="street">Logradouro</label>
-                                <input type="text" class="form-control" id="street" name="street" placeholder="Logradouro"
-                                    value="">
+                                <label for="military">Militar</label>
+                                <input class="form-control" value="" id="military" name="military" disabled
+                                    style="width: 100%;">
                             </div>
-                            <div class="form-group col-md-2">
-                                <label for="house_number">Nº</label>
-                                <input type="text" class="form-control" id="number" name="number" placeholder="Nº">
+                            <div class="form-group col-md-4">
+                                <label for="company">CIA</label>
+                                <input class="form-control" id="company" value="" disabled style="width: 100%;">
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <div class="form-group">
+                                    <label>Data</label>
+                                    <div class="input-group" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input" value="" id="edate"
+                                            disabled />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col">
-                                <label for="district">Bairro</label>
-                                <input type="text" id="district" name="district" class="form-control"
-                                    placeholder="Bairro">
+                            <div class="custom-control custom-checkbox m-l-8 m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="ebrekker" name='ebrekker' value="1">
+                                <label for="ebrekker" class="custom-control-label">Café </label>
                             </div>
-                            <div class="form-group col">
-                                <label for="city">Cidade</label>
-                                <input type="text" id="city" name="city" class="form-control" placeholder="Cidade">
+                            <div class="custom-control custom-checkbox m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="elunch" name='elunch' value="1">
+                                <label for="elunch" class="custom-control-label">Almoço</label>
+                            </div>
+                            <div class="custom-control custom-checkbox m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="edinner" name='edinner' value="1">
+                                <label for="edinner" class="custom-control-label">Janta</label>
                             </div>
                         </div>
                     </form>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" onclick="return add_enterprise()">Cadastrar</button>
+                    <button type="button" class="btn btn-success" onclick=" return editarranchamento()">Alterar</button>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-    {{-- Editar Empresa --}}
-    <div class="modal fade" id="enterprise_edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="enterprise_editLabel">Editar</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <input type="hidden" id="id" name="id" value="">
-                        <div class="form-group col">
-                            <label for="newName">Nome</label>
-                            <input type="text" class="form-control" id="newName" name="newName" value="">
-                        </div>
-                        <div class="form-group col">
-                            <label for="newPhone">Telefone</label>
-                            <input type="text" class="form-control" data-inputmask="'mask': ['(99) 9 9999-9999']"
-                                inputmode="text" data-mask="" id="newPhone" name="newPhone" placeholder="Telefone" value="">
-                        </div>
-                        <div class="form-group col">
-                            <label for="newAddress">Endereço</label>
-                            <input type="text" class="form-control" id="newAddress" name="newAddress" value="">
-                        </div>
-
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button onclick="return edit_enterprise()" class="btn btn-success">Atualizar</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('plugins')
@@ -160,6 +123,7 @@
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script src="{{ asset('js/actions.js') }}"></script>
+
     <script>
         $(function() {
             $("#table").DataTable({
@@ -181,6 +145,95 @@
 
                 }
             });
+        });
+
+
+        $('#admineditarranchamento').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id');
+            var modal = $(this)
+            var url = '/get_edit_arranchamento/' + id;
+            $('#form-editarranchar')[0].reset();
+            $.get(url, function(result) {
+                modal.find('.modal-title').text('Editar arranchamento')
+                modal.find('#id').val(result.id)
+                switch (result.military.rank_id) {
+                    case 1:
+                        var rank = 'Gen';
+                        break;
+                    case 2:
+                        var rank = 'Cel';
+                        break;
+                    case 3:
+                        var rank = 'TC';
+                        break;
+                    case 4:
+                        var rank = 'Maj';
+                        break;
+                    case 5:
+                        var rank = 'Cap';
+                        break;
+                    case 6:
+                        var rank = '1º Ten';
+                        break;
+                    case 7:
+                        var rank = '2º Ten';
+                        break;
+                    case 8:
+                        var rank = 'Asp';
+                        break;
+                    case 9:
+                        var rank = 'ST';
+                        break;
+                    case 10:
+                        var rank = '1º Sgt';
+                        break;
+                    case 11:
+                        var rank = '2º Sgt';
+                        break;
+                    case 12:
+                        var rank = '3º Sgt';
+                        break;
+                    case 13:
+                        var rank = 'Cb';
+                        break;
+                    case 14:
+                        var rank = 'Sd';
+                        break;
+                }
+                modal.find('#military').val(rank + " " + result.military
+                    .professionalName)
+                switch (result.military.company_id) {
+                    case 1:
+                        var company = 'EM';
+                        break;
+                    case 2:
+                        var company = 'CCSv';
+                        break;
+                    case 3:
+                        var company = '1ª Cia';
+                        break;
+                    case 4:
+                        var company = '2ª Cia';
+                        break;
+                    case 5:
+                        var company = '3ª Cia';
+                        break;
+
+                }
+                modal.find('#company').val(company)
+                modal.find('#edate').val(moment(result.date).format('DD-MM-YYYY'))
+                if (result.brekker == 1) {
+                    $("#ebrekker").prop("checked", true);
+                }
+                if (result.lunch == 1) {
+                    $("#elunch").prop("checked", true);
+                }
+                if (result.dinner == 1) {
+                    $("#edinner").prop("checked", true);
+                }
+
+            })
         });
     </script>
     <script src="{{ asset('js/calendar.js') }}"></script>

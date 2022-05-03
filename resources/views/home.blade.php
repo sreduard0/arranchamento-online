@@ -204,9 +204,6 @@
             });
         });
     </script>
-    <script>
-
-    </script>
     <script src="{{ asset('js/actions.js') }}"></script>
     <!-- InputMask -->
     <script src="{{ asset('plugins/inputmask/jquery.inputmask.min.js') }}"></script>

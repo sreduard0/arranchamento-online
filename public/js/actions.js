@@ -131,7 +131,7 @@ function editarranchamento() {
 
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        url: 'edit_arranchamento',
+        url: '/edit_arranchamento',
         type: 'POST',
         data: data,
         dataType: 'text',
@@ -144,6 +144,7 @@ function editarranchamento() {
                 });
             } else {
                 $("#editarranchamento").modal('hide');
+                $("#admineditarranchamento").modal('hide');
                 $("#table").DataTable().clear().draw(6);
                 Toast.fire({
                     icon: 'success',
@@ -166,7 +167,7 @@ $('#editarranchamento').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget)
     var id = button.data('id');
     var modal = $(this)
-    var url = 'get_edit_arranchamento/' + id;
+    var url = '/get_edit_arranchamento/' + id;
     $('#form-editarranchar')[0].reset();
     $.get(url, function(result) {
         modal.find('.modal-title').text('Editar arranchamento')

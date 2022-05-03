@@ -57,7 +57,7 @@ class MainController extends Controller
 
     //EDITAR ARRANCHAMENTO
     public function get_edit_arranchamento($id){
-        return ArranchamentoModel::where('user_id', session('user')['id'])->where('id', $id)->first();
+        return ArranchamentoModel::where('id', $id)->with('military')->first();
     }
 
     //EXCLUIR ARRANCHAMENTO
@@ -162,16 +162,12 @@ class MainController extends Controller
 
         $editarrachamento = ArranchamentoModel::find($data['id']);
 
-        if($editarrachamento->user_id != session('user')['id'])
-        {
-            return 'error';
 
-        }else{
             $editarrachamento->brekker = $data['brekker'];
             $editarrachamento->lunch = $data['lunch'];
             $editarrachamento->dinner = $data['dinner'];
             $editarrachamento->save();
-        }
+        
 
 
     }

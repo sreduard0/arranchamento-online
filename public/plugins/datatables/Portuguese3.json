@@ -1,8 +1,8 @@
 {
-    "emptyTable": "Não há visitantes no momento.",
+    "emptyTable": "Não há militares arranchados no momento.",
     "loadingRecords": "A carregar...",
     "processing": "A processar...",
-    "lengthMenu": "Mostrar _MENU_ visitantes",
+    "lengthMenu": "Mostrar _MENU_ militares arranchados",
     "zeroRecords": "Não foram encontrados resultados",
     "search": "Procurar por nome:",
     "paginate": {
@@ -159,6 +159,6 @@
             "restore": "Desfazer alterações"
         }
     },
-    "info": "Visitantes de _START_ a _END_, N° total de visitantes _TOTAL_",
-    "infoEmpty": "Não há visitantes."
+    "info": "Militares arranchados de _START_ a _END_, N° total de militares arranchados _TOTAL_",
+    "infoEmpty": "Não há militares arranchados."
 }
