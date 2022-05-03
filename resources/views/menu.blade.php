@@ -53,7 +53,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="menuLabel">Novo cardápio</h5>
+                        <h5 class="modal-title" id="menuLabel">Cardápio</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -61,13 +61,14 @@
 
                     <div class="modal-body">
                         <form id="form-menu">
+                            <input type="hidden" name="id_edit" id="id_edit" value="">
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <div class="form-group">
                                         <label>Data:</label>
                                         <div class="input-group date" id="date" data-target-input="nearest">
                                             <input type="text" class="form-control datetimepicker-input" data-target="#date"
-                                                value="" name="date" />
+                                                value="" id="date_" name="date" />
                                             <div class="input-group-append" data-target="#date"
                                                 data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -85,8 +86,8 @@
                                 <div class="form-group col-md-2">
                                     <label>Horário CCSv:</label>
                                     <div class="input-group time" id="h_ccsv" data-target-input="nearest">
-                                        <input name="h_ccsv" type="text" class="form-control datetimepicker-input"
-                                            data-target="#h_ccsv" value="">
+                                        <input id="h_ccsv_" name="h_ccsv" type="text"
+                                            class="form-control datetimepicker-input" data-target="#h_ccsv" value="">
                                         <div class="input-group-append time" data-target="#h_ccsv"
                                             data-toggle="datetimepicker">
                                             <div class="input-group-text time"><i class="fa fa-calendar"></i></div>
@@ -96,8 +97,8 @@
                                 <div class="form-group col-md-2">
                                     <label>Horário 1ª Cia:</label>
                                     <div class="input-group time " id="h_cia1" data-target-input="nearest">
-                                        <input name="h_cia1" type="text" class="form-control datetimepicker-input"
-                                            data-target="#h_cia1" value="">
+                                        <input name="h_cia1" id="h_cia1_" type="text"
+                                            class="form-control datetimepicker-input" data-target="#h_cia1" value="">
                                         <div class="input-group-append time" data-target="#h_cia1"
                                             data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -107,8 +108,8 @@
                                 <div class="form-group col-md-2">
                                     <label>Horário 2ª Cia:</label>
                                     <div class="input-group time" id="h_cia2" data-target-input="nearest">
-                                        <input name="h_cia2" type="text" class="form-control datetimepicker-input"
-                                            data-target="#h_cia2">
+                                        <input name="h_cia2" id="h_cia2_" type="text"
+                                            class="form-control datetimepicker-input" data-target="#h_cia2">
                                         <div class="input-group-append time" data-target="#h_cia2"
                                             data-toggle="datetimepicker" value="">
                                             <div class="input-group-text time"><i class="fa fa-calendar"></i></div>
@@ -118,8 +119,8 @@
                                 <div class="form-group col-md-2">
                                     <label>Horário 3ª Cia:</label>
                                     <div class="input-group  time" id="h_cia3" data-target-input="nearest">
-                                        <input name="h_cia3" type="text" class="form-control datetimepicker-input"
-                                            data-target="#h_cia3" value="">
+                                        <input name="h_cia3" id="h_cia3_" type="text"
+                                            class="form-control datetimepicker-input" data-target="#h_cia3" value="">
                                         <div class="input-group-append" data-target="#h_cia3" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -130,19 +131,19 @@
                             <div class="row">
                                 <div class="form-group col">
                                     <label for="brekker">Café</label>
-                                    <textarea value="" class="form-control new_menu" name="brekker" id="brekker" cols="30" rows="10"></textarea>
+                                    <textarea class="form-control new_menu menu_brekker" name="brekker" id="brekker" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col">
                                     <label for="lunch">Almoço</label>
-                                    <textarea value="" class="form-control new_menu" name="lunch" id="lunch" cols="30" rows="10"></textarea>
+                                    <textarea class="form-control new_menu menu_lunch" name="lunch" id="lunch" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col">
                                     <label for="dinner">Janta</label>
-                                    <textarea value="" class="form-control new_menu" name="dinner" id="dinner" cols="30" rows="10"></textarea>
+                                    <textarea class="form-control new_menu menu_dinner" name="dinner" id="dinner" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
                         </form>
@@ -150,28 +151,11 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-success" onclick=" return new_menu()">Adicionar</button>
+                        <button type="button" class="btn btn-success" onclick=" return new_menu()">Concluir</button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <script>
-            $('#menu').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget);
-                var id = button.data('id');
-                modal.find('.modal-title').text('Editar cardápio ')
-                var modal = $(this);
-                var url = '/enterprise/info/' + id;
-                $.get(url, function(result) {
-
-                    modal.find('#newName').val(result.name)
-                    modal.find('#newPhone').val(result.phone)
-                    modal.find('#newAddress').val(result.address)
-                    document.getElementById("id").value = id
-                })
-            });
-        </script>
     @endif
 @endsection
 @section('plugins')
@@ -228,6 +212,12 @@
                 ]
             });
 
+        });
+        $('#menu').on('hide.bs.modal', function(event) {
+            $('#form-menu')[0].reset();
+            $(".menu_brekker").summernote('code', '');
+            $(".menu_lunch").summernote('code', '');
+            $(".menu_dinner").summernote('code', '');
         });
     </script>
     <!-- InputMask -->

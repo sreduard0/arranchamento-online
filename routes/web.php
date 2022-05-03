@@ -12,7 +12,6 @@ use App\Http\Controllers\MenuController;
     Route::get('/arranchamento/delete/{id}' ,[MainController::class, 'get_delete_arranchamento']);
     Route::get('get_cogitative_day' ,[MainController::class, 'get_cogitative_day']);
 
-
     //POSTs
     Route::post('get_arranchamentos',[MainController::class, 'get_arranchamentos']);
     Route::post('new_arranchamento', [MainController::class, 'new_arranchamento']);
@@ -23,10 +22,13 @@ use App\Http\Controllers\MenuController;
     //Cardápio
     Route::get('menu',[MenuController::class, 'menu'])->name('menu');
     Route::get('menu_day',[MenuController::class, 'menu_day']);
+    Route::get('get_edit_menu/{id}',[MenuController::class, 'get_edit_menu']);
+    Route::get('menu/delete/{id}',[MenuController::class, 'delete_menu']);
+
     //POSTs
     Route::post('get_menu',[MenuController::class, 'get_menu'])->name('get_menu');
-    Route::post('new_menu',[MenuController::class, 'new_menu'])->name('new_menu');
-
+    Route::post('new_menu',[MenuController::class, 'new_menu']);
+    Route::post('edit_menu',[MenuController::class, 'edit_menu']);
 
 
     //Histórico

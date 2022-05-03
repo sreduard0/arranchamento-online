@@ -8,12 +8,18 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    //Menu
+    //CARDAPIO
     public function menu(){
         return view('menu');
     }
 
-    //MENU DO DIA
+    //BUSCANDO INFORMAÇÔES DO CARDAPIO
+    public function get_edit_menu($id){
+        $data = MenuModel::find($id);
+        return $data;
+    }
+
+    //CARDAPIO DO DIA
     public function menu_day(){
         $data = MenuModel::where('date', date('Y-m-d'))->first();
 
@@ -30,10 +36,14 @@ class MenuController extends Controller
 
         return $menu;
     }
+    //DELETAR CARDAPIO
+    public function delete_menu($id){
+        MenuModel::find($id)->forceDelete();
+    }
 
 
-     // POSTs //
-    //NOVO ARRANCHAMENTO
+    // POSTs //
+    //NOVO CARDAPIO
     public function new_menu(Request $request)
     {
         $data = $request->all();
@@ -61,11 +71,29 @@ class MenuController extends Controller
 
 
     }
+    //EDITAR CARDAPIO
+    public function edit_menu(Request $request)
+    {
+        $data = $request->all();
 
+        $menu = MenuModel::find($data['id_edit']);
+
+        $menu->updatedby = session('user')['rank']." ".session('user')['professionalName'];
+        $menu->date = date('Y-m-d', strtotime($data['date']));
+        $menu->brekker = $data['brekker'];
+        $menu->lunch = $data['lunch'];
+        $menu->dinner = $data['dinner'];
+        $menu->h_ccsv = $data['h_ccsv'];
+        $menu->h_cia1 = $data['h_cia1'];
+        $menu->h_cia2 = $data['h_cia2'];
+        $menu->h_cia3 = $data['h_cia3'];
+        $menu->save();
+
+    }
     //datatables CARDAPIOS
     public function get_menu(Request $request)
     {
-    //Receber a requisão da pesquisa
+        //Receber a requisão da pesquisa
        $requestData = $request->all();
 
         //Indice da coluna na tabela visualizar resultado => nome da coluna no banco de dados
@@ -107,8 +135,8 @@ class MenuController extends Controller
                 if(session('Arranchamento')['profileType'] == 1){
                     $dado[] = $food->updatedby;
                    $dado[] = "
-                    <button class='btn btn-primary'  data-toggle='modal' data-target='#menu' data-id='".$food->id."'><i class='fa fa-pen '></i></button>
-                    <button class='btn btn-danger'  onclick='return delete_food(".$food->id.") '><i class='fa fa-trash'></i></button>
+                    <button class='btn btn-primary' onclick='return edit_menu(".$food->id.")'><i class='fa fa-pen '></i></button>
+                    <button class='btn btn-danger'  onclick='return delete_menu(".$food->id.")'><i class='fa fa-trash'></i></button>
             ";
                 }
 

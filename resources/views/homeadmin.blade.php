@@ -176,7 +176,7 @@
                 document.getElementById('total').innerHTML = '( Total: Café:  ' + result.total['brekker'] +
                     ' |  Almoço:  ' + result.total['lunch'] + ' | Janta:  ' + result.total['dinner'] + ')';
             })
-        }, 5000);
+        }, 2000);
     </script>
     <script src="{{ asset('js/actions.js') }}"></script>
     <!-- InputMask -->
