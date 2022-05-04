@@ -161,7 +161,7 @@
     <script>
         //================================[BUSCANDO COGITATIVO DAS CIAs]================================//
         setTimeout(function() {
-            var url = 'get_cogitative_day';
+            var url = '/get_cogitative_day';
             $.get(url, function(result) {
                 document.getElementById('ccsv').innerHTML = 'Café:  ' + result.ccsv['brekker'] +
                     '<br> Almoço:  ' + result.ccsv['lunch'] + '<br>Janta:  ' + result.ccsv['dinner'];

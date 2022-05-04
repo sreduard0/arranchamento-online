@@ -19,6 +19,22 @@
 @section('content')
     <section class="col ">
         <div class="card">
+            <div class="card-header">
+                <div id="form" class="row">
+                    <div class="col-md-2">
+                        <label>Data</label>
+                        <div class="input-group date" data-target-input="nearest">
+                            <input type="text" id="date" class="form-control datetimepicker-input" data-target="#date"
+                                name="date" value='' />
+                            <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="return search_cogitative()" style="height: 40px;" class="btn btn-success m-t-30"><i
+                            class="fa fa-search"></i></button>
+                </div>
+            </div>
             <div class="card-body">
                 <table id="table" class="table table-bordered table-striped">
                     <thead>
@@ -38,7 +54,8 @@
 @endsection
 @section('modal')
     <!-- Modal -->
-    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="registerLabel" aria-hidden="true">
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="registerLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,29 +173,32 @@
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script src="{{ asset('js/actions.js') }}"></script>
-    {{-- <script>
+    <script src="{{ asset('js/inputmask.js') }}"></script>
+    <script>
         $(function() {
             $("#table").DataTable({
                 "paging": true,
+                "processing": true,
                 "responsive": true,
                 "lengthChange": true,
                 "autoWidth": false,
                 "language": {
                     "url": "{{ asset('plugins/datatables/Portuguese3.json') }}"
                 },
-                "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": "{{ route('get_enterprises') }}",
+                    "url": "{{ route('get_history') }}",
                     "type": "POST",
                     "headers": {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     },
-
                 }
             });
         });
-    </script> --}}
+        setTimeout(function() {
+            $("#table_filter").remove();
+        }, 500);
+    </script>
     <script src="{{ asset('js/calendar.js') }}"></script>
     <script>
         $(function() {

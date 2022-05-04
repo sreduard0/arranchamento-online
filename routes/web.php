@@ -11,6 +11,8 @@ use App\Http\Controllers\MenuController;
     Route::get('/', [MainController::class, 'home'])->name('home');
     Route::get('get_edit_arranchamento/{id}' ,[MainController::class, 'get_edit_arranchamento']);
     Route::get('/arranchamento/delete/{id}' ,[MainController::class, 'get_delete_arranchamento']);
+    Route::get('/arranchar_cia' ,[MainController::class, 'arranchar_cia']);
+
 
     //POSTs
     Route::post('get_arranchamentos',[MainController::class, 'get_arranchamentos']);
@@ -33,11 +35,14 @@ use App\Http\Controllers\MenuController;
 
     //Histórico
     Route::get('history',[HistoryController::class, 'history'])->name('history');
+    //POSTs
+    Route::post('get_history' ,[HistoryController::class, 'get_history'])->name('get_history');
+
+
 
     //COGITATIVOS
     Route::get('cogitative/{company}',[CogitativeController::class, 'cogitative_company'])->name('cogitative_company');
-    Route::get('get_cogitative_day' ,[MainController::class, 'get_cogitative_day']);
-
+    Route::get('get_cogitative_day' ,[CogitativeController::class, 'get_cogitative_day']);
 
     //POSTs
     Route::post('get_cogitative' ,[MainController::class, 'get_cogitative']);

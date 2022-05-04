@@ -104,63 +104,67 @@
                                 </p>
                             </a>
                         </li>
-                        @if (session('Arranchamento')['profileType'] == 1)
-                            <li class="nav-item @yield('cogitative_open')">
-                                <a href="#" class="nav-link @yield('cogitative')">
-                                    <i class="nav-icon fas fa-chart-bar"></i>
-                                    <p>
-                                        Cogitativo
-                                        <i class="fas fa-angle-left right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item  ">
-                                        <a href="{{ route('cogitative_company', ['company' => 2]) }}"
-                                            class="nav-link @if (!empty($company) && $company == 2) active @endif">
-                                            <i class="fas fa-users nav-icon"></i>
-                                            <p>CCSv</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('cogitative_company', ['company' => 3]) }}"
-                                            class="nav-link  @if (!empty($company) && $company == 3) active @endif">
-                                            <i class="fas fa-users nav-icon"></i>
-                                            <p>1ª Cia</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('cogitative_company', ['company' => 4]) }}"
-                                            class="nav-link  @if (!empty($company) && $company == 4) active @endif">
-                                            <i class="fas fa-users nav-icon"></i>
-                                            <p>2ª Cia</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('cogitative_company', ['company' => 5]) }}"
-                                            class="nav-link  @if (!empty($company) && $company == 5) active @endif">
-                                            <i class="fas fa-users nav-icon"></i>
-                                            <p>3ª Cia</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('cogitative_company', ['company' => 1]) }}"
-                                            class="nav-link  @if (!empty($company) && $company == 1) active @endif">
-                                            <i class="fas fa-users nav-icon"></i>
-                                            <p>EM</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @else
-                            <li class="nav-item ">
-                                <a href="{{ route('history') }}" class="nav-link @yield('history') ">
-                                    <i class="nav-icon fas fa-history"></i>
-                                    <p>
-                                        Histórico
-                                    </p>
-                                </a>
-                            </li>
-                        @endif
+                        @switch(session('Arranchamento')['profileType'])
+                            @case(1)
+                                <li class="nav-item @yield('cogitative_open')">
+                                    <a href="#" class="nav-link @yield('cogitative')">
+                                        <i class="nav-icon fas fa-chart-bar"></i>
+                                        <p>
+                                            Cogitativo
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item  ">
+                                            <a href="{{ route('cogitative_company', ['company' => 2]) }}"
+                                                class="nav-link @if (!empty($company) && $company == 2) active @endif">
+                                                <i class="fas fa-users nav-icon"></i>
+                                                <p>CCSv</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('cogitative_company', ['company' => 3]) }}"
+                                                class="nav-link  @if (!empty($company) && $company == 3) active @endif">
+                                                <i class="fas fa-users nav-icon"></i>
+                                                <p>1ª Cia</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('cogitative_company', ['company' => 4]) }}"
+                                                class="nav-link  @if (!empty($company) && $company == 4) active @endif">
+                                                <i class="fas fa-users nav-icon"></i>
+                                                <p>2ª Cia</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('cogitative_company', ['company' => 5]) }}"
+                                                class="nav-link  @if (!empty($company) && $company == 5) active @endif">
+                                                <i class="fas fa-users nav-icon"></i>
+                                                <p>3ª Cia</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('cogitative_company', ['company' => 1]) }}"
+                                                class="nav-link  @if (!empty($company) && $company == 1) active @endif">
+                                                <i class="fas fa-users nav-icon"></i>
+                                                <p>EM</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @break
+
+                            @case(0)
+                                <li class="nav-item ">
+                                    <a href="{{ route('history') }}" class="nav-link @yield('history') ">
+                                        <i class="nav-icon fas fa-history"></i>
+                                        <p>
+                                            Histórico
+                                        </p>
+                                    </a>
+                                </li>
+                            @break
+                        @endswitch
                     </ul>
                 </nav>
             </div>

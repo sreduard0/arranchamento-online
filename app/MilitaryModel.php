@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MilitaryModel extends Model
 {
 
-     public function military()
+     public function arranchamento()
     {
-        return $this->hasOne('App\ArranchamentoModel', 'id', 'user_id');
+        return $this->hasOne('App\ArranchamentoModel', 'user_id', 'id');
     }
 
     use HasFactory;
