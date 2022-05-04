@@ -312,6 +312,8 @@
                     $.get('menu_day', function(result) {
                         document.getElementById('hour').innerText = 'Cardápio da janta';
                         document.getElementById('menu_day').innerHTML = result.dinner;
+                        document.getElementById('displacement').innerHTML =
+                            'Horário de deslocamento:<br> <strong class="fs-20"> 06:00</strong>';
                     })
                 }
 

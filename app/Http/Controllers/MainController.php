@@ -16,87 +16,50 @@ class MainController extends Controller
         switch (session('Arranchamento')['profileType']) {
             case 1:
                 $data['date'] = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d")+1, date("Y")));
-            $em = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
-            $data['em'] = [
-                'brekker' => $em->where('brekker', 1)->count(),
-                'lunch' => $em->where('lunch', 1)->count(),
-                'dinner' => $em->where('dinner', 1)->count()
-            ];
+                $em = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
+                $data['em'] = [
+                    'brekker' => $em->where('brekker', 1)->count(),
+                    'lunch' => $em->where('lunch', 1)->count(),
+                    'dinner' => $em->where('dinner', 1)->count()
+                ];
+                $ccsv = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
+                $data['ccsv'] = [
+                    'brekker' => $ccsv->where('brekker', 1)->count(),
+                    'lunch' =>$ccsv->where('lunch', 1)->count(),
+                    'dinner' => $ccsv->where('dinner', 1)->count()
+                ];
+                $cia1 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 3);
+                $data['cia1'] = [
+                    'brekker' => $cia1->where('brekker', 1)->count(),
+                    'lunch' =>$cia1->where('lunch', 1)->count(),
+                    'dinner' => $cia1->where('dinner', 1)->count()
+                ];
+                $cia2 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 4);
+                $data['cia2'] = [
+                    'brekker' => $cia2->where('brekker', 1)->count(),
+                    'lunch' =>$cia2->where('lunch', 1)->count(),
+                    'dinner' => $cia2->where('dinner', 1)->count()
+                ];
+                $cia3 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 5);
+                $data['cia3'] = [
+                    'brekker' => $cia3->where('brekker', 1)->count(),
+                    'lunch' =>$cia3->where('lunch', 1)->count(),
+                    'dinner' => $cia3->where('dinner', 1)->count()
+                ];
 
-
-            $ccsv = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
-            $data['ccsv'] = [
-                'brekker' => $ccsv->where('brekker', 1)->count(),
-                'lunch' =>$ccsv->where('lunch', 1)->count(),
-                'dinner' => $ccsv->where('dinner', 1)->count()
-            ];
-
-            $cia1 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 3);
-            $data['cia1'] = [
-                'brekker' => $cia1->where('brekker', 1)->count(),
-                'lunch' =>$cia1->where('lunch', 1)->count(),
-                'dinner' => $cia1->where('dinner', 1)->count()
-            ];
-
-
-            $cia2 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 4);
-            $data['cia2'] = [
-                'brekker' => $cia2->where('brekker', 1)->count(),
-                'lunch' =>$cia2->where('lunch', 1)->count(),
-                'dinner' => $cia2->where('dinner', 1)->count()
-            ];
-
-            $cia3 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 5);
-            $data['cia3'] = [
-                'brekker' => $cia3->where('brekker', 1)->count(),
-                'lunch' =>$cia3->where('lunch', 1)->count(),
-                'dinner' => $cia3->where('dinner', 1)->count()
-            ];
-            return view('homeadmin', $data);
-                break;
+                return view('homeadmin', $data);
+            break;
                 case 2:
-                 $data['date'] = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d")+1, date("Y")));
-            $em = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
-            $data['em'] = [
-                'brekker' => $em->where('brekker', 1)->count(),
-                'lunch' => $em->where('lunch', 1)->count(),
-                'dinner' => $em->where('dinner', 1)->count()
-            ];
+                    session()->put('company_id', session('user')['company']['id']);
 
-
-            $ccsv = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
-            $data['ccsv'] = [
-                'brekker' => $ccsv->where('brekker', 1)->count(),
-                'lunch' =>$ccsv->where('lunch', 1)->count(),
-                'dinner' => $ccsv->where('dinner', 1)->count()
-            ];
-
-            $cia1 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 3);
-            $data['cia1'] = [
-                'brekker' => $cia1->where('brekker', 1)->count(),
-                'lunch' =>$cia1->where('lunch', 1)->count(),
-                'dinner' => $cia1->where('dinner', 1)->count()
-            ];
-
-
-            $cia2 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 4);
-            $data['cia2'] = [
-                'brekker' => $cia2->where('brekker', 1)->count(),
-                'lunch' =>$cia2->where('lunch', 1)->count(),
-                'dinner' => $cia2->where('dinner', 1)->count()
-            ];
-
-            $cia3 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 5);
-            $data['cia3'] = [
-                'brekker' => $cia3->where('brekker', 1)->count(),
-                'lunch' =>$cia3->where('lunch', 1)->count(),
-                'dinner' => $cia3->where('dinner', 1)->count()
-            ];
-            return view('homefurriel', $data);
+                    $data = [
+                        'all_military' => MilitaryModel::where('company_id', session('user')['company']['id'])->with('rank')->orderBy('rank_id')->get()
+                    ];
+                    return view('homefurriel', $data);
 
             default:
                 return view('home');
-                break;
+            break;
         }
     }
 
@@ -127,8 +90,13 @@ class MainController extends Controller
     public function new_arranchamento(Request $request)
     {
         $data = $request->all();
+        if (!isset($data['id'])) {
+            $id = session('user')['id'];
+        }else{
+            $id = $data['id'];
+        }
 
-        $checkarrachamento = ArranchamentoModel::where('date', date('Y-m-d', strtotime($data['date'])))->first();
+        $checkarrachamento = ArranchamentoModel::where('date', date('Y-m-d', strtotime($data['date'])))->where('user_id',$id)->first();
 
         if($checkarrachamento)
         {
@@ -136,8 +104,10 @@ class MainController extends Controller
 
         }else{
 
+
+
             $new_arranchamento = new ArranchamentoModel();
-            $new_arranchamento->user_id = session('user')['id'];
+            $new_arranchamento->user_id = $id;
             $new_arranchamento->company_id = session('user')['company']['id'];
             $new_arranchamento->date = date('Y-m-d', strtotime($data['date']));
             $new_arranchamento->brekker = $data['brekker'];

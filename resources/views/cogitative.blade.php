@@ -178,51 +178,7 @@
             $.get(url, function(result) {
                 modal.find('.modal-title').text('Editar arranchamento')
                 modal.find('#id').val(result.id)
-                switch (result.military.rank_id) {
-                    case 1:
-                        var rank = 'Gen';
-                        break;
-                    case 2:
-                        var rank = 'Cel';
-                        break;
-                    case 3:
-                        var rank = 'TC';
-                        break;
-                    case 4:
-                        var rank = 'Maj';
-                        break;
-                    case 5:
-                        var rank = 'Cap';
-                        break;
-                    case 6:
-                        var rank = '1º Ten';
-                        break;
-                    case 7:
-                        var rank = '2º Ten';
-                        break;
-                    case 8:
-                        var rank = 'Asp';
-                        break;
-                    case 9:
-                        var rank = 'ST';
-                        break;
-                    case 10:
-                        var rank = '1º Sgt';
-                        break;
-                    case 11:
-                        var rank = '2º Sgt';
-                        break;
-                    case 12:
-                        var rank = '3º Sgt';
-                        break;
-                    case 13:
-                        var rank = 'Cb';
-                        break;
-                    case 14:
-                        var rank = 'Sd';
-                        break;
-                }
-                modal.find('#military').val(rank + " " + result.military
+                modal.find('#military').val(result.military.rank.rankAbbreviation + " " + result.military
                     .professionalName)
                 switch (result.military.company_id) {
                     case 1:

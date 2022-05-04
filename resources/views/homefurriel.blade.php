@@ -1,9 +1,7 @@
 @extends('layout')
-@section('title', 'Cogitativo')
-@section('cogitative', 'active')
-@section('cogitative_open', 'menu-open')
-
-@section('title-header', 'Cogitativo')
+@section('title', 'Arranchamento')
+@section('home', 'active')
+@section('title-header', 'Arranchamento')
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
@@ -21,23 +19,32 @@
 @section('content')
     <section class="col ">
         <div class="card">
-
-
-            <div class="card-header">
-                <div id="form" class="row">
-                    <div class="col-md-2">
-                        <label>Data</label>
-                        <div class="input-group date" data-target-input="nearest">
-                            <input type="text" id="date" class="form-control datetimepicker-input" data-target="#date"
-                                name="date" value='{{ date('d-m-Y') }}' />
-                            <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
+            <div class="card-header row">
+                <div class="col-md-3">
+                    <label>Data</label>
+                    <div class="input-group row date" data-target-input="nearest">
+                        <input type="text" id="date" class="form-control datetimepicker-input" data-target="#date"
+                            name="date" value='{{ date('d-m-Y') }}' />
+                        <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-1">
                     <button onclick="return search_cogitative()" style="height: 40px;" class="btn btn-success m-t-30"><i
                             class="fa fa-search"></i></button>
                 </div>
+
+                <div class="col">
+                    <button class="m-t-30 m-l-10 float-r btn btn-primary" data-toggle="modal"
+                        data-target="#arranchar_cia">Arranchar
+                        companhia</button>
+
+                    <button class="m-t-30 float-r btn btn-success" data-toggle="modal"
+                        data-target="#arranchar_military">Arranchar
+                        militar</button>
+                </div>
+
             </div>
             <div class="card-body">
                 <table id="table" class="table table-bordered table-striped">
@@ -120,6 +127,70 @@
         </div>
     </div>
 
+
+    <!-- Modal arranchar militar-->
+    <div class="modal fade" id="arranchar_military" tabindex="-1" role="dialog"
+        aria-labelledby="arranchar_militaryLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="arranchar_militaryLabel">Arranchar militar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-arranchar_military">
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="military_id">Militar</label>
+                                <select id="military_id" name="military_id" class="form-control select2"
+                                    style="width: 100%;">
+                                    @foreach ($all_military as $military)
+                                        <option value="{{ $military->id }}">{{ $military->rank->rankAbbreviation }}
+                                            {{ $military->professionalName }}</option>
+                                    @endforeach
+                                    <option value="" disabled selected>Selecione um militar</option>
+                                </select>
+
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Data</label>
+                                <div class="input-group date" id="day" data-target-input="nearest">
+                                    <input id="day" name="day" type="text" class="form-control datetimepicker-input"
+                                        data-target="#day" value="">
+                                    <div class="input-group-append date" data-target="#day" data-toggle="datetimepicker">
+                                        <div class="input-group-text date"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="custom-control custom-checkbox m-l-8 m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="brekker" name='brekker' value="1">
+                                <label for="brekker" class="custom-control-label">Café </label>
+                            </div>
+                            <div class="custom-control custom-checkbox m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="lunch" name='lunch' value="1">
+                                <label for="lunch" class="custom-control-label">Almoço</label>
+                            </div>
+                            <div class="custom-control custom-checkbox m-r-30">
+                                <input class="custom-control-input" type="checkbox" id="dinner" name='dinner' value="1">
+                                <label for="dinner" class="custom-control-label">Janta</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" onclick="return arranchar_furriel()">Arranchar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('plugins')
@@ -143,6 +214,9 @@
     <script src="{{ asset('js/inputmask.js') }}"></script>
 
     <script>
+        $('.select2').select2({
+            dropdownParent: $("#arranchar_military"),
+        });
         $(function() {
             $("#table").DataTable({
                 "paging": true,
@@ -165,6 +239,7 @@
                 "buttons": ["excel", "pdf", "print"]
             });
         });
+
         setTimeout(function() {
             $("#table_filter").remove();
         }, 500);
@@ -178,51 +253,7 @@
             $.get(url, function(result) {
                 modal.find('.modal-title').text('Editar arranchamento')
                 modal.find('#id').val(result.id)
-                switch (result.military.rank_id) {
-                    case 1:
-                        var rank = 'Gen';
-                        break;
-                    case 2:
-                        var rank = 'Cel';
-                        break;
-                    case 3:
-                        var rank = 'TC';
-                        break;
-                    case 4:
-                        var rank = 'Maj';
-                        break;
-                    case 5:
-                        var rank = 'Cap';
-                        break;
-                    case 6:
-                        var rank = '1º Ten';
-                        break;
-                    case 7:
-                        var rank = '2º Ten';
-                        break;
-                    case 8:
-                        var rank = 'Asp';
-                        break;
-                    case 9:
-                        var rank = 'ST';
-                        break;
-                    case 10:
-                        var rank = '1º Sgt';
-                        break;
-                    case 11:
-                        var rank = '2º Sgt';
-                        break;
-                    case 12:
-                        var rank = '3º Sgt';
-                        break;
-                    case 13:
-                        var rank = 'Cb';
-                        break;
-                    case 14:
-                        var rank = 'Sd';
-                        break;
-                }
-                modal.find('#military').val(rank + " " + result.military
+                modal.find('#military').val(result.military.rank.rankAbbreviation + " " + result.military
                     .professionalName)
                 switch (result.military.company_id) {
                     case 1:

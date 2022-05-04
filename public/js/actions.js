@@ -69,7 +69,7 @@ function arranchar() {
             if (data == "error") {
                 Toast.fire({
                     icon: 'error',
-                    title: '&nbsp&nbsp Você já está arranchado para este dia.'
+                    title: '&nbsp&nbsp Já está arranchado para este dia.'
                 });
             } else {
                 $("#arrancharse").modal('hide');
@@ -79,6 +79,110 @@ function arranchar() {
                     title: '&nbsp&nbsp Arranchado com sucesso.'
                 });
                 $('#form-arranchar')[0].reset();
+
+            }
+        },
+
+        error: function(data) {
+            Toast.fire({
+                icon: 'error',
+                title: '&nbsp&nbsp  Erro ao arranchar.'
+            });
+        }
+    });
+
+}
+
+//furriel
+function arranchar_furriel() {
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000
+    });
+
+
+    var data = {
+        id: military_id.value,
+        date: $('input[name=day]').val(),
+        brekker: $('input[name=brekker]:checked').attr('value'),
+        lunch: $('input[name=lunch]:checked').attr('value'),
+        dinner: $('input[name=dinner]:checked').attr('value')
+    };
+
+    if (data.brekker == undefined) {
+        data.brekker = 0
+    }
+    if (data.lunch == undefined) {
+        data.lunch = 0
+    }
+    if (data.dinner == undefined) {
+        data.dinner = 0
+    }
+
+    if (data.id == '') {
+
+        Toast.fire({
+            icon: 'error',
+            title: '&nbsp&nbsp Selecione um militar.'
+        });
+
+        return false;
+    }
+    if (data.date == '') {
+
+        Toast.fire({
+            icon: 'error',
+            title: '&nbsp&nbsp Selecione uma data.'
+        });
+
+        return false;
+    }
+
+    var partsDate = data.date.split("-");
+    var day = new Date(partsDate[2], partsDate[1] - 1, partsDate[0]);
+    if (!moment(moment(day).format('YYYY-MM-DD')).isAfter(moment().format('YYYY-MM-DD'))) {
+
+        Toast.fire({
+            icon: 'error',
+            title: '&nbsp&nbsp Selecione uma data à partir de amanhã.'
+        });
+
+        return false;
+    }
+
+    if (data.brekker == "0" && data.lunch == "0" && data.dinner == "0") {
+        Toast.fire({
+            icon: 'error',
+            title: '&nbsp&nbsp Selecione pelo menos uma refeição.'
+        });
+
+        return false;
+    }
+
+
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: 'new_arranchamento',
+        type: 'POST',
+        data: data,
+        dataType: 'text',
+        success: function(data) {
+
+            if (data == "error") {
+                Toast.fire({
+                    icon: 'error',
+                    title: '&nbsp&nbsp Já está arranchado para este dia.'
+                });
+            } else {
+                $("#arranchar_military").modal('hide');
+                $("#table").DataTable().clear().draw(6);
+                Toast.fire({
+                    icon: 'success',
+                    title: '&nbsp&nbsp Arranchado com sucesso.'
+                });
+                $('#form-arranchar_military')[0].reset();
 
             }
         },
@@ -426,6 +530,8 @@ function delete_menu(id) {
     });
 }
 // FIM CRUD CARDAPIO
+
+
 
 
 //BUSCANDO RELATORIOS//

@@ -10,7 +10,7 @@ class ArranchamentoModel extends Model
 {
      public function military()
     {
-        return $this->hasOne('App\MilitaryModel', 'id', 'user_id');
+        return $this->hasOne('App\MilitaryModel', 'id', 'user_id')->with('rank');
     }
     use HasFactory;
     use SoftDeletes;

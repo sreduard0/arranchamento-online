@@ -21,6 +21,12 @@ $('#date').datetimepicker({
 
 });
 
+$('.date').datetimepicker({
+    format: 'DD-MM-YYYY',
+    locale: 'pt-br',
+
+});
+
 //Date and time picker
 $('.time').datetimepicker({
     format: 'HH:mm',

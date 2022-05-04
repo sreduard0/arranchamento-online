@@ -25,7 +25,7 @@ class CogitativeController extends Controller
 
         //Indice da coluna na tabela visualizar resultado => nome da coluna no banco de dados
         $columns = array(
-            0=> 'user_id',
+            0=> 'id',
             1 =>'brekker',
             2 => 'lunch',
             3=> 'dinner',
@@ -35,13 +35,13 @@ class CogitativeController extends Controller
 
         if( $requestData['columns'][1]['search']['value'])
         {
-            $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir'] )->offset( $requestData['start'])->take($requestData['length'])->get();
+            $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->orderBy('rank_id')->offset( $requestData['start'])->take($requestData['length'])->get();
 
             $rows = count($cogitatives);
             $filtered = count( ArranchamentoModel::where('company_id', session('company_id'))->where('date',  date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->get());
 
         }else{
-              $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d'))->with('military')->orderBy($columns[$requestData['order'][0]['column']], $requestData['order'][0]['dir'] )->offset( $requestData['start'])->take($requestData['length'])->get();
+              $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d'))->with('military')->offset( $requestData['start'])->take($requestData['length'])->get();
             $filtered = count($cogitatives);
             $rows= count($cogitatives);
         }
@@ -53,53 +53,7 @@ class CogitativeController extends Controller
         $dados = array();
         foreach ($cogitatives as $cogitative){
             $dado = array();
-                switch ( $cogitative->military->rank_id) {
-                    case 1:
-                        $rank = 'Gen';
-                        break;
-                    case 2:
-                        $rank = 'Cel';
-                        break;
-                    case 3:
-                        $rank = 'TC';
-                        break;
-                    case 4:
-                        $rank = 'Maj';
-                        break;
-                    case 5:
-                        $rank = 'Cap';
-                        break;
-                    case 6:
-                        $rank = '1º Ten';
-                        break;
-                    case 7:
-                        $rank = '2º Ten';
-                        break;
-                    case 8:
-                        $rank = 'Asp';
-                        break;
-                    case 9:
-                        $rank = 'ST';
-                        break;
-                    case 10:
-                        $rank = '1º Sgt';
-                        break;
-                    case 11:
-                        $rank = '2º Sgt';
-                        break;
-                    case 12:
-                        $rank = '3º Sgt';
-                        break;
-                    case 13:
-                        $rank = 'Cb';
-                        break;
-                    case 14:
-                        $rank = 'Sd';
-                        break;
-                    }
-
-
-                $dado[] = $rank." ". $cogitative->military->professionalName;
+                $dado[] = $cogitative->military->rank->rankAbbreviation." ". $cogitative->military->professionalName;
                 if($cogitative->brekker == 1){
                     $dado[] = 'sim';
                 }else{

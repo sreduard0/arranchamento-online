@@ -5,17 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MilitaryModel extends Model
+class RankModel extends Model
 {
-
-     public function rank()
-    {
-        return $this->hasOne('App\RankModel', 'id', 'rank_id');
-    }
-
     use HasFactory;
      //Nome da tabela vinculada, caso nao seja especificado sera usado o nome da clase model para saber a tabela
-    protected $table = 'users';
+    protected $table = 'ranks';
     //Chave primaria da tabela, caso não seja definido por default e 'ID'
     protected $primaryKey = 'id';
     //Conexão DB a ser usada
