@@ -23,25 +23,17 @@ class CogitativeController extends Controller
         //Receber a requisão da pesquisa
        $requestData = $request->all();
 
-        //Indice da coluna na tabela visualizar resultado => nome da coluna no banco de dados
-        $columns = array(
-            0=> 'id',
-            1 =>'brekker',
-            2 => 'lunch',
-            3=> 'dinner',
-            4=> 'id'
-        );
-
 
         if( $requestData['columns'][1]['search']['value'])
         {
-            $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->orderBy('rank_id')->offset( $requestData['start'])->take($requestData['length'])->get();
+            $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->offset( $requestData['start'])->take($requestData['length'])->get();
 
             $rows = count($cogitatives);
             $filtered = count( ArranchamentoModel::where('company_id', session('company_id'))->where('date',  date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->get());
 
         }else{
-              $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d'))->with('military')->offset( $requestData['start'])->take($requestData['length'])->get();
+              $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d'))->with('military')->offset( $requestData['start'])->take($requestData['length'])->offset( $requestData['start'])->take($requestData['length'])->get();
+              
             $filtered = count($cogitatives);
             $rows= count($cogitatives);
         }
@@ -103,7 +95,7 @@ class CogitativeController extends Controller
 
             $displacement = MenuModel::where('date',$data['date'])->first();
             $ccsv = ArranchamentoModel::where('date',$data['date'])->where('company_id', 2);
-            if($displacement->h_ccsv){
+            if(!empty($displacement->h_ccsv)){
                 $h_ccsv = date('H:m', strtotime($displacement->h_ccsv));
             }else{
                 $h_ccsv = '00:00';
@@ -116,7 +108,7 @@ class CogitativeController extends Controller
             ];
 
             $cia1 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 3);
-            if($displacement->h_cia1){
+            if(!empty($displacement->h_cia1)){
                 $h_cia1 = date('H:m', strtotime($displacement->h_cia1));
             }else{
                 $h_cia1 = '00:00';
@@ -133,7 +125,7 @@ class CogitativeController extends Controller
 
 
             $cia2 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 4);
-                if($displacement->h_cia2){
+                if(!empty($displacement->h_cia2)){
                 $h_cia2 = date('H:m', strtotime($displacement->h_cia2));
             }else{
                 $h_cia2 = '00:00';
@@ -147,7 +139,7 @@ class CogitativeController extends Controller
             ];
 
             $cia3 = ArranchamentoModel::where('date',$data['date'])->where('company_id', 5);
-                if($displacement->h_cia3){
+                if(!empty($displacement->h_cia3)){
                 $h_cia3 = date('H:m', strtotime($displacement->h_cia3));
             }else{
                 $h_cia3 = '00:00';

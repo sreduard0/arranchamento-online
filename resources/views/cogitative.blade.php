@@ -162,6 +162,17 @@
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     },
                 },
+                "order": [
+                    [0, "asc"]
+                ],
+                // "columnDefs": [{
+                //     "targets": [0],
+                //     "visible": false
+                // }],
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [0, 1, 2, 3, 4]
+                }],
                 "buttons": ["excel", "pdf", "print"]
             });
         });
