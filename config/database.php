@@ -36,7 +36,7 @@ return [
     'connections' => [
 
 
-        'mysql' => [
+        'arranchamento' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
             'host' => 'localhost',

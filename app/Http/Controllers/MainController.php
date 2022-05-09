@@ -53,7 +53,7 @@ class MainController extends Controller
                     session()->put('company_id', session('user')['company']['id']);
 
                     $data = [
-                        'all_military' => MilitaryModel::where('company_id', session('user')['company']['id'])->with('rank')->orderBy('rank_id')->get()
+                        'all_military' => MilitaryModel::where('company_id', session('user')['company']['id'])->with('rank','arranchamento')->orderBy('rank_id')->get()
                     ];
                     return view('homefurriel', $data);
 
