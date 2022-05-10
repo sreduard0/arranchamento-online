@@ -69,21 +69,13 @@ class MainController extends Controller
     }
     //EXCLUIR ARRANCHAMENTO
     public function get_delete_arranchamento($id){
-        ArranchamentoModel::where('user_id', session('user')['id'])->where('id', $id)->first()->delete();
-    }
-
-    public function arranchar_cia(){
-        $data = MilitaryModel::where('company_id',2)->get();
-
-        foreach ($data as $d) {
-            echo $d."<br><br>";
+        if(session('Arranchamento')['profileType'] >= 1){
+            ArranchamentoModel::where('id', $id)->first()->delete();
+        }else{
+            ArranchamentoModel::where('user_id', session('user')['id'])->where('id', $id)->first()->delete();
         }
+
     }
-
-
-
-
-
 
     // POSTs //
     //NOVO ARRANCHAMENTO
@@ -131,6 +123,92 @@ class MainController extends Controller
             $editarrachamento->lunch = $data['lunch'];
             $editarrachamento->dinner = $data['dinner'];
             $editarrachamento->save();
+
+
+
+    }
+    //ARRANCHAR CIAS
+    public function arranchamento_cia(Request $request){
+        $arranchamentos = $request->all();
+        if($arranchamentos['todos']['check'] == 1){
+
+            foreach (MilitaryModel::where('company_id', session('user')['company']['id'])->get() as $military) {
+            $arranchamento_military = ArranchamentoModel::where('user_id', $military->id)->where('date',date('Y-m-d', strtotime('+1 days')))->first();
+
+            if(!isset($military['brekker'])){
+                $military['brekker'] = 0;
+            }
+            if(!isset($military['lunch'])){
+                $military['lunch'] = 0;
+            }
+            if(!isset($military['dinner'])){
+                $military['dinner'] = 0;
+            }
+        if (empty($arranchamento_military)) {
+                    $arranchamento_military = new ArranchamentoModel();
+                    $arranchamento_military->user_id = $military['userID'];
+                    $arranchamento_military->company_id = $military['company'];
+                    $arranchamento_military->date =date('Y-m-d', strtotime('+1 days'));
+                    $arranchamento_military->brekker = $military['brekker'];
+                    $arranchamento_military->lunch = $military['lunch'];
+                    $arranchamento_military->dinner = $military['dinner'];
+                    $arranchamento_military->save();
+                } else {
+                    $arranchamento_military->brekker = $military['brekker'];
+                    $arranchamento_military->lunch = $military['lunch'];
+                    $arranchamento_military->dinner = $military['dinner'];
+                    $arranchamento_military->save();
+                }
+            }
+        }
+        }elseif($arranchamentos['todos']['check'] == 0){
+
+            // foreach ($arranchamentos as $military) {
+        //     $arranchamento_military = ArranchamentoModel::where('user_id', $military['userID'])->where('date',date('Y-m-d', strtotime('+1 days')))->first();
+
+        //     if(!isset($military['brekker'])){
+        //         $military['brekker'] = 0;
+        //     }
+        //     if(!isset($military['lunch'])){
+        //         $military['lunch'] = 0;
+        //     }
+        //     if(!isset($military['dinner'])){
+        //         $military['dinner'] = 0;
+        //     }
+
+        //     if ($military['check'] == 1) {
+        //         if (empty($arranchamento_military)) {
+        //             $arranchamento_military = new ArranchamentoModel();
+        //             $arranchamento_military->user_id = $military['userID'];
+        //             $arranchamento_military->company_id = $military['company'];
+        //             $arranchamento_military->date =date('Y-m-d', strtotime('+1 days'));
+        //             $arranchamento_military->brekker = $military['brekker'];
+        //             $arranchamento_military->lunch = $military['lunch'];
+        //             $arranchamento_military->dinner = $military['dinner'];
+        //             $arranchamento_military->save();
+        //         } else {
+        //             $arranchamento_military->brekker = $military['brekker'];
+        //             $arranchamento_military->lunch = $military['lunch'];
+        //             $arranchamento_military->dinner = $military['dinner'];
+        //             $arranchamento_military->save();
+        //         }
+        //     } elseif($military['check'] == 0) {
+
+
+
+        //         $arranchamento_military = ArranchamentoModel::where('user_id', $military['userID'])->where('date',date('Y-m-d', strtotime('+1 days')))->first();
+
+
+
+        //         if (isset($arranchamento_military) && $military['check'] == 0) {
+        //            $arranchamento_military->delete();
+        //         }
+        //     }
+
+        // }
+        }
+
+
 
 
 

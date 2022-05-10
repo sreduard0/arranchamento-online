@@ -20,7 +20,7 @@
         <div class="card-header">
             <h3 class="card-title">
                 <i class="fas fa-chart-pie mr-1"></i>
-                Cogitativo do dia
+                Quantitativo do dia
             </h3>
         </div>
 
@@ -104,7 +104,7 @@
                         <div class="card-header ui-sortable-handle" style="cursor: move;">
                             <h3 class="card-title">
                                 <i class="fas fa-chart-pie mr-1"></i>
-                                Cogitativo do próximo dia (pode alterar até {{ date('d/m/Y') }} 23:59)
+                                Quantitativo do próximo dia (pode alterar até {{ date('d/m/Y') }} 23:59)
                             </h3>
                         </div>
                         <table id="table" class="table table-bordered table-striped">

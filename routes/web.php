@@ -18,6 +18,7 @@ use App\Http\Controllers\MenuController;
     Route::post('get_arranchamentos',[MainController::class, 'get_arranchamentos']);
     Route::post('new_arranchamento', [MainController::class, 'new_arranchamento']);
     Route::post('edit_arranchamento', [MainController::class, 'edit_arranchamento']);
+    Route::post('arranchamento_cia', [MainController::class, 'arranchamento_cia'])->name('arranchamento_cia');
 
 
 

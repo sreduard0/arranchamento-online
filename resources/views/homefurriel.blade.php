@@ -42,9 +42,27 @@
                 showConfirmButton: false,
                 timer: 4000
             });
+
+            if ($('input[name=sts_todos]').is(':checked')) {
+                var checktodos = 1;
+
+                if (!$('input[name=todos_brekker]').is(':checked') &&
+                    !$('input[name=todos_lunch]').is(':checked') &&
+                    !$('input[name=todos_dinner]').is(':checked')) {
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: "&nbsp&nbsp Selecione pelo menos uma refeição para arranchar a cia"
+                    });
+                    return false;
+                }
+
+            } else {
+                var checktodos = 0;
+            }
             @foreach ($all_military as $military)
                 if($('input[name=sts_{{ $military->id }}]').is(':checked')){
-                check{{ $military->id }} = 1;
+                var check{{ $military->id }} = 1;
 
                 if(!$('input[name={{ $military->id }}_brekker]').is(':checked') &&
                 !$('input[name={{ $military->id }}_lunch]').is(':checked') &&
@@ -52,51 +70,58 @@
 
                 Toast.fire({
                 icon: 'error',
-                title: '&nbsp&nbsp Selecione pelo menos uma refeição para {{ $military->rank->rankAbbreviation }}
-                {{ $military->professionalName }}'
+                title: "&nbsp&nbsp Selecione pelo menos uma refeição para {{ $military->professionalName }}"
                 });
                 return false;
                 }
 
                 }else{
-                check{{ $military->id }} = null;
+                var check{{ $military->id }} = 0;
                 }
             @endforeach
 
             var dados = {
+                todos: {
+                    check: checktodos,
+                    brekker: $('input[name=todos_brekker]:checked').attr('value'),
+                    lunch: $('input[name=todos_lunch]:checked').attr('value'),
+                    dinner: $('input[name=todos_dinner]:checked').attr('value'),
+                },
                 @foreach ($all_military as $military)
                     {{ $military->id }}:
                     {
                     userID: {{ $military->id }},
                     check: check{{ $military->id }},
+                    company: {{ $military->company_id }},
                     brekker: $('input[name={{ $military->id }}_brekker]:checked').attr('value'),
                     lunch: $('input[name={{ $military->id }}_lunch]:checked').attr('value'),
                     dinner: $('input[name={{ $military->id }}_dinner]:checked').attr('value'),
                     },
                 @endforeach
             };
-
-            // $.ajax({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     },
-            //     url: "http://sistao.3bsup.eb.mil.br/alt_permissions",
-            //     type: "POST",
-            //     data: dados,
-            //     dataType: 'text',
-            //     success: function(data) {
-            //         Toast.fire({
-            //             icon: 'success',
-            //             title: '&nbsp&nbsp Permissões alteradas com sucesso.'
-            //         });
-            //     },
-            //     error: function(data) {
-            //         Toast.fire({
-            //             icon: 'error',
-            //             title: '&nbsp&nbsp Falha ao alterar permissões do usuário.'
-            //         });
-            //     }
-            // });
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{ route('arranchamento_cia') }}",
+                type: "POST",
+                data: dados,
+                dataType: 'text',
+                success: function(data) {
+                    $("#arranchar_cia").modal('hide');
+                    $("#table").DataTable().clear().draw(6);
+                    Toast.fire({
+                        icon: 'success',
+                        title: '&nbsp&nbsp Companhia arranchada com sucesso.'
+                    });
+                },
+                error: function(data) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: '&nbsp&nbsp Falha ao alterar permissões do usuário.'
+                    });
+                }
+            });
 
         }
     </script>
@@ -287,15 +312,16 @@
     <!-- Modal arranchar cia-->
     <div class="modal fade" id="arranchar_cia" tabindex="-1" role="dialog" aria-labelledby="arranchar_ciaLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="arranchar_ciaLabel">Arranchar militar</h5>
+                    <h5 class="modal-title" id="arranchar_ciaLabel">Arranchar {{ session('user')['company']['name'] }}
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class=" modal-body">
                     <form id="form-arranchar_cia">
                         <div class="row justify-content-between m-b-30">
                             {{-- Ativar app --}}
@@ -329,9 +355,10 @@
                             </div>
                         </div>
                         <hr>
+
                         @foreach ($all_military as $military)
                             <div class="row justify-content-between m-b-30">
-                                {{-- Ativar app --}}
+                                {{-- Ativar --}}
                                 <div class="custom-control custom-switch ">
                                     <input type="checkbox" class="custom-control-input" name="sts_{{ $military->id }}"
                                         id={{ $military->id }} value='1'
@@ -374,6 +401,7 @@
                             </div>
                             <hr>
                         @endforeach
+
                     </form>
                 </div>
 
@@ -414,7 +442,7 @@
         });
         $(function() {
             $("#table").DataTable({
-                "paging": true,
+                "paging": false,
                 "processing": true,
                 "responsive": true,
                 "lengthChange": true,

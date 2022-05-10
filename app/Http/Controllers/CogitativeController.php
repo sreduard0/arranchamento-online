@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ArranchamentoModel;
 use App\Http\Controllers\Controller;
 use App\MenuModel;
+use App\MilitaryModel;
 use Illuminate\Http\Request;
 
 class CogitativeController extends Controller
@@ -26,18 +27,18 @@ class CogitativeController extends Controller
 
         if( $requestData['columns'][1]['search']['value'])
         {
-            $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->offset( $requestData['start'])->take($requestData['length'])->get()->sortBy('military.rank_id');
+            $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->get()->sortBy('military.rank_id');
+            $filtered = count($cogitatives);
+            $rows = count(MilitaryModel::all());
 
-            $rows = count($cogitatives);
-            $filtered = count( ArranchamentoModel::where('company_id', session('company_id'))->where('date',  date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->get());
 
             session()->put('company_date_search',date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])));
 
         }else{
-              $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d'))->with('military')->offset( $requestData['start'])->take($requestData['length'])->offset( $requestData['start'])->take($requestData['length'])->get()->sortBy('military.rank_id');
+              $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d'))->with('military')->get()->sortBy('military.rank_id');
 
             $filtered = count($cogitatives);
-            $rows= count($cogitatives);
+            $rows= count(MilitaryModel::all());
         }
 
 

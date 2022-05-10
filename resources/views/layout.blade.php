@@ -110,7 +110,7 @@
                                     <a href="#" class="nav-link @yield('cogitative')">
                                         <i class="nav-icon fas fa-chart-bar"></i>
                                         <p>
-                                            Cogitativo
+                                            Quantitativo
                                             <i class="fas fa-angle-left right"></i>
                                         </p>
                                     </a>
@@ -199,7 +199,7 @@
                                 <div class="small-box bg-primary">
                                     <div style='min-height: 150px' class="inner">
                                         <strong>
-                                            <h2>Cogitativo total do dia</h2>
+                                            <h2>Quantitativo total do dia</h2>
                                         </strong>
                                         <div class="fs-20" id='c_day'></div>
                                     </div>

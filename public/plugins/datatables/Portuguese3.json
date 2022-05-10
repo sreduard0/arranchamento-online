@@ -44,7 +44,7 @@
         "print": "Imprimir"
     },
     "decimal": ",",
-    "infoFiltered": "(filtrado num total de _MAX_ registos)",
+    "infoFiltered": "",
     "infoThousands": ".",
     "searchBuilder": {
         "add": "Adicionar condição",
@@ -159,6 +159,6 @@
             "restore": "Desfazer alterações"
         }
     },
-    "info": "Militares arranchados de _START_ a _END_, N° total de militares arranchados _TOTAL_",
+    "info": "Militares arranchados _END_, N° total de militares da companhia _TOTAL_",
     "infoEmpty": "Não há militares arranchados."
 }
