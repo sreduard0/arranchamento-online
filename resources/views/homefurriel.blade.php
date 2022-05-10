@@ -8,6 +8,18 @@
 @section('script')
     <script src="{{ asset('js/bootbox.min.js') }}"></script>
     <script>
+        $(function() {
+            var check = $("#todos"); //checkbox que ativara os restantes
+
+            check.on('click', function() {
+                if (check.prop('checked') == true) {
+                    $(".todos_arranchado").prop("disabled", false); //mostra os as permissoes
+
+                } else if (check.prop('checked') == false) {
+                    $(".todos_arranchado").prop("disabled", true); //oculta os as permissoes
+                }
+            })
+        })
         @foreach ($all_military as $military)
             $(function() {
             var check = $("#{{ $military->id }}"); //checkbox que ativara os restantes
@@ -22,6 +34,71 @@
             })
             })
         @endforeach
+
+        function arranchar_cia_furriel() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000
+            });
+            @foreach ($all_military as $military)
+                if($('input[name=sts_{{ $military->id }}]').is(':checked')){
+                check{{ $military->id }} = 1;
+
+                if(!$('input[name={{ $military->id }}_brekker]').is(':checked') &&
+                !$('input[name={{ $military->id }}_lunch]').is(':checked') &&
+                !$('input[name={{ $military->id }}_dinner]').is(':checked')){
+
+                Toast.fire({
+                icon: 'error',
+                title: '&nbsp&nbsp Selecione pelo menos uma refeição para {{ $military->rank->rankAbbreviation }}
+                {{ $military->professionalName }}'
+                });
+                return false;
+                }
+
+                }else{
+                check{{ $military->id }} = null;
+                }
+            @endforeach
+
+            var dados = {
+                @foreach ($all_military as $military)
+                    {{ $military->id }}:
+                    {
+                    userID: {{ $military->id }},
+                    check: check{{ $military->id }},
+                    brekker: $('input[name={{ $military->id }}_brekker]:checked').attr('value'),
+                    lunch: $('input[name={{ $military->id }}_lunch]:checked').attr('value'),
+                    dinner: $('input[name={{ $military->id }}_dinner]:checked').attr('value'),
+                    },
+                @endforeach
+            };
+
+            // $.ajax({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     },
+            //     url: "http://sistao.3bsup.eb.mil.br/alt_permissions",
+            //     type: "POST",
+            //     data: dados,
+            //     dataType: 'text',
+            //     success: function(data) {
+            //         Toast.fire({
+            //             icon: 'success',
+            //             title: '&nbsp&nbsp Permissões alteradas com sucesso.'
+            //         });
+            //     },
+            //     error: function(data) {
+            //         Toast.fire({
+            //             icon: 'error',
+            //             title: '&nbsp&nbsp Falha ao alterar permissões do usuário.'
+            //         });
+            //     }
+            // });
+
+        }
     </script>
 @endsection
 @section('css')
@@ -220,59 +297,90 @@
                 </div>
                 <div class="modal-body">
                     <form id="form-arranchar_cia">
-                        <form>
-                            @foreach ($all_military as $military)
-                                <div class="row justify-content-between m-b-30">
-                                    {{-- Ativar app --}}
-                                    <div class="custom-control custom-switch ">
-                                        <input type="checkbox" class="custom-control-input"
-                                            name="sts_{{ $military->id }}" id={{ $military->id }} value='1'
-                                            @if ($military->arranchamento) checked @endif>
-                                        <label class="custom-control-label"
-                                            for={{ $military->id }}>{{ $military->rank->rankAbbreviation }}
-                                            {{ $military->professionalName }}</label>
-                                    </div>
+                        <div class="row justify-content-between m-b-30">
+                            {{-- Ativar app --}}
+                            <div class="custom-control custom-switch ">
+                                <input type="checkbox" class="custom-control-input" name="sts_todos" id='todos' value='1'>
+                                <label class="custom-control-label" for='todos'>Todos militares da Cia
+                                </label>
+                            </div>
 
-                                    {{-- bloco Permissoes --}}
-                                    <div class="row">
-                                        {{-- permissao adm --}}
-                                        <div class="custom-control custom-checkbox m-r-10">
-                                            <input class="{{ $military->id }}_arranchado custom-control-input"
-                                                type="radio" id="adm-{{ $military->id }}"
-                                                name='{{ $military->id }}_arranchado' value="1"
-                                                @if ($military->arranchamento && $military->arranchamento->brekker == 1) checked @elseif(!$military->arranchamento) disabled @endif>
-                                            <label for="adm-{{ $military->id }}"
-                                                class="custom-control-label">Café</label>
-                                        </div>
-                                        {{-- permissao conv --}}
-                                        <div class="custom-control custom-checkbox m-r-30">
-                                            <input class="{{ $military->id }}_arranchado custom-control-input"
-                                                type="radio" id="conv-{{ $military->id }}"
-                                                name='{{ $military->id }}_arranchado' value="1"
-                                                @if ($military->arranchamento && $military->arranchamento->lunch == 1) checked @elseif(!$military->arranchamento) disabled @endif>
-                                            <label for="conv-{{ $military->id }}"
-                                                class="custom-control-label">Almoço</label>
-                                        </div>
-                                        {{-- permissao especial --}}
-                                        <div class="custom-control custom-checkbox m-r-30">
-                                            <input class="{{ $military->id }}_arranchado custom-control-input"
-                                                type="radio" id="spc-{{ $military->id }}"
-                                                name='{{ $military->id }}_arranchado' value="1"
-                                                @if ($military->arranchamento && $military->arranchamento->dinner == 1) checked @elseif(!$military->arranchamento) disabled @endif>
-                                            <label for="spc-{{ $military->id }}" class="custom-control-label">Janta
-                                            </label>
-                                        </div>
+                            {{-- bloco de refeiçoes --}}
+                            <div class="row">
+                                {{-- cafe --}}
+                                <div class="custom-control custom-checkbox m-r-30">
+                                    <input class="todos_arranchado custom-control-input" disabled checked type="checkbox"
+                                        id="brekker-todos" name='todos_brekker' value="1">
+                                    <label for="brekker-todos" class="custom-control-label">Café</label>
+                                </div>
+                                {{-- permissao conv --}}
+                                <div class="custom-control custom-checkbox m-r-30">
+                                    <input class="todos_arranchado custom-control-input" disabled checked type="checkbox"
+                                        id="lunch-todos" name='todos_lunch' value="1">
+                                    <label for="lunch-todos" class="custom-control-label">Almoço</label>
+                                </div>
+                                {{-- permissao especial --}}
+                                <div class="custom-control custom-checkbox m-r-30">
+                                    <input class="todos_arranchado custom-control-input" disabled type="checkbox"
+                                        id="dinner-todos" name='todos_dinner' value="1">
+                                    <label for="dinner-todos" class="custom-control-label">Janta
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        @foreach ($all_military as $military)
+                            <div class="row justify-content-between m-b-30">
+                                {{-- Ativar app --}}
+                                <div class="custom-control custom-switch ">
+                                    <input type="checkbox" class="custom-control-input" name="sts_{{ $military->id }}"
+                                        id={{ $military->id }} value='1'
+                                        @if ($military->arranchamento) checked @endif>
+                                    <label class="custom-control-label"
+                                        for={{ $military->id }}>{{ $military->rank->rankAbbreviation }}
+                                        {{ $military->professionalName }}</label>
+                                </div>
+
+                                {{-- bloco de refeiçoes --}}
+                                <div class="row">
+                                    {{-- cafe --}}
+                                    <div class="custom-control custom-checkbox m-r-30">
+                                        <input class="{{ $military->id }}_arranchado custom-control-input"
+                                            type="checkbox" id="brekker-{{ $military->id }}"
+                                            name='{{ $military->id }}_brekker' value="1"
+                                            @if ($military->arranchamento && $military->arranchamento->brekker == 1) checked @elseif(!$military->arranchamento) checked disabled @endif>
+                                        <label for="brekker-{{ $military->id }}"
+                                            class="custom-control-label">Café</label>
+                                    </div>
+                                    {{-- permissao conv --}}
+                                    <div class="custom-control custom-checkbox m-r-30">
+                                        <input class="{{ $military->id }}_arranchado custom-control-input"
+                                            type="checkbox" id="lunch-{{ $military->id }}"
+                                            name='{{ $military->id }}_lunch' value="1"
+                                            @if ($military->arranchamento && $military->arranchamento->lunch == 1) checked @elseif(!$military->arranchamento) checked disabled @endif>
+                                        <label for="lunch-{{ $military->id }}"
+                                            class="custom-control-label">Almoço</label>
+                                    </div>
+                                    {{-- permissao especial --}}
+                                    <div class="custom-control custom-checkbox m-r-30">
+                                        <input class="{{ $military->id }}_arranchado custom-control-input"
+                                            type="checkbox" id="dinner-{{ $military->id }}"
+                                            name='{{ $military->id }}_dinner' value="1"
+                                            @if ($military->arranchamento && $military->arranchamento->dinner == 1) checked @elseif(!$military->arranchamento) disabled @endif>
+                                        <label for="dinner-{{ $military->id }}" class="custom-control-label">Janta
+                                        </label>
                                     </div>
                                 </div>
-                                <hr>
-                            @endforeach
-                        </form>
+                            </div>
+                            <hr>
+                        @endforeach
                     </form>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" onclick="return arranchar_furriel()">Arranchar</button>
+                    <button type="button" class="btn btn-success"
+                        onclick="return arranchar_cia_furriel()">Arranchar</button>
                 </div>
             </div>
         </div>

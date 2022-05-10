@@ -14,13 +14,8 @@ class MilitaryModel extends Model
     }
     public function arranchamento()
     {
-        $value = session('company_date_search');
-        if(!empty($value)){
-            $date = session('company_id_search');
-        }else{
-            $date = date('Y-m-d');
-        }
-        return $this->hasOne('App\ArranchamentoModel', 'user_id', 'id')->where('date',$date);
+
+        return $this->hasOne('App\ArranchamentoModel', 'user_id', 'id')->where('date',date('Y-m-d', strtotime('+1 days')));
     }
 
     use HasFactory;
