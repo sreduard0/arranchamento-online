@@ -11,6 +11,7 @@ class Menu extends Migration
         Schema::create('menu', function (Blueprint $table) {
             $table->id();
             $table->string('date', 255);
+            $table->string('updatedBy', 255);
             $table->text('brekker');
             $table->text('lunch');
             $table->text('dinner');
