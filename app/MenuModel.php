@@ -12,4 +12,5 @@ class MenuModel extends Model
     use SoftDeletes;
     protected $table = 'menu';
     protected $primarykey = 'id';
+    protected $connection = 'arranchamento';
 }

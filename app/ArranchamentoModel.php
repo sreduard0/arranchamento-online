@@ -16,4 +16,5 @@ class ArranchamentoModel extends Model
     use SoftDeletes;
     protected $table = 'arranchamentos';
     protected $primarykey = 'id';
+    protected $connection = 'arranchamento';
 }

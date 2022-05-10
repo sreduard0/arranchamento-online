@@ -1,12 +1,28 @@
 @extends('layout')
-@section('title', 'Arranchamento')
+@section('title', 'Furriel')
 @section('home', 'active')
-@section('title-header', 'Arranchamento')
+@section('title-header', 'Arranchamento do furriel')
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('script')
     <script src="{{ asset('js/bootbox.min.js') }}"></script>
+    <script>
+        @foreach ($all_military as $military)
+            $(function() {
+            var check = $("#{{ $military->id }}"); //checkbox que ativara os restantes
+
+            check.on('click', function() {
+            if (check.prop('checked') == true) {
+            $(".{{ $military->id }}_arranchado").prop("disabled", false); //mostra os as permissoes
+
+            } else if (check.prop('checked') == false) {
+            $(".{{ $military->id }}_arranchado").prop("disabled", true); //oculta os as permissoes
+            }
+            })
+            })
+        @endforeach
+    </script>
 @endsection
 @section('css')
     <!-- Select2 -->
@@ -180,6 +196,77 @@
                                 <label for="dinner" class="custom-control-label">Janta</label>
                             </div>
                         </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" onclick="return arranchar_furriel()">Arranchar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal arranchar cia-->
+    <div class="modal fade" id="arranchar_cia" tabindex="-1" role="dialog" aria-labelledby="arranchar_ciaLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="arranchar_ciaLabel">Arranchar militar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-arranchar_cia">
+                        <form>
+                            @foreach ($all_military as $military)
+                                <div class="row justify-content-between m-b-30">
+                                    {{-- Ativar app --}}
+                                    <div class="custom-control custom-switch ">
+                                        <input type="checkbox" class="custom-control-input"
+                                            name="sts_{{ $military->id }}" id={{ $military->id }} value='1'
+                                            @if ($military->arranchamento) checked @endif>
+                                        <label class="custom-control-label"
+                                            for={{ $military->id }}>{{ $military->rank->rankAbbreviation }}
+                                            {{ $military->professionalName }}</label>
+                                    </div>
+
+                                    {{-- bloco Permissoes --}}
+                                    <div class="row">
+                                        {{-- permissao adm --}}
+                                        <div class="custom-control custom-checkbox m-r-10">
+                                            <input class="{{ $military->id }}_arranchado custom-control-input"
+                                                type="radio" id="adm-{{ $military->id }}"
+                                                name='{{ $military->id }}_arranchado' value="1"
+                                                @if ($military->arranchamento && $military->arranchamento->brekker == 1) checked @elseif(!$military->arranchamento) disabled @endif>
+                                            <label for="adm-{{ $military->id }}"
+                                                class="custom-control-label">Café</label>
+                                        </div>
+                                        {{-- permissao conv --}}
+                                        <div class="custom-control custom-checkbox m-r-30">
+                                            <input class="{{ $military->id }}_arranchado custom-control-input"
+                                                type="radio" id="conv-{{ $military->id }}"
+                                                name='{{ $military->id }}_arranchado' value="1"
+                                                @if ($military->arranchamento && $military->arranchamento->lunch == 1) checked @elseif(!$military->arranchamento) disabled @endif>
+                                            <label for="conv-{{ $military->id }}"
+                                                class="custom-control-label">Almoço</label>
+                                        </div>
+                                        {{-- permissao especial --}}
+                                        <div class="custom-control custom-checkbox m-r-30">
+                                            <input class="{{ $military->id }}_arranchado custom-control-input"
+                                                type="radio" id="spc-{{ $military->id }}"
+                                                name='{{ $military->id }}_arranchado' value="1"
+                                                @if ($military->arranchamento && $military->arranchamento->dinner == 1) checked @elseif(!$military->arranchamento) disabled @endif>
+                                            <label for="spc-{{ $military->id }}" class="custom-control-label">Janta
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            @endforeach
+                        </form>
                     </form>
                 </div>
 

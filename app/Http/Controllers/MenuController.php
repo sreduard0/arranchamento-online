@@ -47,7 +47,7 @@ class MenuController extends Controller
             'brekker'=> 'Sem cardápio disponível.',
             'lunch' => 'Sem cardápio disponível.',
             'dinner' => 'Sem cardápio disponível.',
-            'h_lunch' => 'Indísponivel.'
+            'displacement' => 'Indísponivel.'
             ];
         }
 
