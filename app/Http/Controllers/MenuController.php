@@ -152,7 +152,7 @@ class MenuController extends Controller
                 $dado[] = $food->brekker;
                 $dado[] = $food->lunch;
                 $dado[] = $food->dinner;
-                 $dado[] = 'CCSv: '.date('H:m',strtotime($food->h_ccsv)).'<br> 1ª Cia: '.date('H:m',strtotime($food->h_cia1)).'<br> 2ª Cia: '.date('H:m',strtotime($food->h_cia2)).'<br> 3ª Cia: '.date('H:m',strtotime($food->h_cia3));
+                 $dado[] = 'CCSv: '.date('H:i',strtotime($food->h_ccsv)).'<br> 1ª Cia: '.date('H:i',strtotime($food->h_cia1)).'<br> 2ª Cia: '.date('H:i',strtotime($food->h_cia2)).'<br> 3ª Cia: '.date('H:i',strtotime($food->h_cia3));
                 if(session('Arranchamento')['profileType'] == 1){
                     $dado[] = $food->updatedBy;
                    $dado[] = "
