@@ -9,9 +9,9 @@ class Authenticate
 {
     public function handle(Request $request, Closure $next)
     {
-
+        $s = session('Arranchamento');
         $session = session('user');
-        if (!$session) {
+        if (!$session && !$s) {
             return redirect('http://sistao.3bsup.eb.mil.br');
         }
         return $next($request);
