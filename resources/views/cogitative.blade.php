@@ -156,7 +156,7 @@
                 "dom": 'Bfrtip',
                 "serverSide": true,
                 "ajax": {
-                    "url": "{{ route('get_company_cogitative') }}",
+                    "url": "{{ route('get_cogitative_company') }}",
                     "type": "POST",
                     "headers": {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",

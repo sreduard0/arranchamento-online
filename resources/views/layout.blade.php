@@ -293,7 +293,7 @@
             $(function() {
                 var hour = getHour();
 
-                if (hour > 05 && hour < 11) {
+                if (hour > 00 && hour < 11) {
                     $.get('menu_day', function(result) {
                         document.getElementById('hour').innerText = 'Cardápio do café';
                         document.getElementById('menu_day').innerHTML = result.brekker;
@@ -304,7 +304,7 @@
                         document.getElementById('hour').innerText = 'Cardápio do almoço';
                         document.getElementById('menu_day').innerHTML = result.lunch;
                         document.getElementById('displacement').innerHTML =
-                            'Horário de deslocamento da sua CIA:<br> <strong class="fs-20">' + result
+                            'Horário de deslocamento da sua CIA para Cb/Sd:<br> <strong class="fs-20">' + result
                             .displacement + '</strong>';
 
                     })
@@ -313,7 +313,7 @@
                         document.getElementById('hour').innerText = 'Cardápio da janta';
                         document.getElementById('menu_day').innerHTML = result.dinner;
                         document.getElementById('displacement').innerHTML =
-                            'Horário de deslocamento:<br> <strong class="fs-20"> 06:00</strong>';
+                            'Horário de deslocamento:<br> <strong class="fs-20"> 18:00</strong>';
                     })
                 }
 

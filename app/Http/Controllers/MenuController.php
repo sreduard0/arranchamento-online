@@ -23,24 +23,27 @@ class MenuController extends Controller
 
         if($data){
             switch (session('user')['company']['id']) {
+                case 1:
+                    $date = '12:00';
+                break;
                 case 2:
-                    $date = $data['h_ccsv'];
+                    $date = date('H:m', strtotime($data['h_ccsv']));
                 break;
                 case 3:
-                    $date = $data['h_cia1'];
+                    $date = date('H:m', strtotime($data['h_cia1']));
                 break;
                 case 4:
-                    $date = $data['h_cia2'];
+                    $date = date('H:m', strtotime($data['h_cia2']));
                 break;
                 case 5:
-                    $date = $data['h_cia3'];
+                    $date = date('H:m', strtotime($data['h_cia3']));
                 break;
             }
             $menu = [
                 'brekker'=> $data['brekker'],
                 'lunch' => $data['lunch'],
                 'dinner' => $data['dinner'],
-                'displacement' => date('H:m', strtotime($date))
+                'displacement' => $date
             ];
         }else{
             $menu = [
@@ -151,7 +154,7 @@ class MenuController extends Controller
                 $dado[] = $food->dinner;
                  $dado[] = 'CCSv: '.date('H:m',strtotime($food->h_ccsv)).'<br> 1ª Cia: '.date('H:m',strtotime($food->h_cia1)).'<br> 2ª Cia: '.date('H:m',strtotime($food->h_cia2)).'<br> 3ª Cia: '.date('H:m',strtotime($food->h_cia3));
                 if(session('Arranchamento')['profileType'] == 1){
-                    $dado[] = $food->updatedby;
+                    $dado[] = $food->updatedBy;
                    $dado[] = "
                     <button class='btn btn-primary' onclick='return edit_menu(".$food->id.")'><i class='fa fa-pen '></i></button>
                     <button class='btn btn-danger'  onclick='return delete_menu(".$food->id.")'><i class='fa fa-trash'></i></button>

@@ -23,11 +23,17 @@ class CogitativeController extends Controller
     {
         //Receber a requisão da pesquisa
        $requestData = $request->all();
+       $cia = session('company_id');
 
+       if(!empty($cia)){
+            $company = session('company_id');
+       }else{
+            $company = session('user')['company']['id'];
+       }
 
         if( $requestData['columns'][1]['search']['value'])
         {
-            $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->get()->sortBy('military.rank_id');
+            $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->get()->sortBy('military.rank_id');
             $filtered = count($cogitatives);
             $rows = count(MilitaryModel::all());
 
@@ -35,7 +41,7 @@ class CogitativeController extends Controller
             session()->put('company_date_search',date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])));
 
         }else{
-              $cogitatives = ArranchamentoModel::where('company_id', session('company_id'))->where('date', date('Y-m-d'))->with('military')->get()->sortBy('military.rank_id');
+              $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d'))->with('military')->get()->sortBy('military.rank_id');
 
             $filtered = count($cogitatives);
             $rows= count(MilitaryModel::all());
