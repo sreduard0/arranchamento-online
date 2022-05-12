@@ -35,7 +35,7 @@ class CogitativeController extends Controller
         {
             $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->get()->sortBy('military.rank_id');
             $filtered = count($cogitatives);
-            $rows = count(MilitaryModel::all());
+            $rows = count(MilitaryModel::where('company_id', $company)->get());
 
 
             session()->put('company_date_search',date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])));
@@ -44,7 +44,7 @@ class CogitativeController extends Controller
               $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d'))->with('military')->get()->sortBy('military.rank_id');
 
             $filtered = count($cogitatives);
-            $rows= count(MilitaryModel::all());
+            $rows= count(MilitaryModel::where('company_id', $company)->get());
         }
 
 

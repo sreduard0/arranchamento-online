@@ -145,7 +145,7 @@
     <script>
         $(function() {
             $("#table").DataTable({
-                "paging": true,
+                "paging": false,
                 "processing": true,
                 "responsive": true,
                 "lengthChange": true,
