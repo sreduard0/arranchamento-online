@@ -163,7 +163,12 @@
                     },
                 },
                 "ordering": false,
-                "buttons": ["excel", "pdf", "print"]
+                "buttons": [{
+                    'extend': 'print',
+                    'exportOptions': {
+                        'columns': [0, 1, 2, 3],
+                    },
+                }, ]
             });
         });
         setTimeout(function() {
