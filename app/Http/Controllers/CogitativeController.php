@@ -33,7 +33,7 @@ class CogitativeController extends Controller
             $function = 'Aprovisionamento';
 
         $data = [
-            'name' => "<strong>".$name[1]."<strong/> ".$name[2]." - ". session('user')['rank'],
+            'name' => $name,
             'function' => $function,
             'company_name' => $company_name,
             'company' => $company

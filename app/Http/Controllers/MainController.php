@@ -50,9 +50,10 @@ class MainController extends Controller
                 return view('homeadmin', $data);
             break;
                 case 2:
+                    $name = explode(" ",session('user')['name']);
                     $data = [
                         'all_military' => MilitaryModel::where('company_id', session('user')['company']['id'])->with('rank','arranchamento')->orderBy('rank_id')->get(),
-                        'name' => session('user')['name']." - ". session('user')['rank'],
+                        'name' =>$name,
                         'function' => 'Furriel - '.session('user')['company']['name'],
                         'company_name' => session('user')['company']['name']
                     ];

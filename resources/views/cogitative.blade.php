@@ -166,7 +166,7 @@
                 "buttons": [{
                     'extend': 'print',
                     'title': 'Arranchamento - {{ $company_name }}',
-                    'messageTop': '{{ $name }}',
+                    'messageTop': "<strong>{{ $name[0] }}<strong/> {{ $name[1] }} -  {{ session('user')['rank'] }}",
                     'messageBottom': '{{ $function }}',
                     'exportOptions': {
                         'columns': [0, 1, 2, 3],

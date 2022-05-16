@@ -27,11 +27,11 @@
                 check.on('click', function() {
                     if (check.prop('checked') == true) {
                         $(".{{ $military->id }}_arranchado").prop("disabled",
-                        false); //mostra os as permissoes
+                            false); //mostra os as permissoes
 
                     } else if (check.prop('checked') == false) {
                         $(".{{ $military->id }}_arranchado").prop("disabled",
-                        true); //oculta os as permissoes
+                            true); //oculta os as permissoes
                     }
                 })
             })
@@ -463,7 +463,7 @@
                 "buttons": [{
                     'extend': 'print',
                     'title': 'Arranchamento - {{ $company_name }}',
-                    'messageTop': '{{ $name }}',
+                    'messageTop': "<strong>{{ $name[0] }}<strong/> {{ $name[1] }} -  {{ session('user')['rank'] }}",
                     'messageBottom': '{{ $function }}',
                     'exportOptions': {
                         'columns': [0, 1, 2, 3],
