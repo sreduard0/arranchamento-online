@@ -29,11 +29,11 @@ class CogitativeController extends Controller
             break;
         }
 
-            $name = session('user')['name']." - ". session('user')['rank'];
+            $name = explode(" ",session('user')['name']);
             $function = 'Aprovisionamento';
 
         $data = [
-            'name' => $name,
+            'name' => "<strong>".$name[1]."<strong/> ".$name[2]." - ". session('user')['rank'],
             'function' => $function,
             'company_name' => $company_name,
             'company' => $company
