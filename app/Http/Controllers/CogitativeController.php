@@ -11,12 +11,41 @@ use Illuminate\Http\Request;
 class CogitativeController extends Controller
 {
     public function cogitative_company($company){
+        switch ($company) {
+            case 1:
+            $company_name = 'EM';
+            break;
+                case 2:
+            $company_name = 'CCSv';
+            break;
+                case 3:
+            $company_name = '1ª Cia';
+            break;
+                case 4:
+            $company_name = '2ª Cia';
+            break;
+                case 5:
+            $company_name = '3ª Cia';
+            break;
+        }
+        if(session('Arranchamento')['profileType'] == 2){
+            $name = session('user')['name']." - ". session('user')['rank'];
+            $function = 'Furriel - '.session('user')['company']['name'];
+
+        }else{
+            $name = session('user')['name']." - ". session('user')['rank'];
+            $function = 'Aprovisionamento';
+        }
 
         $data = [
-            'company'=> $company
+            'name' => $name,
+            'function' => $function,
+            'company_name' => $company_name,
+            'company' => $company
+
         ];
         session()->put('company_id', $company);
-        return view('cogitative', $data);
+        return view('cogitative',$data);
     }
 
     public function get_company_cogitative(Request $request)

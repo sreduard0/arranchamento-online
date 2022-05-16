@@ -165,6 +165,9 @@
                 "ordering": false,
                 "buttons": [{
                     'extend': 'print',
+                    'title': 'Arranchamento - {{ $company_name }}',
+                    'messageTop': '{{ $name }}',
+                    'messageBottom': '{{ $function }}',
                     'exportOptions': {
                         'columns': [0, 1, 2, 3],
                     },
