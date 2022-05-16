@@ -22,16 +22,18 @@
         })
         @foreach ($all_military as $military)
             $(function() {
-            var check = $("#{{ $military->id }}"); //checkbox que ativara os restantes
+                var check = $("#{{ $military->id }}"); //checkbox que ativara os restantes
 
-            check.on('click', function() {
-            if (check.prop('checked') == true) {
-            $(".{{ $military->id }}_arranchado").prop("disabled", false); //mostra os as permissoes
+                check.on('click', function() {
+                    if (check.prop('checked') == true) {
+                        $(".{{ $military->id }}_arranchado").prop("disabled",
+                        false); //mostra os as permissoes
 
-            } else if (check.prop('checked') == false) {
-            $(".{{ $military->id }}_arranchado").prop("disabled", true); //oculta os as permissoes
-            }
-            })
+                    } else if (check.prop('checked') == false) {
+                        $(".{{ $military->id }}_arranchado").prop("disabled",
+                        true); //oculta os as permissoes
+                    }
+                })
             })
         @endforeach
 
@@ -61,22 +63,22 @@
                 var checktodos = 0;
             }
             @foreach ($all_military as $military)
-                if($('input[name=sts_{{ $military->id }}]').is(':checked')){
-                var check{{ $military->id }} = 1;
+                if ($('input[name=sts_{{ $military->id }}]').is(':checked')) {
+                    var check{{ $military->id }} = 1;
 
-                if(!$('input[name={{ $military->id }}_brekker]').is(':checked') &&
-                !$('input[name={{ $military->id }}_lunch]').is(':checked') &&
-                !$('input[name={{ $military->id }}_dinner]').is(':checked')){
+                    if (!$('input[name={{ $military->id }}_brekker]').is(':checked') &&
+                        !$('input[name={{ $military->id }}_lunch]').is(':checked') &&
+                        !$('input[name={{ $military->id }}_dinner]').is(':checked')) {
 
-                Toast.fire({
-                icon: 'error',
-                title: "&nbsp&nbsp Selecione pelo menos uma refeição para {{ $military->professionalName }}"
-                });
-                return false;
-                }
+                        Toast.fire({
+                            icon: 'error',
+                            title: "&nbsp&nbsp Selecione pelo menos uma refeição para {{ $military->professionalName }}"
+                        });
+                        return false;
+                    }
 
-                }else{
-                var check{{ $military->id }} = 0;
+                } else {
+                    var check{{ $military->id }} = 0;
                 }
             @endforeach
 
@@ -88,14 +90,13 @@
                     dinner: $('input[name=todos_dinner]:checked').attr('value'),
                 },
                 @foreach ($all_military as $military)
-                    {{ $military->id }}:
-                    {
-                    userID: {{ $military->id }},
-                    check: check{{ $military->id }},
-                    company: {{ $military->company_id }},
-                    brekker: $('input[name={{ $military->id }}_brekker]:checked').attr('value'),
-                    lunch: $('input[name={{ $military->id }}_lunch]:checked').attr('value'),
-                    dinner: $('input[name={{ $military->id }}_dinner]:checked').attr('value'),
+                    {{ $military->id }}: {
+                        userID: {{ $military->id }},
+                        check: check{{ $military->id }},
+                        company: {{ $military->company_id }},
+                        brekker: $('input[name={{ $military->id }}_brekker]:checked').attr('value'),
+                        lunch: $('input[name={{ $military->id }}_lunch]:checked').attr('value'),
+                        dinner: $('input[name={{ $military->id }}_dinner]:checked').attr('value'),
                     },
                 @endforeach
             };
@@ -459,7 +460,15 @@
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     },
                 },
-                "buttons": ["excel", "pdf", "print"]
+                "buttons": [{
+                    'extend': 'print',
+                    'title': 'Arranchamento - {{ $company_name }}',
+                    'messageTop': '{{ $name }}',
+                    'messageBottom': '{{ $function }}',
+                    'exportOptions': {
+                        'columns': [0, 1, 2, 3],
+                    },
+                }, ]
             });
         });
 

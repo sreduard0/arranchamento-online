@@ -51,7 +51,10 @@ class MainController extends Controller
             break;
                 case 2:
                     $data = [
-                        'all_military' => MilitaryModel::where('company_id', session('user')['company']['id'])->with('rank','arranchamento')->orderBy('rank_id')->get()
+                        'all_military' => MilitaryModel::where('company_id', session('user')['company']['id'])->with('rank','arranchamento')->orderBy('rank_id')->get(),
+                        'name' => session('user')['name']." - ". session('user')['rank'],
+                        'function' => 'Furriel - '.session('user')['company']['name'],
+                        'company_name' => session('user')['company']['name']
                     ];
                     return view('homefurriel', $data);
 

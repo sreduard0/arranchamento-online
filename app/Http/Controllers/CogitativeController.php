@@ -28,14 +28,9 @@ class CogitativeController extends Controller
             $company_name = '3ª Cia';
             break;
         }
-        if(session('Arranchamento')['profileType'] == 2){
-            $name = session('user')['name']." - ". session('user')['rank'];
-            $function = 'Furriel - '.session('user')['company']['name'];
 
-        }else{
             $name = session('user')['name']." - ". session('user')['rank'];
             $function = 'Aprovisionamento';
-        }
 
         $data = [
             'name' => $name,
