@@ -154,7 +154,7 @@ class MenuController extends Controller
                 $dado[] = $food->dinner;
                  $dado[] = 'CCSv: '.date('H:i',strtotime($food->h_ccsv)).'<br> 1ª Cia: '.date('H:i',strtotime($food->h_cia1)).'<br> 2ª Cia: '.date('H:i',strtotime($food->h_cia2)).'<br> 3ª Cia: '.date('H:i',strtotime($food->h_cia3));
                 if(session('Arranchamento')['profileType'] == 1){
-                    $dado[] = $food->updatedBy;
+                    $dado[] = $food->updatedby;
                    $dado[] = "
                     <button class='btn btn-primary' onclick='return edit_menu(".$food->id.")'><i class='fa fa-pen '></i></button>
                     <button class='btn btn-danger'  onclick='return delete_menu(".$food->id.")'><i class='fa fa-trash'></i></button>

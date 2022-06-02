@@ -301,7 +301,7 @@
                 } else if (hour >= 11 && hour < 14) {
 
                     $.get('menu_day', function(result) {
-                        document.getElementById('hour').innerText = 'Cardápio do almoço';
+                        document.getElementById('hour').innerText = 'Cardápio do almoço e janta';
                         document.getElementById('menu_day').innerHTML = result.lunch;
                         document.getElementById('displacement').innerHTML =
                             'Horário de deslocamento da sua CIA para Cb/Sd:<br> <strong class="fs-20">' + result
@@ -310,7 +310,7 @@
                     })
                 } else {
                     $.get('menu_day', function(result) {
-                        document.getElementById('hour').innerText = 'Cardápio da janta';
+                        document.getElementById('hour').innerText = 'Cardápio da ceia';
                         document.getElementById('menu_day').innerHTML = result.dinner;
                         document.getElementById('displacement').innerHTML =
                             'Horário de deslocamento:<br> <strong class="fs-20"> 18:00</strong>';

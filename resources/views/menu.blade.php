@@ -31,8 +31,8 @@
                         <tr>
                             <th width="150">Dia</th>
                             <th>Café</th>
-                            <th>Almoço</th>
-                            <th>Janta</th>
+                            <th>Almoço/Janta</th>
+                            <th>Ceia</th>
                             <th width="150">Deslocamento</th>
                             @if (session('Arranchamento')['profileType'] == 1)
                                 <th width="120">Criado/Alterado</th>
@@ -136,13 +136,13 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col">
-                                    <label for="lunch">Almoço</label>
+                                    <label for="lunch">Almoço/Janta</label>
                                     <textarea class="form-control new_menu menu_lunch" name="lunch" id="lunch" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col">
-                                    <label for="dinner">Janta</label>
+                                    <label for="dinner">Ceia</label>
                                     <textarea class="form-control new_menu menu_dinner" name="dinner" id="dinner" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
