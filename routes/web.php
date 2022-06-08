@@ -7,6 +7,9 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\MenuController;
 
 Route::middleware('auth')->group(function(){
+    Route::get('/get_session', function () {
+        return session('user')['id'];
+    });
     Route::get('/', [MainController::class, 'home'])->name('home');//Tela inicial dos usuarios
     Route::get('menu',[MenuController::class, 'menu'])->name('menu');//View do cardapio
     Route::get('get_edit_arranchamento/{id}' ,[MainController::class, 'get_edit_arranchamento']); //Busca info para preencher model

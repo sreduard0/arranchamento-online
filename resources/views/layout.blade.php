@@ -343,6 +343,19 @@
     <script src="{{ asset('js/adminlte.js') }}"></script>
     <!-- date-range-picker -->
     <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+      <script>
+     setInterval(function() {
+                var url = '/get_session';
+                $.ajax({
+                   url: url,
+                   type: 'GET',
+                   error: function(data) {
+                  		window.close();
+                   }
+                   });
+
+            }, 5000);
+   </script>
     @yield('plugins')
     {{-- ====================================/ PLUGINS ===================================== --}}
 </body>
