@@ -45,6 +45,21 @@
                 timer: 4000
             });
 
+            var day_all = $('input[name=day_all]').val();
+            var partsDate = day_all.split("-");
+            var day = new Date(partsDate[2], partsDate[1] - 1, partsDate[0]);
+
+            if (!moment(moment(day).format('YYYY-MM-DD')).isAfter(moment().format('YYYY-MM-DD'))) {
+
+                Toast.fire({
+                    icon: 'error',
+                    title: '&nbsp&nbsp Selecione uma data à partir de amanhã.'
+                });
+
+                return false;
+            }
+
+
             if ($('input[name=sts_todos]').is(':checked')) {
                 var checktodos = 1;
 
@@ -85,20 +100,24 @@
             var dados = {
                 todos: {
                     check: checktodos,
+                    date: $('input[name=day_all]').val(),
                     brekker: $('input[name=todos_brekker]:checked').attr('value'),
                     lunch: $('input[name=todos_lunch]:checked').attr('value'),
                     dinner: $('input[name=todos_dinner]:checked').attr('value'),
                 },
-                @foreach ($all_military as $military)
-                    {{ $military->id }}: {
-                        userID: {{ $military->id }},
-                        check: check{{ $military->id }},
-                        company: {{ $military->company_id }},
-                        brekker: $('input[name={{ $military->id }}_brekker]:checked').attr('value'),
-                        lunch: $('input[name={{ $military->id }}_lunch]:checked').attr('value'),
-                        dinner: $('input[name={{ $military->id }}_dinner]:checked').attr('value'),
-                    },
-                @endforeach
+                military: {
+                    @foreach ($all_military as $military)
+                        {{ $military->id }}: {
+                            userID: {{ $military->id }},
+                            date: $('input[name=day_all]').val(),
+                            check: check{{ $military->id }},
+                            company: {{ $military->company_id }},
+                            brekker: $('input[name={{ $military->id }}_brekker]:checked').attr('value'),
+                            lunch: $('input[name={{ $military->id }}_lunch]:checked').attr('value'),
+                            dinner: $('input[name={{ $military->id }}_dinner]:checked').attr('value'),
+                        },
+                    @endforeach
+                }
             };
             $.ajax({
                 headers: {
@@ -119,7 +138,7 @@
                 error: function(data) {
                     Toast.fire({
                         icon: 'error',
-                        title: '&nbsp&nbsp Falha ao alterar permissões do usuário.'
+                        title: '&nbsp&nbsp Erro ao arranchar militares.'
                     });
                 }
             });
@@ -324,14 +343,26 @@
                 </div>
                 <div class=" modal-body">
                     <form id="form-arranchar_cia">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label>Data</label>
+                                <div class="input-group date" id="day_all_" data-target-input="nearest">
+                                    <input id="day_all" name="day_all" type="text" class="form-control datetimepicker-input"
+                                        data-target="#day_all_" value="{{ date('d-m-Y', strtotime('+1 days')) }}">
+                                    <div class="input-group-append date" data-target="#day_all_"
+                                        data-toggle="datetimepicker">
+                                        <div class="input-group-text date"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="row justify-content-between m-b-30">
-                            {{-- Ativar app --}}
                             <div class="custom-control custom-switch ">
                                 <input type="checkbox" class="custom-control-input" name="sts_todos" id='todos' value='1'>
                                 <label class="custom-control-label" for='todos'>Todos militares da Cia
                                 </label>
                             </div>
-
                             {{-- bloco de refeiçoes --}}
                             <div class="row">
                                 {{-- cafe --}}
@@ -356,14 +387,12 @@
                             </div>
                         </div>
                         <hr>
-
                         @foreach ($all_military as $military)
                             <div class="row justify-content-between m-b-30">
                                 {{-- Ativar --}}
                                 <div class="custom-control custom-switch ">
                                     <input type="checkbox" class="custom-control-input" name="sts_{{ $military->id }}"
-                                        id={{ $military->id }} value='1'
-                                        @if ($military->arranchamento) checked @endif>
+                                        id={{ $military->id }} value='1'>
                                     <label class="custom-control-label"
                                         for={{ $military->id }}>{{ $military->rank->rankAbbreviation }}
                                         {{ $military->professionalName }}</label>
@@ -375,8 +404,7 @@
                                     <div class="custom-control custom-checkbox m-r-30">
                                         <input class="{{ $military->id }}_arranchado custom-control-input"
                                             type="checkbox" id="brekker-{{ $military->id }}"
-                                            name='{{ $military->id }}_brekker' value="1"
-                                            @if ($military->arranchamento && $military->arranchamento->brekker == 1) checked @elseif(!$military->arranchamento) checked disabled @endif>
+                                            name='{{ $military->id }}_brekker' value="1" disabled checked>
                                         <label for="brekker-{{ $military->id }}"
                                             class="custom-control-label">Café</label>
                                     </div>
@@ -384,8 +412,7 @@
                                     <div class="custom-control custom-checkbox m-r-30">
                                         <input class="{{ $military->id }}_arranchado custom-control-input"
                                             type="checkbox" id="lunch-{{ $military->id }}"
-                                            name='{{ $military->id }}_lunch' value="1"
-                                            @if ($military->arranchamento && $military->arranchamento->lunch == 1) checked @elseif(!$military->arranchamento) checked disabled @endif>
+                                            name='{{ $military->id }}_lunch' value="1" disabled checked>
                                         <label for="lunch-{{ $military->id }}"
                                             class="custom-control-label">Almoço</label>
                                     </div>
@@ -393,8 +420,7 @@
                                     <div class="custom-control custom-checkbox m-r-30">
                                         <input class="{{ $military->id }}_arranchado custom-control-input"
                                             type="checkbox" id="dinner-{{ $military->id }}"
-                                            name='{{ $military->id }}_dinner' value="1"
-                                            @if ($military->arranchamento && $military->arranchamento->dinner == 1) checked @elseif(!$military->arranchamento) disabled @endif>
+                                            name='{{ $military->id }}_dinner' value="1" disabled>
                                         <label for="dinner-{{ $military->id }}" class="custom-control-label">Janta
                                         </label>
                                     </div>

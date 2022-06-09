@@ -135,7 +135,7 @@ class MainController extends Controller
         if($arranchamentos['todos']['check'] == 1){
 
             foreach (MilitaryModel::where('company_id', session('user')['company']['id'])->get() as $military) {
-            $arranchamento_military = ArranchamentoModel::where('user_id', $military->id)->where('date',date('Y-m-d', strtotime('+1 days')))->first();
+            $arranchamento_military = ArranchamentoModel::where('user_id', $military->id)->where('date', date('Y-m-d',   strtotime($arranchamentos['todos']['date'])))->first();
 
             if(!isset($arranchamentos['todos']['brekker'])){
                 $arranchamentos['todos']['brekker'] = 0;
@@ -150,7 +150,7 @@ class MainController extends Controller
                     $arranchamento_military = new ArranchamentoModel();
                     $arranchamento_military->user_id = $military->id;
                     $arranchamento_military->company_id = $military->company_id;
-                    $arranchamento_military->date = date('Y-m-d', strtotime('+1 days'));
+                    $arranchamento_military->date =  date('Y-m-d',   strtotime($arranchamentos['todos']['date']));
                     $arranchamento_military->status = 1;
                     $arranchamento_military->brekker = $arranchamentos['todos']['brekker'];
                     $arranchamento_military->lunch = $arranchamentos['todos']['lunch'];
@@ -166,8 +166,8 @@ class MainController extends Controller
             }
         }elseif($arranchamentos['todos']['check'] == 0){
 
-            foreach ($arranchamentos as $military) {
-            $arranchamento_military = ArranchamentoModel::where('user_id', $military['userID'])->where('date',date('Y-m-d', strtotime('+1 days')))->first();
+            foreach ($arranchamentos['military'] as $military) {
+            $arranchamento_military = ArranchamentoModel::where('user_id', $military['userID'])->where('date', date('Y-m-d',   strtotime($military['date'])))->first();
 
             if(!isset($military['brekker'])){
                 $military['brekker'] = 0;
@@ -184,8 +184,8 @@ class MainController extends Controller
                     $arranchamento_military = new ArranchamentoModel();
                     $arranchamento_military->user_id = $military['userID'];
                     $arranchamento_military->company_id = $military['company'];
-                    $arranchamento_military->date =date('Y-m-d', strtotime('+1 days'));
-                        $arranchamento_military->status = 1;
+                    $arranchamento_military->date = date('Y-m-d',   strtotime($military['date']));
+                    $arranchamento_military->status = 1;
                     $arranchamento_military->brekker = $military['brekker'];
                     $arranchamento_military->lunch = $military['lunch'];
                     $arranchamento_military->dinner = $military['dinner'];
@@ -200,7 +200,7 @@ class MainController extends Controller
 
 
 
-                $arranchamento_military = ArranchamentoModel::where('user_id', $military['userID'])->where('date',date('Y-m-d', strtotime('+1 days')))->first();
+                $arranchamento_military = ArranchamentoModel::where('user_id', $military['userID'])->where('date', date('Y-m-d',  strtotime($military['date'])))->first();
 
 
 
