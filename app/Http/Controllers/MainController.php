@@ -132,41 +132,8 @@ class MainController extends Controller
     //ARRANCHAR CIAS
     public function arranchamento_cia(Request $request){
         $arranchamentos = $request->all();
-        if($arranchamentos['todos']['check'] == 1){
 
-            foreach (MilitaryModel::where('company_id', session('user')['company']['id'])->get() as $military) {
-            $arranchamento_military = ArranchamentoModel::where('user_id', $military->id)->where('date', date('Y-m-d',   strtotime($arranchamentos['todos']['date'])))->first();
-
-            if(!isset($arranchamentos['todos']['brekker'])){
-                $arranchamentos['todos']['brekker'] = 0;
-            }
-            if(!isset($arranchamentos['todos']['lunch'])){
-                $arranchamentos['todos']['lunch'] = 0;
-            }
-            if(!isset($arranchamentos['todos']['dinner'])){
-                $arranchamentos['todos']['dinner'] = 0;
-            }
-        if (empty($arranchamento_military)) {
-                    $arranchamento_military = new ArranchamentoModel();
-                    $arranchamento_military->user_id = $military->id;
-                    $arranchamento_military->company_id = $military->company_id;
-                    $arranchamento_military->date =  date('Y-m-d',   strtotime($arranchamentos['todos']['date']));
-                    $arranchamento_military->status = 1;
-                    $arranchamento_military->brekker = $arranchamentos['todos']['brekker'];
-                    $arranchamento_military->lunch = $arranchamentos['todos']['lunch'];
-                    $arranchamento_military->dinner = $arranchamentos['todos']['dinner'];
-                    $arranchamento_military->save();
-                } else {
-                    $arranchamento_military->brekker = $arranchamentos['todos']['brekker'];
-                    $arranchamento_military->lunch = $arranchamentos['todos']['lunch'];
-                    $arranchamento_military->dinner = $arranchamentos['todos']['dinner'];
-                    $arranchamento_military->status = 1;
-                    $arranchamento_military->save();
-                }
-            }
-        }elseif($arranchamentos['todos']['check'] == 0){
-
-            foreach ($arranchamentos['military'] as $military) {
+        foreach ($arranchamentos as $military) {
             $arranchamento_military = ArranchamentoModel::where('user_id', $military['userID'])->where('date', date('Y-m-d',   strtotime($military['date'])))->first();
 
             if(!isset($military['brekker'])){
@@ -210,11 +177,6 @@ class MainController extends Controller
             }
 
         }
-        }
-
-
-
-
 
     }
     //DATATABLES ARRANCHAMENTOS
