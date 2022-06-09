@@ -95,6 +95,10 @@
                     },
                 @endforeach
             };
+            $("#loading").append(
+                '<div id="loadingremove" class="load-block"><div class="c-loader"></div><span id="message" class="c-w">Arranchando acompanhia.</span><br><span id="message" class="c-w">Aguarde até que seja finalizado.</span></div>'
+            );
+            $("#arranchar_cia").modal('hide');
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -104,7 +108,7 @@
                 data: dados,
                 dataType: 'text',
                 success: function(data) {
-                    $("#arranchar_cia").modal('hide');
+                    $("#loadingremove").detach();
                     $("#table").DataTable().clear().draw(6);
                     Toast.fire({
                         icon: 'success',
@@ -176,6 +180,7 @@
             <!-- /.card-body -->
         </div>
     </section>
+
 @endsection
 @section('modal')
     <!-- Modal ediar arranchamento-->

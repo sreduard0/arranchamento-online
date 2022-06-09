@@ -62,7 +62,9 @@
 
 </head>
 
+
 <body onload="startTime()" class="dark-mode hold-transition sidebar-mini layout-fixed">
+    <div id="loading"></div>
     <div class="wrapper">
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="{{ asset('img/logo.png') }}" alt="" height="60" width="60">
@@ -343,19 +345,19 @@
     <script src="{{ asset('js/adminlte.js') }}"></script>
     <!-- date-range-picker -->
     <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
-      <script>
-     setInterval(function() {
-                var url = '/get_session';
-                $.ajax({
-                   url: url,
-                   type: 'GET',
-                   error: function(data) {
-                  		window.close();
-                   }
-                   });
+    <script>
+        setInterval(function() {
+            var url = '/get_session';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                error: function(data) {
+                    window.close();
+                }
+            });
 
-            }, 5000);
-   </script>
+        }, 5000);
+    </script>
     @yield('plugins')
     {{-- ====================================/ PLUGINS ===================================== --}}
 </body>
