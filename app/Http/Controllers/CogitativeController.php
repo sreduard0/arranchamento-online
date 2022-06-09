@@ -50,6 +50,8 @@ class CogitativeController extends Controller
        $cia = session('company_id');
 
        if(!empty($cia)){
+
+
             $company = session('company_id');
        }else{
             $company = session('user')['company']['id'];
@@ -57,7 +59,11 @@ class CogitativeController extends Controller
 
         if( $requestData['columns'][1]['search']['value'])
         {
-            $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->get()->sortBy('military.rank_id');
+            if ($company <= 2) {
+                        $cogitatives = ArranchamentoModel::where('company_id', '<=',2)->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->get()->sortBy('military.rank_id');
+            }else{
+                        $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->get()->sortBy('military.rank_id');
+            }
             $filtered = count($cogitatives);
             $rows = count(MilitaryModel::where('company_id', $company)->get());
 
@@ -65,8 +71,11 @@ class CogitativeController extends Controller
             session()->put('company_date_search',date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])));
 
         }else{
-              $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d'))->with('military')->get()->sortBy('military.rank_id');
-
+            if ($company <= 2) {
+                        $cogitatives = ArranchamentoModel::where('company_id', '<=',2)->where('date', date('Y-m-d'))->with('military')->get()->sortBy('military.rank_id');
+            }else{
+                        $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d'))->with('military')->get()->sortBy('military.rank_id');
+            }
             $filtered = count($cogitatives);
             $rows= count(MilitaryModel::where('company_id', $company)->get());
         }
