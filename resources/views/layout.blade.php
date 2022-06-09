@@ -315,7 +315,7 @@
                         document.getElementById('hour').innerText = 'Cardápio da ceia';
                         document.getElementById('menu_day').innerHTML = result.dinner;
                         document.getElementById('displacement').innerHTML =
-                            'Horário de deslocamento:<br> <strong class="fs-20"> 18:00</strong>';
+                            'Horário de deslocamento da janta:<br> <strong class="fs-20"> 18:00</strong><br>Horário de deslocamento da ceia:<br> <strong class="fs-20"> 19:30</strong>';
                     })
                 }
 
