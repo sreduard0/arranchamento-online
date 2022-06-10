@@ -59,7 +59,7 @@ class CogitativeController extends Controller
 
         if( $requestData['columns'][1]['search']['value'])
         {
-            if ($company <= 2) {
+            if (session('Arranchamento')['profileType'] == 2 && $company <= 2) {
                         $cogitatives = ArranchamentoModel::where('company_id', '<=',2)->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->get()->sortBy('military.rank_id');
             }else{
                         $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])))->with('military')->get()->sortBy('military.rank_id');
@@ -71,7 +71,7 @@ class CogitativeController extends Controller
             session()->put('company_date_search',date('Y-m-d', strtotime($requestData['columns'][1]['search']['value'])));
 
         }else{
-            if ($company <= 2) {
+            if (session('Arranchamento')['profileType'] == 2 && $company <= 2) {
                         $cogitatives = ArranchamentoModel::where('company_id', '<=',2)->where('date', date('Y-m-d'))->with('military')->get()->sortBy('military.rank_id');
             }else{
                         $cogitatives = ArranchamentoModel::where('company_id', $company)->where('date', date('Y-m-d'))->with('military')->get()->sortBy('military.rank_id');
