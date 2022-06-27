@@ -10,7 +10,7 @@ class Authenticate
     public function handle(Request $request, Closure $next)
     {
 
-        $s = session('CoMiLMed');
+        $s = session('Arranchamento');
         $session = session('user');
         if ($session && $s) {
             return $next($request);
