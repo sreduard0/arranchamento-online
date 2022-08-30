@@ -24,6 +24,37 @@
             });
         });
 
+        $(document).on('click', '#todosdinner', function(e) {
+            $('.dinner').each(function() {
+                var checked = $(this).is(':checked');
+                if (!$('#todosdinner').is(':checked') && checked) {
+                    $(this).prop('checked', false);
+                } else if ($('#todosdinner').is(':checked') && !checked) {
+                    $(this).prop('checked', true);
+                }
+            });
+        });
+        $(document).on('click', '#todoslunch', function(e) {
+            $('.lunch').each(function() {
+                var checked = $(this).is(':checked');
+                if (!$('#todoslunch').is(':checked') && checked) {
+                    $(this).prop('checked', false);
+                } else if ($('#todoslunch').is(':checked') && !checked) {
+                    $(this).prop('checked', true);
+                }
+            });
+        });
+        $(document).on('click', '#todosbrekker', function(e) {
+            $('.brekker').each(function() {
+                var checked = $(this).is(':checked');
+                if (!$('#todosbrekker').is(':checked') && checked) {
+                    $(this).prop('checked', false);
+                } else if ($('#todosbrekker').is(':checked') && !checked) {
+                    $(this).prop('checked', true);
+                }
+            });
+        });
+
         @foreach ($all_military as $military)
             $(function() {
                 var check = $("#{{ $military->id }}"); //checkbox que ativara os restantes
@@ -347,11 +378,31 @@
                         </div>
                         <hr>
                         <div class="row justify-content-between m-b-30">
-                            <div class="custom-control custom-switch ">
+                            <div class="custom-control custom-switch checktodos ">
                                 <input type="checkbox" class="custom-control-input" name="sts_todos" id='todos'
                                     value='1'>
                                 <label class="custom-control-label" for='todos'>Todos militares da Cia
                                 </label>
+                            </div>
+                            {{-- bloco de refeiçoes --}}
+                            <div class="row">
+                                <div class="custom-control custom-checkbox m-r-30">
+                                    <input class="sts brekker custom-control-input" type="checkbox" id="todosbrekker"
+                                        name='todosbrekker' value="1" disabled checked>
+                                    <label for="todosbrekker" class="custom-control-label">Café</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox m-r-30">
+                                    <input class="sts lunch custom-control-input" type="checkbox" id="todoslunch"
+                                        name='todoslunch' value="1" disabled checked>
+                                    <label for="todoslunch" class="custom-control-label">Almoço</label>
+                                </div>
+                                <div class="custom-control custom-checkbox m-r-30">
+                                    <input class="sts dinner custom-control-input" type="checkbox" id="todosdinner"
+                                        name='todosdinner' value="1" disabled>
+                                    <label for="todosdinner" class="custom-control-label">Janta
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <hr>
@@ -370,7 +421,7 @@
                                 <div class="row">
                                     {{-- cafe --}}
                                     <div class="custom-control custom-checkbox m-r-30">
-                                        <input class="{{ $military->id }}_arranchado sts custom-control-input"
+                                        <input class="{{ $military->id }}_arranchado sts brekker custom-control-input"
                                             type="checkbox" id="brekker-{{ $military->id }}"
                                             name='{{ $military->id }}_brekker' value="1" disabled checked>
                                         <label for="brekker-{{ $military->id }}"
@@ -378,7 +429,7 @@
                                     </div>
                                     {{-- permissao conv --}}
                                     <div class="custom-control custom-checkbox m-r-30">
-                                        <input class="{{ $military->id }}_arranchado sts custom-control-input"
+                                        <input class="{{ $military->id }}_arranchado sts lunch custom-control-input"
                                             type="checkbox" id="lunch-{{ $military->id }}"
                                             name='{{ $military->id }}_lunch' value="1" disabled checked>
                                         <label for="lunch-{{ $military->id }}"
@@ -386,7 +437,7 @@
                                     </div>
                                     {{-- permissao especial --}}
                                     <div class="custom-control custom-checkbox m-r-30">
-                                        <input class="{{ $military->id }}_arranchado sts custom-control-input"
+                                        <input class="{{ $military->id }}_arranchado sts dinner custom-control-input"
                                             type="checkbox" id="dinner-{{ $military->id }}"
                                             name='{{ $military->id }}_dinner' value="1" disabled>
                                         <label for="dinner-{{ $military->id }}" class="custom-control-label">Janta
